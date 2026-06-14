@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product – IlhamStore</title>
+  
+  <!-- Security: Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self' https://script.google.com;">
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/ilhamstore.png">
+  
+  <style>
+    .pd-wrap{display:grid;grid-template-columns:1fr 400px;gap:24px;padding:32px 0 48px;align-items:start}
+    .pd-left{display:flex;flex-direction:column;gap:24px}
+    .pd-hero{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden}
+    .pd-hero-top{display:flex;gap:24px;padding:24px}
+    
+    /* ===== DESKTOP IMAGE FIX ===== */
+    .pd-hero-img{width:200px;height:200px;border-radius:16px;overflow:hidden;background:linear-gradient(160deg, #FAFAFE 0%, #F0F1F5 100%);flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,0.04);position:relative}
+    .pd-hero-img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.08));position:absolute;inset:0;z-index:1}
+    .pd-hero-img .pd-img-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;gap:8px;z-index:0}
+    .pd-hero-img .pd-img-fallback i{font-size:3rem}
+    .pd-hero-img .pd-img-fallback span{font-size:.75rem;font-weight:600}
+    
+    .pd-hero-info{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0}
+    .pd-hero-info .pd-cat{font-size:.7rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+    .pd-hero-info h1{font-size:1.5rem;font-weight:800;color:var(--gray-900);line-height:1.2;margin-bottom:8px}
+    .pd-hero-info .pd-desc{font-size:.85rem;color:var(--gray-500);line-height:1.6;margin-bottom:8px}
+    .pd-hero-info .pd-what{font-size:.8rem;color:var(--gray-600);line-height:1.6;margin-bottom:12px;padding:10px 14px;background:var(--accent-bg);border-radius:var(--radius);border-left:3px solid var(--accent)}
+    .pd-hero-info .pd-badges{display:flex;gap:8px;flex-wrap:wrap}
+    .pd-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:600}
+    .pd-badge.green{background:#D1FAE5;color:#065F46}
+    .pd-badge.blue{background:#DBEAFE;color:#1E40AF}
+    .pd-badge.yellow{background:#FEF3C7;color:#92400E}
+    .pd-section{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:24px}
+    .pd-section-title{font-size:1rem;font-weight:700;color:var(--gray-900);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .pd-section-title i{color:var(--accent);font-size:.9rem}
+    .pd-steps{display:flex;flex-direction:column;gap:14px}
+    .pd-step{display:flex;gap:14px;align-items:flex-start}
+    .pd-step-num{width:32px;height:32px;background:var(--gradient);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+    .pd-step-text{flex:1}
+    .pd-step-text strong{font-size:.88rem;font-weight:700;color:var(--gray-800);display:block;margin-bottom:2px}
+    .pd-step-text span{font-size:.8rem;color:var(--gray-500);line-height:1.5}
+    .pd-video{border-radius:var(--radius);overflow:hidden;aspect-ratio:16/9;background:var(--gray-900);position:relative}
+    .pd-video iframe{width:100%;height:100%;border:none}
+    .pd-video-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gray-400);gap:12px;cursor:pointer}
+    .pd-video-placeholder i{font-size:3rem;color:var(--danger)}
+    .pd-video-placeholder span{font-size:.85rem;font-weight:500}
+    
+    /* ===== RELATED PRODUCTS PREMIUM STYLE ===== */
+    .pd-related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .pd-related-grid .product-card{background:var(--white);border-radius:16px;border:none;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.04);transition:all 0.35s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column;cursor:pointer;position:relative}
+    .pd-related-grid .product-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,0.08),0 8px 20px rgba(124,58,237,0.1)}
+    .pd-related-grid .p-img{aspect-ratio:1/1;background:linear-gradient(160deg, #FAFAFE 0%, #F0F1F5 100%);padding:16px;position:relative;overflow:hidden}
+    .pd-related-grid .p-img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,0.08));position:absolute;inset:0;z-index:1}
+    .pd-related-grid .p-img-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;gap:4px;z-index:0}
+    .pd-related-grid .p-body{padding:12px 14px 14px;border-top:1px solid var(--gray-100)}
+    .pd-related-grid .p-name{font-size:.8rem;font-weight:700;color:var(--gray-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+    .pd-related-grid .p-label{font-size:.65rem;color:var(--success);font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:8px}
+    .pd-related-grid .p-bottom{display:flex;align-items:center;justify-content:space-between}
+    .pd-related-grid .p-price{font-size:.88rem;font-weight:800;color:var(--gray-900)}
+    .pd-related-grid .p-buy{padding:6px 14px;background:var(--accent);color:var(--white);font-size:.68rem;font-weight:700;border-radius:50px;box-shadow:0 3px 10px rgba(124,58,237,0.2)}
+    .pd-related-grid .p-tag{position:absolute;top:10px;left:10px;z-index:5;padding:4px 10px;border-radius:6px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;box-shadow:0 2px 8px rgba(0,0,0,0.12)}
+    .pd-related-grid .p-tag.hot{background:#DC2626;color:#fff}
+    .pd-related-grid .p-tag.new{background:var(--accent);color:#fff}
+    .pd-related-grid .p-tag.popular{background:#F59E0B;color:#fff}
+
+    /* ===== ORDER BOX ===== */
+    .pd-order{background:var(--white);border:2px solid var(--gray-200);border-radius:20px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.04)}
+    .pd-order-head{background:var(--gradient);color:var(--white);padding:18px 24px;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:10px}
+    .pd-order-body{padding:24px}
+    .pd-field{margin-bottom:20px}
+    .pd-field label{display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700;color:var(--gray-700);margin-bottom:8px}
+    .pd-field label i{color:var(--accent);font-size:.75rem}
+    .pd-field label .req{color:var(--danger);font-size:.8rem}
+    .pd-input{width:100%;padding:12px 16px;border:2px solid var(--gray-200);border-radius:12px;font-size:.9rem;color:var(--gray-800);background:var(--gray-50);transition:border-color .2s,background .2s,box-shadow .2s}
+    .pd-input:focus{border-color:var(--accent);background:var(--white);box-shadow:0 0 0 4px rgba(124,58,237,.08)}
+    .pd-input::placeholder{color:var(--gray-400)}
+    
+    /* ===== PREMIUM PACKAGE CARDS ===== */
+    .pd-pkgs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .pd-pkg{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:16px;background:var(--white);border:2px solid var(--gray-200);border-radius:14px;cursor:pointer;transition:all 0.25s ease;position:relative;box-shadow:0 1px 3px rgba(0,0,0,0.03)}
+    .pd-pkg:hover{border-color:var(--accent-light);background:var(--accent-bg);box-shadow:0 4px 12px rgba(124,58,237,0.08)}
+    .pd-pkg.selected{border-color:var(--accent);background:var(--accent-bg);box-shadow:0 0 0 3px rgba(124,58,237,0.15)}
+    .pd-pkg-radio{position:absolute;top:14px;right:14px;width:20px;height:20px;border:2px solid var(--gray-300);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s}
+    .pd-pkg.selected .pd-pkg-radio{border-color:var(--accent)}
+    .pd-pkg.selected .pd-pkg-radio::after{content:'';width:10px;height:10px;background:var(--accent);border-radius:50%}
+    .pd-pkg-name{font-size:.85rem;font-weight:700;color:var(--gray-800);line-height:1.3;margin-bottom:6px;padding-right:28px}
+    .pd-pkg-price{font-size:.92rem;font-weight:800;color:var(--accent)}
+
+    .pd-qty-wrap{display:flex;align-items:center;gap:0;border:2px solid var(--gray-200);border-radius:12px;overflow:hidden;width:fit-content}
+    .pd-qty-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:var(--gray-600);background:var(--gray-50);transition:background .2s,color .2s}
+    .pd-qty-btn:hover{background:var(--accent-bg);color:var(--accent)}
+    .pd-qty-val{width:54px;height:44px;text-align:center;font-size:1rem;font-weight:700;color:var(--gray-800);border-left:2px solid var(--gray-200);border-right:2px solid var(--gray-200)}
+    
+    /* ===== PRICE BOX FIX (ROW LAYOUT) ===== */
+    .pd-price-box{background:var(--accent-bg);border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+    .pp-left{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+    .pp-pkg{font-size:.92rem;font-weight:800;color:var(--primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pp-label{font-size:.72rem;color:var(--gray-500);font-weight:500}
+    .pp-amount{font-size:1.6rem;font-weight:900;color:var(--accent);line-height:1;white-space:nowrap}
+    .pp-amount small{font-size:.8rem;font-weight:600}
+
+    .pd-submit{width:100%;padding:16px;background:var(--gradient);color:var(--white);font-size:1.05rem;font-weight:700;border-radius:14px;transition:opacity .2s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(124,58,237,0.3)}
+    .pd-submit:hover{opacity:.9;box-shadow:0 6px 20px rgba(124,58,237,0.4)}
+    .pd-submit:active{transform:scale(.98)}
+    .pd-secure{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:.75rem;color:var(--gray-400)}
+    .pd-secure i{color:var(--success)}
+    .pd-sending{display:none;align-items:center;justify-content:center;gap:8px;padding:16px;background:var(--accent-bg);color:var(--accent);font-size:.95rem;font-weight:600;border-radius:14px;margin-bottom:12px}
+    .pd-sending.show{display:flex}
+    .pd-sending .spinner{width:18px;height:18px;border:2px solid var(--accent-light);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .pd-breadcrumb{display:flex;align-items:center;gap:8px;padding:16px 0 0;font-size:.78rem;color:var(--gray-400);flex-wrap:wrap}
+    .pd-breadcrumb a{color:var(--gray-500);font-weight:500}
+    .pd-breadcrumb a:hover{color:var(--accent)}
+    .pd-breadcrumb .sep{font-size:.6rem}
+    .pd-breadcrumb .current{color:var(--gray-700);font-weight:600}
+    .why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .why-card{display:flex;align-items:flex-start;gap:10px;padding:14px;border-radius:14px;background:var(--gray-50);border:1px solid var(--gray-200)}
+    .why-card .why-icon{width:36px;height:36px;background:var(--accent-bg);color:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+    .why-card .why-title{font-size:.82rem;font-weight:700;color:var(--gray-800);margin-bottom:2px}
+    .why-card .why-desc{font-size:.72rem;color:var(--gray-500);line-height:1.4}
+    .pd-gc-notice{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:#EFF6FF;border:1px solid #93C5FD;border-radius:12px;margin-bottom:20px}
+    .pd-gc-notice i{color:#2563EB;font-size:.9rem;flex-shrink:0;margin-top:2px}
+    .pd-gc-notice div{font-size:.78rem;color:#1E40AF;line-height:1.5;font-weight:500}
+    .pd-gc-notice div strong{font-weight:700}
+
+    /* ============================================
+       LEGAL MODALS
+       ============================================= */
+    .legal-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.55);overflow-y:auto;}
+    .legal-modal.active{display:flex;justify-content:center;align-items:flex-start;padding:1.5rem;}
+    .legal-modal-box{background:#fff;max-width:800px;width:100%;border-radius:16px;padding:2.5rem;position:relative;animation:legalIn .3s ease;}
+    @keyframes legalIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    .legal-close{position:absolute;top:1rem;right:1rem;background:#F1F5F9;border:none;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748B;transition:.2s;}
+    .legal-close:hover{background:#E2E8F0;color:#1E293B;}
+    .legal-modal-box h1{font-size:1.6rem;font-weight:800;margin-bottom:1.5rem;color:#1E293B;padding-right:2rem;}
+    .legal-modal-box h2{font-size:1.1rem;font-weight:700;margin:1.5rem 0 .5rem;color:#334155;}
+    .legal-modal-box p,.legal-modal-box li{font-size:.92rem;color:#475569;line-height:1.7;margin-bottom:.5rem;}
+    .legal-modal-box ul{padding-left:1.5rem;margin-bottom:.75rem;}
+    .legal-modal-box ul li{margin-bottom:.3rem;}
+    .legal-updated{font-size:.78rem;color:#94A3B8;margin-bottom:1.5rem;}
+    @media(max-width:600px){
+      .legal-modal-box{padding:1.5rem;border-radius:12px;}
+      .legal-modal-box h1{font-size:1.3rem;}
+    }
+
+    /* ============================================
+       MOBILE: display:contents for section reordering
+       ============================================= */
+    @media(max-width:768px){
+      .pd-wrap{grid-template-columns:1fr;gap:0;padding:16px 0 32px}
+      .pd-left,.pd-right{display:contents}
+
+      .pd-hero{order:1;margin-bottom:16px}
+      .pd-hero-top{flex-direction:column;gap:16px;padding:16px;align-items:center}
+      /* ===== MOBILE IMAGE FIX ===== */
+      .pd-hero-img{width:100%;height:auto;aspect-ratio:1/1;max-width:260px;margin:0 auto;border-radius:16px;background:linear-gradient(160deg, #FAFAFE 0%, #F0F1F5 100%);box-shadow:0 4px 12px rgba(0,0,0,0.04);padding:32px;}
+      .pd-hero-img img{object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.08))}
+      
+      .pd-order{order:2;margin-bottom:16px}
+      #pdVideoSection{order:3;margin-bottom:16px}
+      #pdHowSection{order:4;margin-bottom:16px}
+      #pdWhySection{order:5;margin-bottom:16px}
+      #pdRelatedSection{order:6}
+
+      .pd-related-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+      .pd-section{padding:18px}
+      .pd-hero-info h1{font-size:1.2rem;text-align:center}
+      .pd-hero-info .pd-cat{text-align:center}
+      .pd-hero-info .pd-badges{justify-content:center}
+      .why-grid{grid-template-columns:1fr 1fr}
+      .pd-order-body{padding:20px}
+    }
+    @media(max-width:480px){
+      .pd-related-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+      .pd-hero-info h1{font-size:1.05rem}
+      .pd-order-body{padding:16px}
+      .pd-pkgs{grid-template-columns:repeat(2,1fr);gap:8px}
+      .pd-pkg{padding:12px 10px}
+      .pd-pkg-name{font-size:.76rem;padding-right:24px}
+      .pd-pkg-price{font-size:.82rem}
+      .why-grid{grid-template-columns:1fr 1fr;gap:8px}
+      .why-card{padding:10px}
+      /* ===== MOBILE IMAGE FIX 480 ===== */
+      .pd-hero-img{max-width:200px;padding:24px;}
+      .pp-amount{font-size:1.4rem}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="header-top">
+        <a href="index.html" class="logo">
+          <img src="images/ilhamstore.png" alt="IlhamStore" onerror="this.style.display='none'; this.parentElement.style.gap='0'">
+          <span class="logo-text">Ilham<span>Store</span></span>
+        </a>
+        <div class="search-wrapper" id="searchWrapper">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
+            <button onclick="doSearch()" aria-label="Search"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a href="track.html" class="hdr-btn"><i class="fas fa-truck"></i><span>Track</span></a>
+          <a href="#" class="hdr-btn" aria-label="Account"><i class="fas fa-user"></i></a>
+          <button class="mobile-toggle" id="mobToggle" aria-label="Toggle navigation menu"><i class="fas fa-bars"></i></button>
+        </div>
+      </div>
+      <div class="m-search">
+        <input type="text" id="mSearchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
+      </div>
+    </div>
+  </header>
+
+  <div class="search-dropdown" id="searchDropdown" role="listbox"></div>
+
+  <nav class="nav-bar" id="navBar">
+    <div class="container">
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="index.html#live-apps" class="nav-link"><i class="fas fa-mobile-screen"></i> Live Apps</a>
+      <a href="index.html#games" class="nav-link"><i class="fas fa-gamepad"></i> Games</a>
+      <a href="index.html#giftcards" class="nav-link"><i class="fas fa-gift"></i> Gift Cards</a>
+      <a href="index.html#social-boost" class="nav-link"><i class="fas fa-chart-line"></i> Social Boost</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="pd-breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep"><i class="fas fa-chevron-right"></i></span>
+      <a href="index.html" id="bcCat">Live Apps</a>
+      <span class="sep"><i class="fas fa-chevron-right"></i></span>
+      <span class="current" id="bcName">Product</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="pd-wrap">
+      <div class="pd-left">
+
+        <div class="pd-hero" id="pdHero">
+          <div class="pd-hero-top">
+            <div class="pd-hero-img" id="pdImage"></div>
+            <div class="pd-hero-info">
+              <div class="pd-cat" id="pdCat">Live Apps</div>
+              <h1 id="pdTitle">Product Name</h1>
+              <p class="pd-desc" id="pdDesc"></p>
+              <div class="pd-what" id="pdWhat" style="display:none;"></div>
+              <div class="pd-badges">
+                <span class="pd-badge green"><i class="fas fa-bolt"></i> Instant Delivery</span>
+                <span class="pd-badge blue"><i class="fas fa-shield-halved"></i> Secure Payment</span>
+                <span class="pd-badge yellow"><i class="fas fa-headset"></i> 24/7 Support</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pd-section" id="pdHowSection">
+          <div class="pd-section-title" id="pdHowTitle"><i class="fas fa-list-ol"></i> কিভাবে রিচার্জ করবেন</div>
+          <div class="pd-steps" id="pdHowSteps"></div>
+        </div>
+
+        <div class="pd-section" id="pdWhySection">
+          <div class="pd-section-title"><i class="fas fa-star"></i> Why Choose IlhamStore?</div>
+          <div class="why-grid">
+            <div class="why-card"><div class="why-icon"><i class="fas fa-rocket"></i></div><div><div class="why-title">Instant Delivery</div><div class="why-desc">পেমেন্টের সাথে সাথেই ডেলিভারি</div></div></div>
+            <div class="why-card"><div class="why-icon"><i class="fas fa-comments"></i></div><div><div class="why-title">24/7 Support</div><div class="why-desc">Telegram, Messenger সাপোর্ট</div></div></div>
+            <div class="why-card"><div class="why-icon"><i class="fas fa-lock"></i></div><div><div class="why-title">Secure Payment</div><div class="why-desc">SSL সুরক্ষিত পেমেন্ট গেটওয়ে</div></div></div>
+            <div class="why-card"><div class="why-icon"><i class="fas fa-bolt"></i></div><div><div class="why-title">Easy & Fast</div><div class="why-desc">মাত্র ৩ ধাপে টপ-আপ করুন</div></div></div>
+          </div>
+        </div>
+
+        <div class="pd-section" id="pdVideoSection">
+          <div class="pd-section-title"><i class="fab fa-youtube" style="color:#DC2626;"></i> Video Guide</div>
+          <div class="pd-video" id="pdVideo"></div>
+        </div>
+
+        <div class="pd-section" id="pdRelatedSection">
+          <div class="pd-section-title"><i class="fas fa-th-large"></i> Related Products</div>
+          <div class="pd-related-grid" id="pdRelated"></div>
+        </div>
+
+      </div>
+
+      <div class="pd-right">
+        <div class="pd-order">
+          <div class="pd-order-head"><i class="fas fa-shopping-cart"></i> Place Your Order</div>
+          <div class="pd-order-body">
+
+            <div class="pd-field">
+              <label><i class="fas fa-box"></i> Select Package <span class="req">*</span></label>
+              <div class="pd-pkgs" id="pdPackages"></div>
+            </div>
+
+            <div class="pd-field" id="pdIdField">
+              <label id="pdIdLabel"><i class="fas fa-user"></i> <span id="pdIdLabelText">Enter User ID</span> <span class="req">*</span></label>
+              <input type="text" class="pd-input" id="pdUserId" placeholder="Enter your ID">
+              <div style="font-size:.7rem;color:var(--danger);margin-top:4px;font-weight:600;" id="pdIdHint">সঠিক করে আপনার ইউজার আইডি দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।</div>
+            </div>
+
+            <div class="pd-gc-notice" id="pdGcNotice" style="display:none;">
+              <i class="fas fa-envelope-circle-check"></i>
+              <div><strong>ইমেইলে ডেলিভারি:</strong> পেমেন্ট কনফার্মেশনের পর আপনার Gift Card কোড/PIN সরাসরি ইমেইলে পাঠানো হবে। চেকআউট পেজে আপনার ইমেইল দিন।</div>
+            </div>
+
+            <div class="pd-field">
+              <label><i class="fas fa-sort-numeric-up"></i> Quantity</label>
+              <div class="pd-qty-wrap">
+                <button class="pd-qty-btn" onclick="changeQty(-1)">−</button>
+                <input type="text" class="pd-qty-val" id="pdQty" value="1" readonly>
+                <button class="pd-qty-btn" onclick="changeQty(1)">+</button>
+              </div>
+            </div>
+
+            <!-- ===== PRICE BOX FIX (ROW LAYOUT) ===== -->
+            <div class="pd-price-box">
+              <div class="pp-left">
+                <div class="pp-pkg" id="pdPkgLabel">Select a package</div>
+                <div class="pp-label">Total Price</div>
+              </div>
+              <div class="pp-amount">৳<span id="pdTotalPrice">0</span> <small>BDT</small></div>
+            </div>
+
+            <div class="pd-sending" id="pdSending"><div class="spinner"></div>Processing order...</div>
+
+            <button class="pd-submit" id="pdSubmitBtn" onclick="proceedCheckout()">
+              <i class="fas fa-bolt"></i> Proceed to Checkout
+            </button>
+
+            <div class="pd-secure"><i class="fas fa-lock"></i> Secure & Encrypted Payment</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="f-logo">Ilham<span>Store</span></div>
+          <p>Top Up Instantly – Trusted by Thousands.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://www.youtube.com/@IlhamStoreOfficial" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Quick Links</h4><ul>
+          <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+          <li><a href="index.html#live-apps"><i class="fas fa-chevron-right"></i> Live Apps</a></li>
+          <li><a href="index.html#games"><i class="fas fa-chevron-right"></i> Games</a></li>
+          <li><a href="index.html#giftcards"><i class="fas fa-chevron-right"></i> Gift Cards</a></li>
+          <li><a href="index.html#social-boost"><i class="fas fa-chevron-right"></i> Social Boost</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#" onclick="openLegal('termsModal');return false;"><i class="fas fa-chevron-right"></i> Terms of Use</a></li>
+          <li><a href="#" onclick="openLegal('privacyModal');return false;"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+          <li><a href="#" onclick="openLegal('refundModal');return false;"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+          <li><a href="#" onclick="openLegal('faqModal');return false;"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Contact</h4><ul>
+          <li><a href="mailto:support.ilhamstore@gmail.com"><i class="fas fa-envelope"></i> support.ilhamstore@gmail.com</a></li>
+          <li><a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i> Telegram</a></li>
+          <li><a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-messenger"></i> Messenger</a></li>
+          <li><a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook Page</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-pay">
+        <div class="fp-item"><i class="fas fa-wallet"></i> bKash</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Nagad</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Rocket</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Upay</div>
+      </div>
+      <div class="footer-bottom">&copy; <span id="footerYear"></span> IlhamStore.com — All rights reserved.</div>
+    </div>
+  </footer>
+
+  <div class="chat-float">
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+    <div class="chat-options" id="chatOptions">
+      <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt"><div class="chat-opt-icon ms"><i class="fab fa-facebook-messenger"></i></div><span class="chat-opt-label">Messenger</span></a>
+      <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt"><div class="chat-opt-icon tg"><i class="fab fa-telegram-plane"></i></div><span class="chat-opt-label">Telegram</span></a>
+    </div>
+    <button class="chat-main-btn" id="chatToggle" aria-label="Open chat options"><i class="fas fa-comments chat-icon"></i><i class="fas fa-times close-icon"></i></button>
+  </div>
+
+  <!-- ======== LEGAL PAGE MODALS ======== -->
+  <!-- Modals remain exactly the same, just ensure they have role="dialog" for accessibility -->
+  <div class="legal-modal" id="termsModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('termsModal')" aria-label="Close">&times;</button>
+      <h1>Terms of Use</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing and using IlhamStore ("the Service"), you agree to be bound by these Terms of Use. If you do not agree with any part of these terms, you must not use our Service.</p>
+      <h2>2. Service Description</h2>
+      <p>IlhamStore provides digital top-up services, game credits, gift cards, and social media boosting services. All products are delivered digitally. We do not sell physical goods.</p>
+      <h2>3. User Responsibilities</h2>
+      <ul>
+        <li>You must provide accurate account information when placing an order.</li>
+        <li>You are responsible for verifying the correct game ID, server, or account details before completing a purchase.</li>
+        <li>You must not use our services for any illegal or unauthorized purpose.</li>
+        <li>You must not attempt to resell our services without prior written consent.</li>
+      </ul>
+      <h2>4. Payment Terms</h2>
+      <p>All payments must be made through our supported payment methods (bKash, Nagad, Rocket, Upay). Prices are listed in Bangladeshi Taka (BDT) and are subject to change without prior notice. Payment must be received in full before delivery is processed.</p>
+      <h2>5. Delivery</h2>
+      <p>Most top-ups are delivered instantly or within a few minutes. Some orders may take up to 24 hours depending on server status or technical issues. IlhamStore is not responsible for delays caused by third-party server maintenance or downtime.</p>
+      <h2>6. Account & ID Accuracy</h2>
+      <p>IlhamStore is not liable for failed deliveries due to incorrect account IDs, wrong server selection, or any user-provided information that is inaccurate. No refund or redelivery will be provided in such cases.</p>
+      <h2>7. Prohibited Activities</h2>
+      <ul>
+        <li>Using the Service for fraudulent purposes.</li>
+        <li>Attempting to exploit glitches or errors for personal gain.</li>
+        <li>Harassing or abusing our support staff.</li>
+        <li>Creating multiple accounts to abuse promotions.</li>
+      </ul>
+      <h2>8. Service Availability</h2>
+      <p>We strive to provide uninterrupted service but do not guarantee 100% uptime. Maintenance, updates, or unforeseen technical issues may temporarily affect availability.</p>
+      <h2>9. Intellectual Property</h2>
+      <p>All content on IlhamStore, including logos, text, graphics, and software, is the property of IlhamStore or its licensors and is protected by copyright and intellectual property laws.</p>
+      <h2>10. Limitation of Liability</h2>
+      <p>IlhamStore shall not be liable for any indirect, incidental, or consequential damages arising from the use of our Service. Our total liability shall not exceed the amount paid by you for the specific transaction in question.</p>
+      <h2>11. Changes to Terms</h2>
+      <p>We reserve the right to update these Terms of Use at any time. Continued use of the Service after changes constitutes acceptance of the revised terms.</p>
+      <h2>12. Governing Law</h2>
+      <p>These terms shall be governed by and construed in accordance with the laws of Bangladesh.</p>
+      <h2>13. Contact</h2>
+      <p>For questions about these Terms, contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> or via <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="privacyModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('privacyModal')" aria-label="Close">&times;</button>
+      <h1>Privacy Policy</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Information We Collect</h2>
+      <p>We collect the following types of information to provide and improve our Service:</p>
+      <ul>
+        <li><strong>Personal Information:</strong> Name, email address, phone number, and payment information when you place an order.</li>
+        <li><strong>Account Information:</strong> Game IDs, server details, and social media usernames required for delivery.</li>
+        <li><strong>Technical Data:</strong> IP address, browser type, device information, and browsing patterns on our website.</li>
+        <li><strong>Communication Data:</strong> Messages sent through our support channels (Telegram, Messenger, Email).</li>
+      </ul>
+      <h2>2. How We Use Your Information</h2>
+      <ul>
+        <li>To process and deliver your orders.</li>
+        <li>To communicate order status and updates.</li>
+        <li>To provide customer support.</li>
+        <li>To prevent fraud and unauthorized transactions.</li>
+        <li>To improve our website and services.</li>
+        <li>To send promotional offers (only with your consent).</li>
+      </ul>
+      <h2>3. Information Sharing</h2>
+      <p>We do not sell, rent, or share your personal information with third parties for marketing purposes. We may share your information only in the following cases:</p>
+      <ul>
+        <li>With payment processors to complete your transactions.</li>
+        <li>With game/service providers for order fulfillment.</li>
+        <li>If required by law or legal process.</li>
+        <li>To protect the rights and safety of IlhamStore and its users.</li>
+      </ul>
+      <h2>4. Data Security</h2>
+      <p>We implement industry-standard security measures including SSL encryption, secure payment gateways, and access controls to protect your personal data. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
+      <h2>5. Cookies</h2>
+      <p>Our website uses cookies to enhance your browsing experience, remember your preferences, and analyze website traffic. You can disable cookies in your browser settings, but some features may not function properly.</p>
+      <h2>6. Third-Party Services</h2>
+      <p>Our website may contain links to third-party websites or services. We are not responsible for the privacy practices of these external sites. We encourage you to read their privacy policies before providing any personal information.</p>
+      <h2>7. Data Retention</h2>
+      <p>We retain your personal data only for as long as necessary to fulfill the purposes outlined in this policy, unless a longer retention period is required by law.</p>
+      <h2>8. Your Rights</h2>
+      <ul>
+        <li>Request access to your personal data we hold.</li>
+        <li>Request correction of inaccurate data.</li>
+        <li>Request deletion of your data (subject to legal obligations).</li>
+        <li>Opt out of promotional communications.</li>
+      </ul>
+      <h2>9. Children's Privacy</h2>
+      <p>Our Service is not intended for children under 13 years of age. We do not knowingly collect personal information from children. If we discover that we have collected data from a child under 13, we will take steps to delete it promptly.</p>
+      <h2>10. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
+      <h2>11. Contact</h2>
+      <p>For privacy-related inquiries, contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> or via <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="refundModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('refundModal')" aria-label="Close">&times;</button>
+      <h1>Refund Policy</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Eligibility for Refund</h2>
+      <p>You may request a refund under the following conditions:</p>
+      <ul>
+        <li>The order was not delivered within 24 hours of payment.</li>
+        <li>The delivered product is incorrect or does not match the ordered item.</li>
+        <li>The order could not be fulfilled due to a technical error on our end.</li>
+        <li>Duplicate payment was made for the same order.</li>
+      </ul>
+      <h2>2. Non-Refundable Items</h2>
+      <p>Refunds will NOT be issued in the following cases:</p>
+      <ul>
+        <li>Incorrect account ID, game ID, or server details provided by the customer.</li>
+        <li>The account is banned, suspended, or restricted by the game/service provider.</li>
+        <li>Digital items that have already been delivered and used/consumed.</li>
+        <li>Gift cards or PIN codes that have been revealed or redeemed.</li>
+        <li>Social media boost services that have already been initiated.</li>
+        <li>Change of mind after the order has been processed.</li>
+      </ul>
+      <h2>3. How to Request a Refund</h2>
+      <p>To request a refund, please contact us through one of the following channels:</p>
+      <ul>
+        <li>Email: <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></li>
+        <li>Telegram: <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">@official_Ilhamstore</a></li>
+        <li>Messenger: <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer">IlhamStore Messenger</a></li>
+      </ul>
+      <p>Please include your order ID, payment method, and reason for the refund request.</p>
+      <h2>4. Refund Processing Time</h2>
+      <ul>
+        <li><strong>bKash / Nagad / Rocket / Upay:</strong> 1–3 business days after approval.</li>
+        <li><strong>Store Credit:</strong> Instant after approval.</li>
+      </ul>
+      <p>Refunds will be processed using the same payment method used for the original purchase whenever possible.</p>
+      <h2>5. Partial Refunds</h2>
+      <p>In some cases, a partial refund may be offered if:</p>
+      <ul>
+        <li>Only part of the order was delivered.</li>
+        <li>The service was significantly delayed but eventually completed.</li>
+      </ul>
+      <h2>6. Delivery Issues</h2>
+      <p>If you experience delivery issues:</p>
+      <ul>
+        <li>Contact support within 48 hours of placing the order.</li>
+        <li>Provide a screenshot of your order confirmation and any error messages.</li>
+        <li>Our team will investigate and resolve the issue, or issue a refund if the order cannot be fulfilled.</li>
+      </ul>
+      <h2>7. Dispute Resolution</h2>
+      <p>If you disagree with a refund decision, you may escalate the matter by emailing <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> with detailed information. We will review and respond within 5 business days.</p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="faqModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('faqModal')" aria-label="Close">&times;</button>
+      <h1>Frequently Asked Questions</h1>
+      <h2>How does top-up work?</h2>
+      <p>Simply select the product you want, choose a package, enter your game/account ID, and complete payment. Your top-up will be delivered to your account automatically or manually within minutes.</p>
+      <h2>How long does delivery take?</h2>
+      <p>Most orders are delivered instantly or within 5–15 minutes. Some orders may take up to 24 hours depending on server status, game maintenance, or high demand periods. You will be notified if there are any delays.</p>
+      <h2>What payment methods do you accept?</h2>
+      <p>We accept bKash, Nagad, Rocket, and Upay. Simply complete the payment using your preferred method and submit the transaction ID for verification.</p>
+      <h2>Is my payment secure?</h2>
+      <p>Yes. Our website uses SSL encryption, and we process payments through trusted and secure gateways. Your financial information is never stored on our servers.</p>
+      <h2>What if I don't receive my top-up?</h2>
+      <p>If you don't receive your order within 24 hours, please contact our support team immediately via Telegram or Messenger with your order details. We will investigate and resolve the issue or provide a refund.</p>
+      <h2>Can I get a refund?</h2>
+      <p>Refunds are available for orders that could not be delivered. Please read our <a href="#" onclick="closeLegal('faqModal');setTimeout(()=>openLegal('refundModal'),200);return false;">Refund Policy</a> for full details on eligibility and the refund process.</p>
+      <h2>Do I need an account to order?</h2>
+      <p>No account registration is required. Simply select your product, enter the required details, make payment, and receive your top-up. However, providing accurate information is essential for successful delivery.</p>
+      <h2>I entered the wrong ID. What should I do?</h2>
+      <p>Please contact us immediately before the order is processed. If the order has already been delivered to the wrong account, we may not be able to reverse it. Always double-check your ID before confirming payment.</p>
+      <h2>How do I track my order?</h2>
+      <p>You can use the Track Order feature in the header of our website. Enter your order ID to check the current status of your order.</p>
+      <h2>How can I contact support?</h2>
+      <ul>
+        <li>Email: <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></li>
+        <li>Telegram: <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">@official_Ilhamstore</a></li>
+        <li>Messenger: <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer">IlhamStore Messenger</a></li>
+        <li>Facebook: <a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer">Official Page</a></li>
+      </ul>
+      <h2>Are the social media boost services safe?</h2>
+      <p>We use safe and reliable methods for all social media boosting services. However, we cannot guarantee permanent results as platform policies may change. We recommend using these services to kickstart growth, not as a long-term strategy.</p>
+      <h2>Do you offer discounts or promotions?</h2>
+      <p>Yes! Follow our Facebook page and Telegram channel for the latest deals, discounts, and promotional offers.</p>
+    </div>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <script>
+    // Dynamic Footer Year
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    /* =============================================
+       🛡️ SECURITY: Obfuscated URL + Secret Key
+       ============================================= */
+    const _0a='https://script.google.com/macros/s/';
+    const _0b='AKfycbwF4NMQGZKoTCWUW-hbGv2lTPMhiySBB61WW460yUhI_Sm95sjBBHB-aDGye95Qi2Ii/exec';
+    const GOOGLE_SHEET_URL=_0a+_0b;
+    const API_SECRET='ILHS_SECRET_2025_X9K2M';
+
+    /* =============================================
+       🛡️ SECURITY: PRODUCT ID VALIDATION
+       ============================================= */
+    const VALID_PRODUCT_IDS = [
+        'bigo-live', 'tango', 'mango-live', 'imo', 'telegram', 'likee',
+        'chamet', 'poppo-live', 'mico-live', 'free-fire', 'pubg', 'pubg-lite',
+        'blood-strike', 'fc-mobile', 'modern-strike', '8ball-pool', 'mobile-legends',
+        'yalla-ludo', 'ludo-club', 'super-sus', 'farlight-84', 'new-state', 'valorant',
+        'delta-force', 'tinder', 'discord-nitro', 'pubg-uc-card', 'nordvpn', 'unipin',
+        'garena-shells', 'tiktok-followers', 'ig-followers', 'fb-followers', 'tiktok-views'
+    ];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const productIdFromUrl = urlParams.get('id');
+
+    if (!productIdFromUrl || !VALID_PRODUCT_IDS.includes(productIdFromUrl)) {
+        document.body.innerHTML = `
+            <div style="text-align:center;padding:80px 20px;font-family:'Inter',sans-serif;">
+                <div style="max-width:500px;margin:0 auto;">
+                    <div style="font-size:80px;color:#EF4444;margin-bottom:20px;">⚠️</div>
+                    <h1 style="font-size:1.8rem;margin-bottom:16px;">Invalid Product</h1>
+                    <p style="color:#6B7280;margin-bottom:24px;">The product you're looking for doesn't exist or has been removed.</p>
+                    <a href="index.html" style="background:#7C3AED;color:white;padding:12px 28px;border-radius:50px;text-decoration:none;display:inline-block;">← Back to Home</a>
+                    <p style="margin-top:24px;font-size:0.8rem;color:#9CA3AF;">Redirecting in 3 seconds...</p>
+                </div>
+            </div>
+        `;
+        setTimeout(() => { window.location.href = 'index.html'; }, 3000);
+        throw new Error('Invalid product ID - Security validation failed');
+    }
+
+    /* =============================================
+       HOW-TO STEPS
+       ============================================= */
+    const howToRecharge=[
+      {t:'আপনার ইউজার আইডি দিন',d:'অ্যাপ খুলুন, প্রোফাইলে যান এবং আপনার ইউজার আইডি কপি করুন। ডানদিকে আইডি ফিল্ডে পেস্ট করুন।'},
+      {t:'প্যাকেজ নির্বাচন করুন',d:'আপনি যে পরিমাণ ডায়মন্ড, কয়েন বা ক্রেডিট টপ-আপ করতে চান তা নির্বাচন করুন।'},
+      {t:'পেমেন্ট সম্পন্ন করুন',d:'পেমেন্ট মেথড বেছে নিন (bKash, Nagad, Rocket ইত্যাদি) এবং অর্ডার কনফার্ম করুন।'},
+      {t:'তাৎক্ষণিক ডেলিভারি',d:'পেমেন্ট ভেরিফিকেশনের পর আপনার টপ-আপ স্বয়ংক্রিয়ভাবে ডেলিভারি হবে।'}
+    ];
+
+    const howToRedeem={
+      'Tinder':[{t:'প্যাকেজ নির্বাচন করুন',d:'আপনি যে Tinder Gold প্ল্যান চান তা নির্বাচন করুন।'},{t:'চেকআউট সম্পন্ন করুন',d:'আপনার ইমেইল দিন এবং bKash/Nagad দিয়ে পেমেন্ট করুন।'},{t:'ইমেইল চেক করুন',d:'পেমেন্ট কনফার্মেশনের পর আপনার ইমেইলে সাবস্ক্রিপশন অ্যাক্টিভেশন নির্দেশনা পাঠানো হবে।'},{t:'সাবস্ক্রিপশন উপভোগ করুন',d:'Tinder অ্যাপে আপনার Gold ফিচার স্বয়ংক্রিয়ভাবে আনলক হবে।'}],
+      'Discord Nitro':[{t:'প্যাকেজ নির্বাচন করুন',d:'Nitro অথবা Nitro Basic প্ল্যান নির্বাচন করুন।'},{t:'চেকআউট সম্পন্ন করুন',d:'আপনার Discord অ্যাকাউন্টের ইমেইল দিন এবং পেমেন্ট করুন।'},{t:'ইমেইল চেক করুন',d:'পেমেন্ট কনফার্মেশনের পর আপনার ইমেইলে Nitro অ্যাক্টিভেশন লিংক পাঠানো হবে।'},{t:'Nitro উপভোগ করুন',d:'লিংকে ক্লিক করে Discord Nitro অ্যাক্টিভেট করুন।'}],
+      'PUBG UC Card PIN':[{t:'প্যাকেজ নির্বাচন করুন',d:'আপনি যে UC PIN কার্ড চান তা নির্বাচন করুন।'},{t:'চেকআউট সম্পন্ন করুন',d:'আপনার ইমেইল দিন এবং পেমেন্ট করুন।'},{t:'ইমেইলে PIN পান',d:'পেমেন্ট কনফার্মেশনের পর আপনার ইমেইলে UC PIN কোড পাঠানো হবে।'},{t:'PUBG এ রিডিম করুন',d:'PUBG Mobile খুলুন → Settings → Redeem Code → PIN কোড পেস্ট করুন → কনফার্ম করুন।'}],
+      'NordVPN':[{t:'প্ল্যান নির্বাচন করুন',d:'1 Month, 6 Months অথবা 1 Year প্ল্যান নির্বাচন করুন।'},{t:'চেকআউট সম্পন্ন করুন',d:'আপনার ইমেইল দিন এবং পেমেন্ট করুন।'},{t:'ইমেইলে ক্রেডেনশিয়াল পান',d:'পেমেন্ট কনফার্মেশনের পর আপনার ইমেইলে NordVPN লগইন তথ্য পাঠানো হবে।'},{t:'VPN সেটআপ করুন',d:'NordVPN অ্যাপ ডাউনলোড করুন, ইমেইলে প্রাপ্ত ক্রেডেনশিয়াল দিয়ে লগইন করুন এবং কানেক্ট করুন।'}],
+      'UniPin Voucher':[{t:'প্যাকেজ নির্বাচন করুন',d:'আপনি যে UniPin Voucher চান তা নির্বাচন করুন।'},{t:'চেকআউট সম্পন্ন করুন',d:'আপনার ইমেইল দিন এবং bKash/Nagad দিয়ে পেমেন্ট করুন।'},{t:'ইমেইলে কোড পান',d:'পেমেন্ট কনফার্মেশনের পর আপনার ইমেইলে UniPin Voucher কোড/PIN পাঠানো হবে।'},{t:'রিডিম করুন',d:'UniPin ওয়েবসাইট বা সংশ্লিষ্ট গেমে গিয়ে কোডটি রিডিম করুন এবং UC/ক্রেডিট পান।'}],
+      'Garena Shells (SG)':[{t:'প্যাকেজ নির্বাচন করুন',d:'আপনি যে Garena Shells প্যাকেজ চান তা নির্বাচন করুন।'},{t:'চেকআউট সম্পন্ন করুন',d:'আপনার ইমেইল দিন এবং bKash/Nagad দিয়ে পেমেন্ট করুন।'},{t:'ইমেইলে কোড পান',d:'পেমেন্ট কনফার্মেশনের পর আপনার ইমেইলে Shells রিডিম কোড পাঠানো হবে।'},{t:'Garena এ রিডিম করুন',d:'Garena অ্যাপ বা ওয়েবসাইটে গিয়ে কোডটি রিডিম করুন এবং Shells আপনার অ্যাকাউন্টে যোগ হবে।'}]
+    };
+
+    const defaultRedeemSteps=[{t:'প্যাকেজ নির্বাচন করুন',d:'আপনি যে গিফট কার্ড প্ল্যান চান তা নির্বাচন করুন।'},{t:'চেকআউট সম্পন্ন করুন',d:'আপনার ইমেইল দিন এবং bKash/Nagad দিয়ে পেমেন্ট করুন।'},{t:'ইমেইলে কোড পান',d:'পেমেন্ট কনফার্মেশনের পর আপনার ইমেইলে গিফট কার্ড কোড/PIN পাঠানো হবে।'},{t:'রিডিম করুন',d:'সংশ্লিষ্ট অ্যাপ/ওয়েবসাইটে গিয়ে কোডটি রিডিম করুন এবং আপনার ফিচার উপভোগ করুন।'}];
+
+    /* =============================================
+       📦 PRODUCT DATA
+       ============================================= */
+    const liveApps=[
+      {name:"Bigo Live",id:"bigo-live",img:"images/products/bigo-live.png",icon:"fa-video",color:"#E11D48",bg:"#FFF1F2",tag:"hot",currency:"Diamonds",idLabel:"BIGO ID",idPlaceholder:"আপনার BIGO ID লিখুন",idHint:"সঠিক করে আপনার BIGO ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"BIGO Live ডায়মন্ড রিচার্জ। আপনার BIGO ID দিন এবং ডায়মন্ড প্যাকেজ বেছে নিন। পেমেন্ট কনফার্মেশনের পর তাৎক্ষণিক ডেলিভারি।",whatIs:"BIGO Live একটি লাইভ স্ট্রিমিং প্ল্যাটফর্ম। ডায়মন্ড দিয়ে আপনি গিফট, স্টিকার এবং অন্যান্য ভার্চুয়াল আইটেম কিনতে পারবেন।",packages:[{l:"5 Diamonds",p:20},{l:"10 Diamonds",p:35},{l:"20 Diamonds",p:65},{l:"25 Diamonds",p:80},{l:"50 Diamonds",p:140},{l:"100 Diamonds",p:280},{l:"200 Diamonds",p:560},{l:"250 Diamonds",p:700},{l:"300 Diamonds",p:840},{l:"400 Diamonds",p:1120},{l:"500 Diamonds",p:1400},{l:"1,000 Diamonds",p:2800}]},
+      {name:"Tango",id:"tango",img:"images/products/tango.png",icon:"fa-comments",color:"#F97316",bg:"#FFF7ED",tag:"hot",currency:"Coins",idLabel:"Tango ID",idPlaceholder:"আপনার Tango ID লিখুন",idHint:"সঠিক করে আপনার Tango ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Tango কয়েন টপ-আপ। আপনার Tango ID দিন এবং কয়েন প্যাকেজ বেছে নিন।",whatIs:"Tango একটি লাইভ স্ট্রিমিং ও চ্যাট অ্যাপ। কয়েন দিয়ে গিফট ও স্পেশাল আইটেম কিনুন।",packages:[{l:"150 Coins",p:135},{l:"300 Coins",p:260},{l:"750 Coins",p:655},{l:"1500 Coins",p:1310},{l:"2250 Coins",p:1970},{l:"3750 Coins",p:3250},{l:"7500 Coins",p:6490}]},
+      {name:"Mango Live",id:"mango-live",img:"images/products/mango-live.png",icon:"fa-mobile-screen",color:"#F59E0B",bg:"#FFFBEB",tag:"",currency:"Diamonds",idLabel:"Mango Live ID",idPlaceholder:"আপনার Mango Live ID লিখুন",idHint:"সঠিক করে আপনার Mango Live ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Mango Live ডায়মন্ড রিচার্জ। আপনার ID দিন এবং প্যাকেজ বেছে নিন।",whatIs:"Mango Live একটি লাইভ ভিডিও চ্যাট অ্যাপ। ডায়মন্ড দিয়ে ভার্চুয়াল গিফট কিনুন।",packages:[{l:"3600 Diamonds",p:150},{l:"7200 Diamonds",p:300},{l:"10800 Diamonds",p:450},{l:"14400 Diamonds",p:600},{l:"28800 Diamonds",p:1200},{l:"64800 Diamonds",p:2700},{l:"126000 Diamonds",p:5250}]},
+      {name:"IMO Diamonds",id:"imo",img:"images/products/imo.png",icon:"fa-message",color:"#2563EB",bg:"#EFF6FF",tag:"",currency:"Diamonds",idLabel:"IMO ID",idPlaceholder:"আপনার IMO ID লিখুন (ইউজারনাম নয়)",idHint:"⚠️ শুধুমাত্র IMO ID দিন, ইউজারনাম গ্রহণযোগ্য নয়। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"IMO ডায়মন্ড টপ-আপ। শুধুমাত্র IMO ID দিন।",whatIs:"IMO একটি ভিডিও কল ও মেসেজিং অ্যাপ। ডায়মন্ড দিয়ে স্টিকার ও গিফট কিনুন।",packages:[{l:"10 Diamonds",p:35},{l:"20 Diamonds",p:65},{l:"30 Diamonds",p:95},{l:"40 Diamonds",p:125},{l:"50 Diamonds",p:145},{l:"100 Diamonds",p:295},{l:"160 Diamonds",p:475},{l:"210 Diamonds",p:625},{l:"300 Diamonds",p:850},{l:"420 Diamonds",p:1200},{l:"500 Diamonds",p:1450},{l:"840 Diamonds",p:2450},{l:"1000 Diamonds",p:2800}]},
+      {name:"Telegram Premium + Stars",id:"telegram",img:"images/products/telegram.png",icon:"fa-telegram",it:"fab",color:"#26A5E4",bg:"#F0F9FF",tag:"new",currency:"Stars/Premium",idLabel:"Telegram @username",idPlaceholder:"আপনার @username লিখুন",idHint:"আপনার Telegram ইউজারনাম দিন (যেমন @myname)। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Telegram Premium সাবস্ক্রিপশন ও Stars কিনুন।",whatIs:"Telegram একটি মেসেজিং অ্যাপ। Premium দিয়ে এক্সট্রা ফিচার পান, Stars দিয়ে বট ও চ্যানেলে পেমেন্ট করুন।",packages:[{l:"3 Months Premium",p:1780},{l:"6 Months Premium",p:2350},{l:"12 Months Premium",p:4180},{l:"50 Stars",p:125},{l:"75 Stars",p:190},{l:"100 Stars",p:250},{l:"150 Stars",p:390},{l:"250 Stars",p:620},{l:"350 Stars",p:850},{l:"500 Stars",p:1250}]},
+      {name:"Likee",id:"likee",img:"images/products/likee.png",icon:"fa-thumbs-up",color:"#22C55E",bg:"#F0FDF4",tag:"",currency:"Diamonds",idLabel:"Likee ID",idPlaceholder:"আপনার Likee ID লিখুন",idHint:"সঠিক করে আপনার Likee ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Likee ডায়মন্ড রিচার্জ। দ্রুত ডেলিভারি।",whatIs:"Likee একটি শর্ট ভিডিও অ্যাপ। ডায়মন্ড দিয়ে গিফট ও প্রোমোশন কিনুন।",packages:[{l:"100 Diamonds",p:265},{l:"200 Diamonds",p:530},{l:"500 Diamonds",p:1320},{l:"1000 Diamonds",p:2650},{l:"1500 Diamonds",p:3950},{l:"2000 Diamonds",p:5250},{l:"3000 Diamonds",p:7900}]},
+      {name:"Chamet",id:"chamet",img:"images/products/chamet.png",icon:"fa-video",color:"#A855F7",bg:"#FAF5FF",tag:"",currency:"Coins",idLabel:"Chamet ID",idPlaceholder:"আপনার Chamet ID লিখুন",idHint:"সঠিক করে আপনার Chamet ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Chamet কয়েন টপ-আপ। তাৎক্ষণিক ডেলিভারি।",whatIs:"Chamet একটি লাইভ ভিডিও চ্যাট অ্যাপ। কয়েন দিয়ে গিফট ও ভার্চুয়াল আইটেম কিনুন।",packages:[{l:"15,000 Coins",p:365},{l:"18,750 Coins",p:485},{l:"20,000 Coins",p:495},{l:"25,000 Coins",p:620},{l:"30,000 Coins",p:745},{l:"40,000 Coins",p:995},{l:"50,000 Coins",p:1190},{l:"62,500 Coins",p:1550},{l:"70,000 Coins",p:1730},{l:"80,000 Coins",p:1970},{l:"100,000 Coins",p:2350},{l:"187,500 Coins",p:4650},{l:"200,000 Coins",p:4750}]},
+      {name:"Poppo Live",id:"poppo-live",img:"images/products/poppo-live.png",icon:"fa-face-smile",color:"#EC4899",bg:"#FDF2F8",tag:"new",currency:"Coins",idLabel:"Poppo ID",idPlaceholder:"আপনার Poppo Live ID লিখুন",idHint:"সঠিক করে আপনার Poppo ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Poppo Live কয়েন টপ-আপ।",whatIs:"Poppo Live একটি লাইভ চ্যাট ও গেমিং অ্যাপ। কয়েন দিয়ে গিফট কিনুন।",packages:[{l:"1,000 Coins",p:25},{l:"7,000 Coins",p:125},{l:"14,000 Coins",p:245},{l:"21,000 Coins",p:360},{l:"25,500 Coins",p:430},{l:"42,000 Coins",p:720},{l:"51,000 Coins",p:860},{l:"70,000 Coins",p:1180},{l:"83,000 Coins",p:1390},{l:"210,000 Coins",p:3550},{l:"252,000 Coins",p:4200}]},
+      {name:"Mico Live",id:"mico-live",img:"images/products/mico-live.png",icon:"fa-microphone",color:"#6366F1",bg:"#EEF2FF",tag:"",currency:"Coins",idLabel:"Mico ID",idPlaceholder:"আপনার Mico ID লিখুন",idHint:"সঠিক করে আপনার Mico ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Mico Live কয়েন টপ-আপ। দ্রুত ডেলিভারি, নিরাপদ পেমেন্ট।",whatIs:"Mico Live একটি সোশ্যাল ও লাইভ স্ট্রিমিং অ্যাপ।",packages:[{l:"88 Coins",p:120},{l:"100 Coins",p:150},{l:"445 Coins",p:600},{l:"508 Coins",p:740},{l:"900 Coins",p:1200},{l:"1040 Coins",p:1450},{l:"2100 Coins",p:2900},{l:"2730 Coins",p:3650}]}
+    ];
+
+    const games=[
+      {name:"Free Fire (BD)",id:"free-fire",img:"images/products/free-fire.png",icon:"fa-fire",color:"#DC2626",bg:"#FEF2F2",tag:"hot",currency:"Diamonds",idLabel:"Free Fire Player ID",idPlaceholder:"আপনার Free Fire Player ID লিখুন",idHint:"সঠিক করে আপনার Player ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Free Fire ডায়মন্ড, মেম্বারশিপ, Level Up Pass ও Evo Access টপ-আপ।",whatIs:"Free Fire একটি ব্যাটল রয়্যাল গেম। ডায়মন্ড দিয়ে স্কিন, ক্যারেক্টার ও আইটেম কিনুন।",packages:[{l:"25 Diamonds",p:25},{l:"50 Diamonds",p:40},{l:"100 Diamonds",p:75},{l:"115 Diamonds",p:85},{l:"200 Diamonds",p:150},{l:"240 Diamonds",p:165},{l:"315 Diamonds",p:220},{l:"355 Diamonds",p:245},{l:"480 Diamonds",p:325},{l:"505 Diamonds",p:345},{l:"610 Diamonds",p:415},{l:"725 Diamonds",p:495},{l:"850 Diamonds",p:575},{l:"1,015 Diamonds",p:690},{l:"1,090 Diamonds",p:735},{l:"1,240 Diamonds",p:820},{l:"1,505 Diamonds",p:1000},{l:"1,850 Diamonds",p:1230},{l:"2,015 Diamonds",p:1350},{l:"2,530 Diamonds",p:1650},{l:"3,140 Diamonds",p:2060},{l:"3,770 Diamonds",p:2470},{l:"5,060 Diamonds",p:3300},{l:"7,590 Diamonds",p:4950},{l:"10,120 Diamonds",p:6600},{l:"12,650 Diamonds",p:8250},{l:"15,180 Diamonds",p:9900},{l:"20,240 Diamonds",p:13200},{l:"Weekly Lite",p:45},{l:"Weekly Membership",p:165},{l:"Monthly Membership",p:820},{l:"Weekly + Monthly",p:980},{l:"Evo 3 Days",p:75},{l:"Evo 7 Days",p:110},{l:"Evo 30 Days",p:325},{l:"Level Up Pass Lv.6",p:45},{l:"Level Up Pass Lv.10",p:70},{l:"Level Up Pass Lv.15",p:70},{l:"Level Up Pass Lv.20",p:70},{l:"Level Up Pass Lv.25",p:70},{l:"Level Up Pass Lv.30",p:100},{l:"Level Up Pass Lv.All",p:410}]},
+      {name:"PUBG Mobile (BD)",id:"pubg",img:"images/products/pubg.png",icon:"fa-crosshairs",color:"#D97706",bg:"#FFFBEB",tag:"hot",currency:"UC",idLabel:"PUBG Mobile ID",idPlaceholder:"আপনার PUBG Mobile ID লিখুন",idHint:"PUBG খুলুন → Profile → আইডি কপি করুন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"PUBG Mobile UC, Prime, Prime Plus, Elite Pass ও স্পেশাল প্যাক টপ-আপ।",whatIs:"PUBG Mobile একটি ব্যাটল রয়্যাল গেম। UC দিয়ে রয়্যাল পাস, স্কিন ও ক্যারেক্টার কিনুন।",packages:[{l:"60 UC",p:125},{l:"120 UC",p:250},{l:"180 UC",p:370},{l:"240 UC",p:495},{l:"325 UC",p:615},{l:"385 UC",p:740},{l:"660 UC",p:1230},{l:"985 UC",p:1840},{l:"1,800 UC",p:3075},{l:"2,460 UC",p:4300},{l:"3,850 UC",p:6150},{l:"8,100 UC",p:12300},{l:"Prime 1 Month",p:125},{l:"Prime 3 Months",p:370},{l:"Prime 6 Months",p:740},{l:"Prime 12 Months",p:1480},{l:"Prime Plus 1 Month",p:1230},{l:"Prime Plus 6 Months",p:7350},{l:"Prime Plus 12 Months",p:14650},{l:"Weekly Deal Pack 1",p:130},{l:"Weekly Deal Pack 2",p:380},{l:"Elite Pass LV1–50",p:740},{l:"Elite Pass LV1–100",p:1490},{l:"Elite Pass Plus LV1–100",p:3450},{l:"First Purchase Pack",p:125},{l:"Upgradeable Firearm Materials Pack",p:370},{l:"Weekly Mythic Emblem Value Pack",p:465},{l:"Mythic Emblem Pack",p:615}]},
+      {name:"PUBG Lite",id:"pubg-lite",img:"images/products/pubg-lite.png",icon:"fa-crosshairs",color:"#92400E",bg:"#FFFBEB",tag:"",currency:"BC",idLabel:"PUBG Lite ID",idPlaceholder:"আপনার PUBG Lite ID লিখুন",idHint:"সঠিক করে আপনার PUBG Lite ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"PUBG Lite BC টপ-আপ।",whatIs:"PUBG Lite একটি লাইটওয়েট ব্যাটল রয়্যাল গেম।",packages:[{l:"30 BC",p:55},{l:"63 BC",p:110},{l:"340 BC",p:500},{l:"690 BC",p:1000},{l:"1875 BC",p:2500},{l:"4000 BC",p:4850}]},
+      {name:"Blood Strike",id:"blood-strike",img:"images/products/blood-strike.png",icon:"fa-skull-crossbones",color:"#991B1B",bg:"#FEF2F2",tag:"new",currency:"Golds/Pass",idLabel:"Blood Strike ID",idPlaceholder:"আপনার Blood Strike ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Blood Strike গোল্ড, পাস ও স্পেশাল আইটেম টপ-আপ।",whatIs:"Blood Strike একটি FPS গেম। গোল্ড দিয়ে অস্ত্র ও স্কিন কিনুন।",packages:[{l:"Strike Pass Elite",p:470},{l:"Strike Pass Elite Plus",p:1050},{l:"Level Up Pass",p:235},{l:"105 Golds",p:120},{l:"210 Golds",p:235},{l:"320 Golds",p:350},{l:"540 Golds",p:585},{l:"1100 Golds",p:1180},{l:"2260 Golds",p:2350},{l:"5800 Golds",p:5850},{l:"Lucky Bag Week",p:120},{l:"Visual Ultra Gift Box",p:65},{l:"Value Season Pass",p:260}]},
+      {name:"FC Mobile",id:"fc-mobile",img:"images/products/fc-mobile.png",icon:"fa-futbol",color:"#16A34A",bg:"#F0FDF4",tag:"",currency:"Points/Silver",idLabel:"FC Mobile ID",idPlaceholder:"আপনার FC Mobile ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"FC Mobile Point ও Silver টপ-আপ।",whatIs:"EA Sports FC Mobile একটি ফুটবল গেম।",packages:[{l:"40 Points",p:50},{l:"100 Points",p:155},{l:"520 Points",p:710},{l:"1070 Points",p:1445},{l:"2200 Points",p:2890},{l:"5750 Points",p:7250},{l:"12000 Points",p:14500},{l:"39 Silver",p:60},{l:"99 Silver",p:155},{l:"499 Silver",p:710},{l:"999 Silver",p:1445},{l:"1999 Silver",p:2890},{l:"4999 Silver",p:7250},{l:"9999 Silver",p:14500}]},
+      {name:"Modern Strike",id:"modern-strike",img:"images/products/modern-strike.png",icon:"fa-crosshairs",color:"#475569",bg:"#F8FAFC",tag:"",currency:"Credits/Gold",idLabel:"Modern Strike ID",idPlaceholder:"আপনার Modern Strike ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Modern Strike VIP, Credits ও Gold টপ-আপ।",whatIs:"Modern Strike Online একটি FPS মাল্টিপ্লেয়ার গেম।",packages:[{l:"VIP 7 Days",p:395},{l:"VIP 14 Days",p:620},{l:"VIP 30 Days",p:960},{l:"VIP 60 Days",p:1380},{l:"Battle Pass Premium",p:760},{l:"10,000 Credits",p:550},{l:"10,000 Gold",p:740},{l:"16,000 Gold",p:1070},{l:"25,000 Credits",p:1070},{l:"55,000 Credits",p:1680},{l:"35,000 Gold",p:1980},{l:"100,000 Credits",p:2450}]},
+      {name:"8 Ball Pool",id:"8ball-pool",img:"images/products/8ball-pool.png",icon:"fa-circle",color:"#1D4ED8",bg:"#EFF6FF",tag:"",currency:"Cash/Coins",idLabel:"8 Ball Pool ID",idPlaceholder:"আপনার 8 Ball Pool ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"8 Ball Pool Cash, Coins ও স্পেশাল আইটেম টপ-আপ।",whatIs:"8 Ball Pool একটি পুল গেম। ক্যাশ ও কয়েন দিয়ে কিউ ও টেবিল আনলক করুন।",packages:[{l:"Golden Spin",p:120},{l:"5 Scratchers",p:175},{l:"Pool Coda Bundle",p:560},{l:"20 Cash / 20K Coins",p:230},{l:"50 Cash",p:580},{l:"52,000 Coins",p:580},{l:"110 Cash / 112K Coins",p:1150},{l:"250 Cash / 256K Coins",p:2300},{l:"15 Scratchers Pack",p:550}]},
+      {name:"Mobile Legends",id:"mobile-legends",img:"images/products/mobile-legends.png",icon:"fa-shield-halved",color:"#2563EB",bg:"#EFF6FF",tag:"hot",currency:"Diamonds",idLabel:"MLBB গেম আইডি (সার্ভার আইডি)",idPlaceholder:"গেম আইডি ও সার্ভার আইডি লিখুন (যেমন: 12345(1234))",idHint:"MLBB খুলুন → Profile → Game ID ও Server ID কপি করুন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Mobile Legends ডায়মন্ড ও পাস টপ-আপ।",whatIs:"Mobile Legends: Bang Bang একটি MOBA গেম। ডায়মন্ড দিয়ে হিরো ও স্কিন কিনুন।",packages:[{l:"5 Diamonds",p:15},{l:"11 Diamonds",p:30},{l:"22 Diamonds",p:50},{l:"56 Diamonds",p:130},{l:"112 Diamonds",p:245},{l:"223 Diamonds",p:495},{l:"336 Diamonds",p:740},{l:"570 Diamonds",p:1230},{l:"1163 Diamonds",p:2450},{l:"Weekly Pass",p:220},{l:"Twilight Pass",p:1150},{l:"Weekly Elite Pack",p:125},{l:"Monthly Elite Pack",p:590}]},
+      {name:"Yalla Ludo",id:"yalla-ludo",img:"images/products/yalla-ludo.png",icon:"fa-dice",color:"#D97706",bg:"#FFFBEB",tag:"",currency:"Diamonds/Golds",idLabel:"Yalla Ludo ID",idPlaceholder:"আপনার Yalla Ludo ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Yalla Ludo ডায়মন্ড ও গোল্ড টপ-আপ।",whatIs:"Yalla Ludo একটি লুডো ও বোর্ড গেম।",packages:[{l:"830 Diamonds",p:290},{l:"2320 Diamonds",p:690},{l:"5150 Diamonds",p:1380},{l:"68,500 Golds",p:300},{l:"223,700 Golds",p:690},{l:"1,463,320 Golds",p:1380}]},
+      {name:"Ludo Club",id:"ludo-club",img:"images/products/ludo-club.png",icon:"fa-dice",color:"#16A34A",bg:"#F0FDF4",tag:"",currency:"Cash/Coins",idLabel:"Ludo Club ID",idPlaceholder:"আপনার Ludo Club ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Ludo Club Cash ও Coins টপ-আপ।",whatIs:"Ludo Club একটি ক্লাসিক লুডো গেম।",packages:[{l:"120 Cash",p:110},{l:"250 Cash",p:205},{l:"700 Cash",p:520},{l:"3200 Cash",p:2050},{l:"10800 Cash",p:6050},{l:"20000 Cash",p:9950},{l:"37,500 Coins",p:120},{l:"190,000 Coins",p:210},{l:"1,300,000 Coins",p:1050},{l:"3,300,000 Coins",p:1450},{l:"13,500,000 Coins",p:3050}]},
+      {name:"Super Sus",id:"super-sus",img:"images/products/super-sus.png",icon:"fa-user-secret",color:"#7C3AED",bg:"#F5F3FF",tag:"new",currency:"Goldstar",idLabel:"Super Sus ID",idPlaceholder:"আপনার Super Sus ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Super Sus Goldstar, কার্ড ও পাস টপ-আপ।",whatIs:"Super Sus একটি সোশ্যাল ডিডাকশন গেম।",packages:[{l:"100 Goldstar",p:120},{l:"310 Goldstar",p:360},{l:"520 Goldstar",p:610},{l:"1060 Goldstar",p:1190},{l:"2180 Goldstar",p:2350},{l:"5600 Goldstar",p:5800},{l:"Weekly Card",p:155},{l:"Monthly Card",p:1550},{l:"Super VIP Card",p:1700},{l:"Super Pass",p:780},{l:"Super Pass Bundle",p:1350}]},
+      {name:"Farlight 84",id:"farlight-84",img:"images/products/farlight-84.png",icon:"fa-jet-fighter",color:"#0891B2",bg:"#ECFEFF",tag:"",currency:"Diamonds",idLabel:"Farlight 84 ID",idPlaceholder:"আপনার Farlight 84 ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Farlight 84 ডায়মন্ড টপ-আপ।",whatIs:"Farlight 84 একটি FPS ব্যাটল রয়্যাল গেম।",packages:[{l:"5 Diamonds",p:10},{l:"10 Diamonds",p:15},{l:"20 Diamonds",p:30},{l:"30 Diamonds",p:45},{l:"40 Diamonds",p:60},{l:"50 Diamonds",p:75},{l:"60 Diamonds",p:90},{l:"80 Diamonds",p:115},{l:"100 Diamonds",p:140},{l:"165 Diamonds",p:215},{l:"220 Diamonds",p:290},{l:"330 Diamonds",p:420},{l:"880 Diamonds",p:1100},{l:"2240 Diamonds",p:2850}]},
+      {name:"PUBG New State",id:"new-state",img:"images/products/new-state.png",icon:"fa-car",color:"#4338CA",bg:"#EEF2FF",tag:"",currency:"NC",idLabel:"New State Mobile ID",idPlaceholder:"আপনার New State ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"PUBG New State NC টপ-আপ।",whatIs:"PUBG NEW STATE একটি নেক্সট-জেন ব্যাটল রয়্যাল গেম।",packages:[{l:"300 NC",p:125},{l:"1580 NC",p:620},{l:"3850 NC",p:1480},{l:"10230 NC",p:3950},{l:"16800 NC",p:6200}]},
+      {name:"Valorant VP (BD)",id:"valorant",img:"images/products/valorant.png",icon:"fa-crosshairs",color:"#DC2626",bg:"#FEF2F2",tag:"popular",currency:"VP",idLabel:"Riot ID (Player#TAG)",idPlaceholder:"আপনার Riot ID লিখুন (যেমন: Player#TAG)",idHint:"Valorant → Profile → Riot ID কপি করুন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Valorant VP টপ-আপ। তাৎক্ষণিক ডেলিভারি।",whatIs:"Valorant একটি ট্যাকটিক্যাল FPS গেম। VP দিয়ে স্কিন ও ব্যাটল পাস কিনুন।",packages:[{l:"475 VP",p:690},{l:"1000 VP",p:1360},{l:"1520 VP",p:2040},{l:"2575 VP",p:3420},{l:"5350 VP",p:6850}]},
+      {name:"Delta Force BD",id:"delta-force",img:"images/products/delta-force.png",icon:"fa-jet-fighter",color:"#1E3A8A",bg:"#EFF6FF",tag:"new",currency:"Delta Coins",idLabel:"Delta Force Player ID",idPlaceholder:"আপনার Delta Force ID লিখুন",idHint:"সঠিক করে আপনার ID দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।",videoId:"",desc:"Delta Force Delta Coins টপ-আপ। বোনাস কয়েন সহ।",whatIs:"Delta Force একটি ট্যাকটিক্যাল FPS গেম।",packages:[{l:"18 Coins",p:35},{l:"30 Coins",p:60},{l:"60 Coins",p:115},{l:"300+20 Coins",p:575},{l:"420+40 Coins",p:835},{l:"680+70 Coins",p:1150},{l:"1280+200 Coins",p:2300},{l:"1680+300 Coins",p:2850},{l:"3280+670 Coins",p:5700}]}
+    ];
+
+    const giftCards=[
+      {name:"Tinder",id:"tinder",img:"images/products/tinder.png",icon:"fa-fire",color:"#E11D48",bg:"#FFF1F2",tag:"",currency:"Subscription",videoId:"",desc:"Tinder Gold সাবস্ক্রিপশন বাংলাদেশ। পেমেন্টের পর ইমেইলে অ্যাক্টিভেশন নির্দেশনা পাঠানো হবে।",whatIs:"Tinder একটি ডেটিং অ্যাপ। Gold মেম্বারশিপ দিয়ে আনলিমিটেড লাইক ও অতিরিক্ত ফিচার পান।",packages:[{l:"Tinder Gold 1 Month",p:1050},{l:"Tinder Gold 3 Months",p:1450},{l:"Tinder Gold 6 Months",p:1850},{l:"Tinder Gold 12 Months",p:3600}]},
+      {name:"Discord Nitro",id:"discord-nitro",img:"images/products/discord.png",icon:"fa-discord",it:"fab",color:"#5865F2",bg:"#EEF2FF",tag:"hot",currency:"Nitro/Basic",videoId:"",desc:"Discord Nitro ও Nitro Basic সাবস্ক্রিপশন। পেমেন্টের পর ইমেইলে অ্যাক্টিভেশন লিংক পাঠানো হবে।",whatIs:"Discord একটি চ্যাট ও ভয়েস প্ল্যাটফর্ম। Nitro দিয়ে এমোজি, স্ট্রিম কোয়ালিটি ও আপলোড লিমিট বাড়ান।",packages:[{l:"Nitro 1 Month",p:1250},{l:"Nitro Basic 1 Month",p:600}]},
+      {name:"PUBG UC Card PIN",id:"pubg-uc-card",img:"images/products/pubg.png",icon:"fa-id-card",color:"#D97706",bg:"#FFFBEB",tag:"",currency:"UC PIN",videoId:"",desc:"PUBG Mobile UC PIN গিফট কার্ড। পেমেন্টের পর ইমেইলে PIN কোড পাঠানো হবে।",whatIs:"PUBG UC PIN একটি রিডিম কোড যা PUBG এ UC যোগ করতে ব্যবহৃত হয়।",packages:[{l:"60 UC PIN",p:130},{l:"120 UC PIN",p:260},{l:"325 UC PIN",p:610},{l:"385 UC PIN",p:790},{l:"660 UC PIN",p:1220},{l:"1800 UC PIN",p:3050},{l:"3850 UC PIN",p:6100},{l:"8100 UC PIN",p:12200}]},
+      {name:"NordVPN",id:"nordvpn",img:"images/products/nordvpn.png",icon:"fa-shield-halved",color:"#1E40AF",bg:"#EFF6FF",tag:"",currency:"Subscription",videoId:"",desc:"NordVPN Premium সাবস্ক্রিপশন। পেমেন্টের পর ইমেইলে লগইন ক্রেডেনশিয়াল পাঠানো হবে।",whatIs:"NordVPN একটি VPN সার্ভিস যা আপনার অনলাইন প্রাইভেসি ও সিকিউরিটি রক্ষা করে।",packages:[{l:"1 Month",p:1720},{l:"6 Months",p:5600},{l:"1 Year",p:7000}]},
+      {name:"UniPin Voucher",id:"unipin",img:"images/products/unipin.png",icon:"fa-ticket",color:"#6366F1",bg:"#EEF2FF",tag:"new",currency:"Voucher/UC",videoId:"",desc:"UniPin Voucher গিফট কার্ড। পেমেন্টের পর ইমেইলে রিডিম কোড পাঠানো হবে।",whatIs:"UniPin Voucher একটি ডিজিটাল ভাউচার যা PUBG Mobile, Free Fire সহ বিভিন্ন গেমে UC/ক্রেডিট রিডিম করতে ব্যবহৃত হয়।",packages:[{l:"UniPin 20 UC",p:25},{l:"UniPin 36 UC",p:40},{l:"UniPin 80 UC",p:85},{l:"UniPin 160 UC",p:165},{l:"UniPin 405 UC",p:420},{l:"UniPin 810 UC",p:830},{l:"UniPin 1625 UC",p:1650},{l:"UniPin 2000 UC",p:2020},{l:"Weekly UC",p:165},{l:"Monthly UC",p:830}]},
+      {name:"Garena Shells (SG)",id:"garena-shells",img:"images/products/garena-shells.png",icon:"fa-coins",color:"#F59E0B",bg:"#FFFBEB",tag:"hot",currency:"Shells",videoId:"",desc:"Garena Shells SG (BD Top Up)। পেমেন্টের পর ইমেইলে রিডিম কোড পাঠানো হবে।",whatIs:"Garena Shells হলো Garena প্ল্যাটফর্মের ভার্চুয়াল কারেন্সি। Shells দিয়ে Free Fire, Call of Duty Mobile সহ বিভিন্ন গেমে আইটেম কিনতে পারবেন।",packages:[{l:"50 Shells",p:135},{l:"100 Shells",p:265},{l:"250 Shells",p:665},{l:"500 Shells",p:1330},{l:"1,000 Shells",p:2650}]}
+    ];
+
+    const socialBoost=[
+      {name:"TikTok Followers",id:"tiktok-followers",img:"images/products/tiktok-followers.png",icon:"fa-tiktok",it:"fab",color:"#111",bg:"#F9FAFB",tag:"hot",currency:"Followers",idLabel:"TikTok Profile Link",idPlaceholder:"আপনার TikTok প্রোফাইল লিংক দিন",idHint:"⚠️ প্রোফাইল অবশ্যই Public থাকতে হবে। অর্ডার ১-৬ ঘণ্টা বা ২-৩ দিন সময় লাগতে পারে।",videoId:"",desc:"TikTok ফলোয়ার কিনুন bKash, Nagad, Rocket এ।",whatIs:"TikTok ফলোয়ার বুস্ট করুন। প্রোফাইল Privacy অবশ্যই Public রাখুন। অর্ডার ১-৬ ঘণ্টা বা ২-৩ দিন সময় লাগতে পারে।",packages:[{l:"100 Followers",p:30},{l:"500 Followers",p:150},{l:"1,000 Followers",p:300},{l:"1,500 Followers",p:450},{l:"2,000 Followers",p:600},{l:"2,500 Followers",p:750},{l:"3,000 Followers",p:900},{l:"5,000 Followers",p:1500},{l:"10,000 Followers",p:3000},{l:"15,000 Followers",p:4500},{l:"20,000 Followers",p:6000}]},
+      {name:"Instagram Followers",id:"ig-followers",img:"images/products/ig-followers.png",icon:"fa-instagram",it:"fab",color:"#E4405F",bg:"#FFF1F2",tag:"hot",currency:"Followers",idLabel:"Instagram Username",idPlaceholder:"আপনার Instagram ইউজারনেম লিখুন",idHint:"⚠️ অ্যাকাউন্ট Public থাকতে হবে। Private থাকলে আগে Public করুন। অর্ডার ১-৬ ঘণ্টা বা ২-৩ দিন সময় লাগতে পারে।",videoId:"",desc:"Instagram ফলোয়ার কিনুন।",whatIs:"Instagram ফলোয়ার বুস্ট করুন। অ্যাকাউন্ট Public রাখুন।",packages:[{l:"100 Followers",p:10},{l:"500 Followers",p:40},{l:"1,000 Followers",p:80},{l:"2,000 Followers",p:160},{l:"3,000 Followers",p:240},{l:"5,000 Followers",p:400},{l:"10,000 Followers",p:800},{l:"15,000 Followers",p:1200},{l:"20,000 Followers",p:1600}]},
+      {name:"Facebook Followers",id:"fb-followers",img:"images/products/fb-followers.png",icon:"fa-facebook",it:"fab",color:"#1877F2",bg:"#EFF6FF",tag:"",currency:"Followers",idLabel:"Facebook Profile/Page Link",idPlaceholder:"আপনার Facebook প্রোফাইল/পেজ লিংক দিন",idHint:"⚠️ প্রোফাইল/পেজ Public থাকতে হবে। অর্ডার ১-৬ ঘণ্টা বা ২-৩ দিন সময় লাগতে পারে।",videoId:"",desc:"Facebook পেজ/প্রোফাইল ফলোয়ার কিনুন।",whatIs:"Facebook ফলোয়ার বুস্ট করুন। প্রোফাইল/পেজ Privacy Public রাখুন।",packages:[{l:"100 Followers",p:15},{l:"500 Followers",p:50},{l:"1,000 Followers",p:100},{l:"2,000 Followers",p:200},{l:"3,000 Followers",p:300},{l:"5,000 Followers",p:500},{l:"10,000 Followers",p:1000},{l:"15,000 Followers",p:1500},{l:"20,000 Followers",p:2000}]},
+      {name:"TikTok Views",id:"tiktok-views",img:"images/products/tiktok-views.png",icon:"fa-play",color:"#111",bg:"#F9FAFB",tag:"",currency:"Views",idLabel:"TikTok Video Link",idPlaceholder:"আপনার TikTok ভিডিও লিংক দিন",idHint:"⚠️ ভিডিও Public থাকতে হবে। অর্ডার ১-৬ ঘণ্টা বা ২-৩ দিন সময় লাগতে পারে।",videoId:"",desc:"TikTok ভিউ কিনুন।",whatIs:"TikTok ভিউ বুস্ট করুন। ভিডিও Public রাখুন।",packages:[{l:"1,000 Views",p:190},{l:"2,000 Views",p:380},{l:"3,000 Views",p:570},{l:"5,000 Views",p:950},{l:"10,000 Views",p:1900},{l:"15,000 Views",p:2850},{l:"20,000 Views",p:3800}]}
+    ];
+
+    const allProducts=[...liveApps.map(p=>({...p,cat:"Live Apps"})),...games.map(p=>({...p,cat:"Games"})),...giftCards.map(p=>({...p,cat:"Gift Cards"})),...socialBoost.map(p=>({...p,cat:"Social Boost"}))];
+
+    let currentProduct=null,selectedPkgIdx=0,quantity=1;
+
+    function isGiftCard(){return currentProduct&&currentProduct.cat==='Gift Cards'}
+
+    function getProduct(){
+      const p=productIdFromUrl;
+      if(!p){window.location.href='index.html';return}
+      currentProduct=allProducts.find(x=>x.id===p);
+      if(!currentProduct){window.location.href='index.html';return}
+      renderProduct()
+    }
+
+    function renderProduct(){
+      const p=currentProduct,it=p.it||'fas';
+      document.title=`${p.name} – IlhamStore`;
+      document.getElementById('bcCat').textContent=p.cat;
+      document.getElementById('bcCat').href=`index.html#${p.cat==='Live Apps'?'live-apps':p.cat==='Games'?'games':p.cat==='Gift Cards'?'giftcards':'social-boost'}`;
+      document.getElementById('bcName').textContent=p.name;
+      document.getElementById('pdImage').innerHTML=`<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="pd-img-fallback" style="display:none;background:${p.bg};color:${p.color};width:100%;height:100%;"><i class="${it} ${p.icon}"></i><span>${p.name}</span></div>`;
+      document.getElementById('pdCat').textContent=p.cat;
+      document.getElementById('pdTitle').textContent=p.name+(isGiftCard()?' Gift Card':' Top-Up');
+      document.getElementById('pdDesc').textContent=p.desc||'';
+      const wEl=document.getElementById('pdWhat');
+      if(p.whatIs){wEl.textContent=p.whatIs;wEl.style.display='block'}else{wEl.style.display='none'}
+
+      if(isGiftCard()){
+        document.getElementById('pdIdField').style.display='none';
+        document.getElementById('pdGcNotice').style.display='flex';
+      }else{
+        document.getElementById('pdIdField').style.display='block';
+        document.getElementById('pdGcNotice').style.display='none';
+        document.getElementById('pdIdLabelText').textContent=p.idLabel||'Enter User ID';
+        document.getElementById('pdUserId').placeholder=p.idPlaceholder||'Enter your ID';
+        document.getElementById('pdIdHint').innerHTML=(p.idHint||'সঠিক করে আপনার ইউজার আইডি দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।');
+      }
+
+      renderHowTo();
+      renderPackages();
+      renderVideo();
+      renderRelated();
+    }
+
+    function renderHowTo(){
+      const titleEl=document.getElementById('pdHowTitle');
+      const stepsEl=document.getElementById('pdHowSteps');
+      let steps,icon,title;
+
+      if(isGiftCard()){
+        title='কিভাবে রিডিম করবেন';
+        icon='fa-gift';
+        steps=howToRedeem[currentProduct.name]||defaultRedeemSteps;
+      }else{
+        title='কিভাবে রিচার্জ করবেন';
+        icon='fa-list-ol';
+        steps=howToRecharge;
+      }
+
+      titleEl.innerHTML=`<i class="fas ${icon}"></i> ${title}`;
+      stepsEl.innerHTML=steps.map((s,i)=>`<div class="pd-step"><div class="pd-step-num">${i+1}</div><div class="pd-step-text"><strong>${s.t}</strong><span>${s.d}</span></div></div>`).join('');
+    }
+
+    function renderPackages(){const pkgs=currentProduct.packages,c=document.getElementById('pdPackages');c.innerHTML=pkgs.map((pkg,i)=>`<div class="pd-pkg ${i===selectedPkgIdx?'selected':''}" onclick="selectPkg(${i})"><div class="pd-pkg-radio"></div><div class="pd-pkg-name">${pkg.l}</div><div class="pd-pkg-price">৳${pkg.p.toLocaleString()}</div></div>`).join('');updatePrice()}
+
+    function selectPkg(i){selectedPkgIdx=i;renderPackages()}
+
+    function changeQty(d){quantity+=d;if(quantity<1)quantity=1;if(quantity>10)quantity=10;document.getElementById('pdQty').value=quantity;updatePrice()}
+
+    function updatePrice(){const pkg=currentProduct.packages[selectedPkgIdx],price=(pkg?.p||0)*quantity;document.getElementById('pdTotalPrice').textContent=price.toLocaleString();document.getElementById('pdPkgLabel').textContent=pkg?.l||'Select a package'}
+
+    function renderVideo(){const vid=currentProduct.videoId,c=document.getElementById('pdVideo');if(vid){c.innerHTML=`<iframe src="https://www.youtube.com/embed/${vid}" title="Video Guide" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>`}else{c.innerHTML=`<div class="pd-video-placeholder" onclick="toast('Video guide coming soon!','')"><i class="fab fa-youtube"></i><span>Video guide coming soon</span></div>`}}
+
+    function renderRelated(){const r=allProducts.filter(p=>p.cat===currentProduct.cat&&p.id!==currentProduct.id).slice(0,4),c=document.getElementById('pdRelated');c.innerHTML=r.map(p=>{const it=p.it||'fas',th=p.tag?`<span class="p-tag ${p.tag}">${p.tag==='hot'?'Hot 🔥':p.tag==='new'?'New ⭐':'Popular 🏷️'}</span>`:'',pr=p.priceFrom||`৳${p.packages?.[0]?.p||0}`;return`<a href="product.html?id=${p.id}" class="product-card">${th}<div class="p-img"><img src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="p-img-fallback" style="display:none;background:${p.bg};color:${p.color};width:100%;height:100%;"><i class="${it} ${p.icon}" style="font-size:2rem;"></i><span style="font-size:.6rem;">${p.name}</span></div></div><div class="p-body"><div class="p-name">${p.name}</div><div class="p-label"><i class="fas fa-circle-check"></i> Instant</div><div class="p-bottom"><span class="p-price">${pr}</span><span class="p-buy"><i class="fas fa-bolt"></i> Buy</span></div></div></a>`}).join('')}
+
+    function generateOrderId(){const n=new Date(),y=n.getFullYear().toString().slice(-2),m=String(n.getMonth()+1).padStart(2,'0'),d=String(n.getDate()).padStart(2,'0'),r=Math.floor(1000+Math.random()*9000);return`IS${y}${m}${d}${r}`}
+
+    async function proceedCheckout(){
+      if(!isGiftCard()){
+        const uid=document.getElementById('pdUserId').value.trim();
+        if(!uid){toast('Please enter your '+(currentProduct.idLabel||'User ID'),'error');document.getElementById('pdUserId').focus();return}
+      }
+
+      const pkg=currentProduct.packages[selectedPkgIdx],tp=pkg.p*quantity,oid=generateOrderId();
+      const od={
+        product:currentProduct.name,
+        productId:currentProduct.id,
+        package:pkg.l,
+        userId:isGiftCard()?'Email Delivery':document.getElementById('pdUserId').value.trim(),
+        quantity:quantity,
+        unitPrice:pkg.p,
+        totalPrice:tp,
+        currency:currentProduct.currency||'',
+        cat:currentProduct.cat,
+        timestamp:new Date().toISOString(),
+        orderId:oid
+      };
+
+      sessionStorage.setItem('cartStoreOrder',JSON.stringify(od));
+      document.getElementById('pdSending').classList.add('show');
+      document.getElementById('pdSubmitBtn').style.display='none';
+      sendToGoogleSheets(od,'Pending');
+      setTimeout(()=>{window.location.href='checkout.html'},1500)
+    }
+
+    /* =============================================
+       🛡️ SECURE DATA SENDING
+       ============================================= */
+    async function sendToGoogleSheets(od,status){
+      if(!GOOGLE_SHEET_URL)return;
+
+      try{
+        const payload={
+          secret:API_SECRET,
+          timestamp:od.timestamp||new Date().toISOString(),
+          orderId:od.orderId||'',
+          product:od.product||'',
+          package:od.package||'',
+          userId:od.userId||'',
+          quantity:od.quantity||'',
+          unitPrice:od.unitPrice||'',
+          totalPrice:od.totalPrice||'',
+          currency:od.currency||'',
+          category:od.cat||'',
+          billingName:od.billingName||'',
+          billingPhone:od.billingPhone||'',
+          billingEmail:od.billingEmail||'',
+          paymentMethod:od.paymentMethod||'',
+          paymentAccount:od.paymentAccount||'',
+          transactionId:od.transactionId||'',
+          receiverAccount:od.receiverAccount||'',
+          status:status
+        };
+
+        const response=await fetch(GOOGLE_SHEET_URL,{
+          method:'POST',
+          headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body:JSON.stringify(payload)
+        });
+
+        const result=await response.json();
+        if(result.result==='success'){
+          console.log('✅ Order saved securely');
+        }else{
+          console.error('❌ Server error:',result.message);
+        }
+      }catch(err){
+        console.error('❌ Secure send failed, trying fallback:',err);
+        sendToGoogleSheetsFallback(od,status);
+      }
+    }
+
+    function sendToGoogleSheetsFallback(od,status){
+      try{
+        const params=new URLSearchParams({
+          timestamp:od.timestamp||new Date().toISOString(),
+          orderId:od.orderId||'',
+          product:od.product||'',
+          package:od.package||'',
+          userId:od.userId||'',
+          quantity:od.quantity||'',
+          unitPrice:od.unitPrice||'',
+          totalPrice:od.totalPrice||'',
+          currency:od.currency||'',
+          category:od.cat||'',
+          billingName:'',billingPhone:'',billingEmail:'',
+          paymentMethod:'',paymentAccount:'',transactionId:'',receiverAccount:'',
+          status:status
+        });
+        const img=new Image();
+        img.src=GOOGLE_SHEET_URL+'?'+params.toString();
+      }catch(e){console.error('❌ Fallback error:',e)}
+    }
+
+    /* =============================================
+       LEGAL MODALS
+       ============================================= */
+    function openLegal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.legal-modal-box').scrollTop = 0;
+      modal.querySelector('.legal-close').focus();
+    }
+    function closeLegal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.legal-modal').forEach(m => {
+      m.addEventListener('click', function(e) {
+        if (e.target === this) closeLegal(this.id);
+      });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal.active').forEach(m => closeLegal(m.id));
+      }
+    });
+
+    /* =============================================
+       SEARCH, MENU, CHAT, SCROLL, TOAST
+       ============================================= */
+    const sInput=document.getElementById('searchInput'),
+          mInput=document.getElementById('mSearchInput'),
+          sDrop=document.getElementById('searchDropdown');
+
+    function runSearch(query){
+      const q=query.trim().toLowerCase();
+      if(q.length<2){sDrop.classList.remove('open');return}
+      
+      const res=allProducts.filter(p=>p.name.toLowerCase().includes(q)||p.id.includes(q)||(p.currency&&p.currency.toLowerCase().includes(q)));
+      
+      if(!res.length){
+        sDrop.innerHTML='<div class="search-empty">No results found</div>'
+      } else {
+        sDrop.innerHTML=res.slice(0,8).map(p=>{
+          const it=p.it||'fas';
+          return `<a href="product.html?id=${p.id}" class="search-item">
+            <div class="search-item-img">
+              <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+              <div class="search-item-fallback" style="display:none;background:${p.bg};color:${p.color};width:100%;height:100%;align-items:center;justify-content:center;border-radius:8px;">
+                <i class="${it} ${p.icon}"></i>
+              </div>
+            </div>
+            <div class="search-item-info">
+              <div class="search-item-name">${p.name}</div>
+              <div class="search-item-cat">${p.cat}</div>
+            </div>
+          </a>`;
+        }).join('');
+      }
+      
+      sDrop.classList.add('open');
+      
+      if(window.innerWidth>768){
+        positionDesktopDropdown();
+      } else {
+        const r=mInput.getBoundingClientRect();
+        sDrop.style.position='fixed';
+        sDrop.style.top=(r.bottom+6)+'px';
+        sDrop.style.left='12px';
+        sDrop.style.right='12px';
+        sDrop.style.width='auto';
+      }
+    }
+
+    function positionDesktopDropdown(){
+      const w=document.getElementById('searchWrapper'),
+            r=w.getBoundingClientRect();
+      sDrop.style.position='fixed';
+      sDrop.style.top=(r.bottom+6)+'px';
+      sDrop.style.left=r.left+'px';
+      sDrop.style.width=r.width+'px';
+      sDrop.style.right='auto';
+    }
+
+    sInput.addEventListener('input',function(){runSearch(this.value)});
+    sInput.addEventListener('keydown',function(e){if(e.key==='Enter'){const f=sDrop.querySelector('.search-item');if(f)f.click()}});
+    sInput.addEventListener('focus',function(){if(this.value.trim().length>=2)runSearch(this.value)});
+    
+    mInput.addEventListener('input',function(){runSearch(this.value)});
+    mInput.addEventListener('keydown',function(e){if(e.key==='Enter'){const f=sDrop.querySelector('.search-item');if(f)f.click()}});
+
+    document.addEventListener('click',function(e){
+      if(!e.target.closest('.search-wrapper')&&!e.target.closest('.m-search')&&!e.target.closest('.search-dropdown'))
+        sDrop.classList.remove('open');
+    });
+
+    window.addEventListener('scroll',function(){if(sDrop.classList.contains('open')&&window.innerWidth>768)positionDesktopDropdown()},{passive:true});
+    window.addEventListener('resize',function(){if(sDrop.classList.contains('open')&&window.innerWidth>768)positionDesktopDropdown()});
+
+    function doSearch(){runSearch(sInput.value);sInput.focus()}
+
+    const mobToggle=document.getElementById('mobToggle'),navBar=document.getElementById('navBar');
+    mobToggle.addEventListener('click',()=>{
+      navBar.classList.toggle('open');
+      const ic=mobToggle.querySelector('i');
+      ic.className=navBar.classList.contains('open')?'fas fa-times':'fas fa-bars';
+    });
+    
+    document.querySelectorAll('.nav-link').forEach(l=>l.addEventListener('click',()=>{
+      navBar.classList.remove('open');
+      mobToggle.querySelector('i').className='fas fa-bars';
+    }));
+
+    document.addEventListener('click',function(e){
+      if(navBar.classList.contains('open')&&!e.target.closest('.nav-bar')&&!e.target.closest('.mobile-toggle')){
+        navBar.classList.remove('open');
+        mobToggle.querySelector('i').className='fas fa-bars';
+      }
+    });
+
+    document.getElementById('chatToggle').addEventListener('click', toggleChat);
+    function toggleChat(){
+      document.getElementById('chatToggle').classList.toggle('open');
+      document.getElementById('chatOptions').classList.toggle('show');
+    }
+
+    document.getElementById('scrollTop').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+    window.addEventListener('scroll',()=>{document.getElementById('scrollTop').classList.toggle('show',window.scrollY>400)});
+
+    function toast(msg,type=''){
+      const w=document.getElementById('toastWrap'),t=document.createElement('div');
+      t.className='toast '+type;
+      t.innerHTML=`<i class="fas ${type==='error'?'fa-exclamation-circle':type==='success'?'fa-check-circle':'fa-info-circle'}"></i> ${msg}`;
+      w.appendChild(t);
+      setTimeout(()=>{
+        t.style.opacity='0';
+        t.style.transform='translateX(100%)';
+        t.style.transition='all 0.3s';
+        setTimeout(()=>t.remove(),300);
+      },3000);
+    }
+
+    document.addEventListener('DOMContentLoaded',getProduct);
+  </script>
+</body>
+</html>
