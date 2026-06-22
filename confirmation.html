@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed – IlhamStore</title>
+  
+  <!-- Security: Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self';">
+  
+  <!-- Anti-Scraping -->
+  <meta name="robots" content="noarchive, max-snippet:-1">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/ilhamstore.png">
+  
+  <!-- Fixed html2canvas script (removed broken hash that was blocking it from loading) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <style>
+    :root {
+      --cf-accent: #7C3AED;
+      --cf-accent-light: #A78BFA;
+      --cf-accent-bg: #F5F3FF;
+      --cf-accent-dark: #6D28D9;
+      --cf-gradient: linear-gradient(135deg, #7C3AED 0%, #6D28D9 50%, #5B21B6 100%);
+      --cf-success: #059669;
+      --cf-success-bg: #D1FAE5;
+      --cf-warn: #D97706;
+      --cf-warn-bg: #FEF3C7;
+      --cf-danger: #DC2626;
+      --cf-mono: 'Space Mono', 'Courier New', monospace;
+    }
+
+    .cf-wrap { max-width: 520px; margin: 0 auto; padding: 20px 16px 48px; animation: cfWrapFade 0.6s ease; }
+    @keyframes cfWrapFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+    .ck-steps { display: flex; align-items: center; justify-content: center; gap: 0; padding: 16px 0 4px; }
+    .ck-step-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 600; color: var(--gray-400); }
+    .ck-step-item.done { color: var(--cf-success); }
+    .ck-step-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; flex-shrink: 0; }
+    .ck-step-item.done .ck-step-num { border: 2px solid var(--cf-success); background: var(--cf-success); color: var(--white); box-shadow: 0 2px 6px rgba(5,150,105,0.25); }
+    .ck-step-line { width: 28px; height: 2px; background: var(--cf-success); margin: 0 4px; flex-shrink: 0; border-radius: 2px; }
+    @media(max-width:768px) { .ck-step-item span { display: none; } }
+
+    .cf-success-icon { width: 64px; height: 64px; background: var(--cf-success-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; animation: cfPopIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275); position: relative; }
+    .cf-success-icon::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid rgba(5,150,105,0.15); animation: cfPulse 2s ease-in-out infinite; }
+    .cf-success-icon i { font-size: 1.6rem; color: var(--cf-success); }
+    @keyframes cfPopIn { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes cfPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.15); opacity: 0.4; } }
+
+    .cf-success-title { text-align: center; font-size: 1.25rem; font-weight: 800; color: var(--gray-900); margin-bottom: 4px; }
+    .cf-success-sub { text-align: center; font-size: 0.78rem; color: var(--gray-500); margin-bottom: 20px; line-height: 1.5; max-width: 380px; margin-left: auto; margin-right: auto; }
+
+    .cf-receipt { 
+      background: var(--white); 
+      border-radius: 12px; 
+      overflow: hidden; 
+      position: relative; 
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08); 
+      border: 1px solid rgba(124, 58, 237, 0.1);
+    }
+
+    .cf-receipt-head { background: var(--cf-gradient); color: var(--white); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .cf-receipt-brand { display: flex; align-items: center; gap: 8px; }
+    .cf-receipt-logo-img { height: 28px; width: 28px; object-fit: contain; }
+    .cf-receipt-sitename { font-size: 0.9rem; font-weight: 800; letter-spacing: -0.01em; display: flex; align-items: center; }
+    .cf-receipt-sitename span { color: #C4B5FD; }
+    .cf-receipt-status { padding: 3px 8px; border-radius: 6px; font-size: 0.58rem; font-weight: 700; background: rgba(255,255,255,0.15); color: #FDE68A; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.04em; backdrop-filter: blur(4px); }
+
+    .cf-receipt-body { padding: 14px 16px; }
+
+    .cf-receipt-order-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed var(--gray-200); }
+    .cf-order-id-label { font-size: 0.6rem; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+    .cf-order-id { font-size: 0.9rem; font-weight: 700; color: var(--cf-accent); font-family: var(--cf-mono); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.2s; }
+    .cf-order-id:hover { opacity: 0.8; }
+    .cf-order-id .copy-icon { font-size: 0.6rem; opacity: 0.4; transition: opacity 0.2s, color 0.2s; }
+    .cf-order-id:hover .copy-icon { opacity: 0.7; color: var(--cf-accent); }
+    .cf-order-id.copied .copy-icon { opacity: 1 !important; color: var(--cf-success) !important; }
+    .cf-order-date { font-size: 0.68rem; color: var(--gray-500); text-align: right; }
+    .cf-order-date strong { display: block; color: var(--gray-700); font-size: 0.72rem; }
+
+    .cf-section-label { font-size: 0.58rem; font-weight: 700; color: var(--cf-accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+    .cf-section-label::after { content: ''; flex: 1; height: 1px; background: var(--gray-100); }
+    .cf-section-label:first-child { margin-top: 0; }
+
+    .cf-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 0; position: relative; }
+    .cf-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; gap: 8px; }
+    .cf-row.full { grid-column: 1 / -1; }
+    .cf-row-label { font-size: 0.68rem; color: var(--gray-400); font-weight: 500; flex-shrink: 0; }
+    .cf-row-value { font-size: 0.72rem; color: var(--gray-800); font-weight: 600; text-align: right; word-break: break-word; }
+    
+    .cf-row-value.highlight { 
+      color: var(--cf-accent-dark); 
+      font-family: var(--cf-mono); 
+      font-weight: 700; 
+      background: var(--cf-accent-bg); 
+      padding: 2px 6px; 
+      border-radius: 4px; 
+      border: 1px solid rgba(124,58,237,0.1);
+    }
+
+    .cf-divider { border: none; border-top: 1px dashed var(--gray-200); margin: 8px 0; }
+
+    .cf-total { display: flex; justify-content: space-between; align-items: center; padding: 8px 0 0; margin-top: 2px; border-top: 2px solid var(--gray-200); }
+    .cf-total-label { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .cf-total-value { font-size: 1.2rem; font-weight: 900; color: var(--cf-accent); line-height: 1; font-family: var(--cf-mono); }
+
+    .cf-receipt-foot { background: #FAFAFA; padding: 8px 16px; text-align: center; border-top: 1px solid var(--gray-100); }
+    .cf-receipt-foot p { font-size: 0.58rem; color: var(--gray-400); line-height: 1.4; margin: 0; }
+    .cf-receipt-foot p strong { color: var(--gray-600); }
+
+    .cf-grid-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; background-image: repeating-linear-gradient(0deg, rgba(124,58,237,0.05) 0px, transparent 1px, transparent 12px), repeating-linear-gradient(90deg, rgba(124,58,237,0.05) 0px, transparent 1px, transparent 12px); }
+    .cf-dots-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; background-image: radial-gradient(circle, rgba(124,58,237,0.08) 0.5px, transparent 0.5px); background-size: 6px 6px; }
+    .cf-watermark { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 10; }
+    .cf-watermark-pattern { position: absolute; inset: -50%; width: 200%; height: 200%; opacity: 0.07; transform: rotate(-25deg); pointer-events: none; }
+    .cf-watermark-row { display: flex; gap: 40px; white-space: nowrap; margin-bottom: 20px; font-size: 0.6rem; font-weight: 800; color: var(--cf-accent); letter-spacing: 0.12em; text-transform: uppercase; user-select: none; }
+    .cf-watermark-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); font-size: 1.8rem; font-weight: 900; color: var(--cf-accent); opacity: 0.09; white-space: nowrap; letter-spacing: 0.15em; text-transform: uppercase; user-select: none; pointer-events: none; }
+    .cf-stripe-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; background: repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(124,58,237,0.03) 35px, rgba(124,58,237,0.03) 36px); }
+
+    .cf-logo-watermark {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg);
+      width: 140px; height: auto; opacity: 0.07; z-index: 0; pointer-events: none;
+    }
+
+    .cf-stamp { position: absolute; bottom: 50px; right: 14px; width: 70px; height: 70px; border: 2.5px solid rgba(220,38,38,0.18); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-12deg); z-index: 11; pointer-events: none; background: rgba(255,255,255,0.6); backdrop-filter: blur(1px); }
+    .cf-stamp i { font-size: 1rem; color: rgba(220,38,38,0.22); }
+    .cf-stamp span { font-size: 0.38rem; font-weight: 800; color: rgba(220,38,38,0.22); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 1px; }
+
+    .cf-side-watermark-left, .cf-side-watermark-right {
+      position: absolute; top: 0; bottom: 0; width: 24px; z-index: 10; pointer-events: none; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px;
+    }
+    .cf-side-watermark-left { left: 4px; }
+    .cf-side-watermark-right { right: 4px; }
+    .cf-side-wm-text {
+      writing-mode: vertical-rl; transform: rotate(180deg);
+      font-size: 6px; font-weight: 800; color: var(--cf-accent); opacity: 0.12;
+      letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;
+    }
+
+    .cf-actions { display: flex; gap: 8px; margin-top: 16px; }
+    .cf-btn { flex: 1; padding: 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; font-family: 'Inter', sans-serif; cursor: pointer; text-decoration: none; border: none; }
+    .cf-btn-primary { background: var(--cf-gradient); color: var(--white); }
+    .cf-btn-primary:hover { opacity: 0.9; }
+    .cf-btn-primary:active { transform: scale(0.98); }
+    .cf-btn-secondary { background: var(--white); color: var(--gray-600); border: 2px solid var(--gray-200); }
+    .cf-btn-secondary:hover { border-color: var(--cf-accent-light); color: var(--cf-accent); }
+    .cf-btn-whatsapp { background: #059669; color: var(--white); flex: 0.7; }
+    .cf-btn-whatsapp:hover { background: #047857; }
+
+    .cf-saving { display: none; align-items: center; justify-content: center; gap: 8px; padding: 11px; background: var(--cf-accent-bg); color: var(--cf-accent); font-size: 0.82rem; font-weight: 600; border-radius: 8px; margin-top: 16px; }
+    .cf-saving.show { display: flex; }
+    .cf-saving .spinner { width: 16px; height: 16px; border: 2px solid var(--cf-accent-light); border-top-color: var(--cf-accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .cf-note { background: var(--cf-warn-bg); border: 1px solid #FDE68A; border-radius: 8px; padding: 10px 12px; margin-top: 14px; font-size: 0.68rem; color: #92400E; line-height: 1.5; display: flex; gap: 8px; }
+    .cf-note i { font-size: 0.85rem; color: var(--cf-warn); flex-shrink: 0; margin-top: 1px; }
+
+    .cf-support { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 14px; flex-wrap: wrap; }
+    .cf-support-link { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; font-weight: 600; color: var(--gray-500); transition: color 0.2s; text-decoration: none; }
+    .cf-support-link:hover { color: var(--cf-accent); }
+    .cf-support-link i { font-size: 0.82rem; }
+    .cf-support-link.wa i { color: #059669; }
+    .cf-support-link.ms i { color: #1877F2; }
+    .cf-support-link.tg i { color: #26A5E4; }
+
+    .search-dropdown{position:fixed;top:0;left:0;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);box-shadow:var(--shadow-lg);max-height:380px;overflow-y:auto;display:none;z-index:10001;}
+    .search-dropdown.open{display:block;}
+    .search-item{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:var(--transition);}
+    .search-item:hover{background:var(--accent-bg);}
+    .search-item-img{width:40px;height:40px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--gray-100);display:flex;align-items:center;justify-content:center;position:relative;}
+    .search-item-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+    .search-item-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:8px;}
+    .search-item-info{flex:1;min-width:0;}
+    .search-item-name{font-size:.875rem;font-weight:600;color:var(--gray-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .search-item-cat{font-size:.7rem;color:var(--gray-400);}
+    .search-empty{padding:24px;text-align:center;color:var(--gray-400);font-size:.85rem;}
+
+    .legal-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.55);overflow-y:auto;}
+    .legal-modal.active{display:flex;justify-content:center;align-items:flex-start;padding:1.5rem;}
+    .legal-modal-box{background:#fff;max-width:800px;width:100%;border-radius:16px;padding:2.5rem;position:relative;animation:legalIn .3s ease;}
+    @keyframes legalIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    .legal-close{position:absolute;top:1rem;right:1rem;background:#F1F5F9;border:none;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748B;transition:.2s;}
+    .legal-close:hover{background:#E2E8F0;color:#1E293B;}
+    .legal-modal-box h1{font-size:1.6rem;font-weight:800;margin-bottom:1.5rem;color:#1E293B;padding-right:2rem;}
+    .legal-modal-box h2{font-size:1.1rem;font-weight:700;margin:1.5rem 0 .5rem;color:#334155;}
+    .legal-modal-box p,.legal-modal-box li{font-size:.92rem;color:#475569;line-height:1.7;margin-bottom:.5rem;}
+    .legal-modal-box ul{padding-left:1.5rem;margin-bottom:.75rem;}
+    .legal-modal-box ul li{margin-bottom:.3rem;}
+    .legal-updated{font-size:.78rem;color:#94A3B8;margin-bottom:1.5rem;}
+    @media(max-width:600px){.legal-modal-box{padding:1.5rem;border-radius:12px;}.legal-modal-box h1{font-size:1.3rem;}}
+
+    @media (max-width: 480px) {
+      .cf-wrap { padding: 10px 10px 32px; }
+      .cf-success-title { font-size: 1.1rem; }
+      .cf-receipt-body { padding: 12px; }
+      .cf-receipt-head { padding: 10px 12px; }
+      .cf-receipt-foot { padding: 8px 12px; }
+      .cf-actions { flex-direction: column; gap: 6px; }
+      .cf-watermark-center { font-size: 1.2rem; }
+      .cf-total-value { font-size: 1rem; }
+      .cf-rows { grid-template-columns: 1fr; }
+      .cf-stamp { width: 56px; height: 56px; bottom: 40px; right: 10px; }
+      .cf-stamp i { font-size: 0.85rem; }
+      .cf-stamp span { font-size: 0.32rem; }
+      .cf-side-watermark-left, .cf-side-watermark-right { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="header-top">
+        <a href="index.html" class="logo">
+          <img src="images/ilhamstore.png" alt="IlhamStore" width="36" height="36" onerror="this.style.display='none'; this.parentElement.style.gap='0'">
+          <span class="logo-text">Ilham<span>Store</span></span>
+        </a>
+        <div class="search-wrapper" id="searchWrapper">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
+            <button onclick="doSearch()" aria-label="Submit search"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="hdr-btn"><i class="fas fa-truck"></i><span>Track</span></a>
+          <a href="#" class="hdr-btn" aria-label="Account"><i class="fas fa-user"></i></a>
+          <button class="mobile-toggle" id="mobToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+      </div>
+      <div class="m-search">
+        <input type="text" id="mSearchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
+      </div>
+    </div>
+  </header>
+
+  <div class="search-dropdown" id="searchDropdown" role="listbox" aria-live="polite" aria-label="Search results"></div>
+
+  <nav class="nav-bar" id="navBar" aria-label="Main navigation">
+    <div class="container">
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="index.html#live-apps" class="nav-link"><i class="fas fa-mobile-screen"></i> Live Apps</a>
+      <a href="index.html#games" class="nav-link"><i class="fas fa-gamepad"></i> Games</a>
+      <a href="index.html#giftcards" class="nav-link"><i class="fas fa-gift"></i> Gift Cards</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="ck-steps">
+      <div class="ck-step-item done"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Select</span></div>
+      <div class="ck-step-line"></div>
+      <div class="ck-step-item done"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Checkout</span></div>
+      <div class="ck-step-line"></div>
+      <div class="ck-step-item done"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Payment</span></div>
+      <div class="ck-step-line"></div>
+      <div class="ck-step-item done"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Submitted</span></div>
+    </div>
+  </div>
+
+  <div class="cf-wrap">
+
+    <div class="cf-success-icon"><i class="fas fa-check"></i></div>
+    <div class="cf-success-title">Order Submitted!</div>
+    <div class="cf-success-sub">Your payment is being verified. Top-up will be delivered after confirmation.</div>
+
+    <div class="cf-receipt" id="receiptCard">
+
+      <div class="cf-grid-layer"></div>
+      <div class="cf-dots-layer"></div>
+      <div class="cf-stripe-layer"></div>
+      <div class="cf-watermark" id="watermarkContainer"></div>
+      
+      <div class="cf-side-watermark-left">
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+      </div>
+      <div class="cf-side-watermark-right">
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+        <span class="cf-side-wm-text">ILHAMSTORE</span>
+      </div>
+
+      <div class="cf-stamp"><i class="fas fa-times-circle"></i><span>Unverified</span></div>
+
+      <div class="cf-receipt-head">
+        <div class="cf-receipt-brand">
+          <img src="images/ilhamstore.png" alt="IlhamStore" class="cf-receipt-logo-img" onerror="this.style.display='none'">
+          <div class="cf-receipt-sitename">Ilham<span>Store</span></div>
+        </div>
+        <div class="cf-receipt-status"><i class="fas fa-clock"></i> VERIFYING</div>
+      </div>
+
+      <div class="cf-receipt-body">
+
+        <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:0.72rem;color:#991B1B;line-height:1.5;display:flex;gap:8px;">
+          <i class="fas fa-exclamation-triangle" style="font-size:0.9rem;color:#DC2626;flex-shrink:0;margin-top:1px;"></i>
+          <div>
+            <strong style="color:#DC2626;text-transform:uppercase;">Please check your Spam/Junk folder!</strong> Our confirmation emails sometimes end up there. Add <strong>support.ilhamstore@gmail.com</strong> to your contacts to ensure you receive your delivery code.
+          </div>
+        </div>
+
+        <div class="cf-receipt-order-head">
+          <div>
+            <div class="cf-order-id-label">Order Number</div>
+            <div class="cf-order-id" id="rcptOrderId" onclick="copyOrderId()">
+              <span id="rcptOrderIdText">#—</span>
+              <i class="fas fa-copy copy-icon"></i>
+            </div>
+          </div>
+          <div class="cf-order-date">
+            <span id="rcptDate">—</span>
+            <strong id="rcptTime">—</strong>
+          </div>
+        </div>
+
+        <div class="cf-section-label"><i class="fas fa-box" style="font-size:0.5rem;"></i> Product</div>
+        <div class="cf-rows">
+          <div class="cf-row full"><span class="cf-row-label">Item</span><span class="cf-row-value" id="rcptProduct">—</span></div>
+          <div class="cf-row"><span class="cf-row-label">Package</span><span class="cf-row-value" id="rcptPackage">—</span></div>
+          <div class="cf-row"><span class="cf-row-label">User ID</span><span class="cf-row-value" id="rcptUserId">—</span></div>
+          <div class="cf-row"><span class="cf-row-label">Qty</span><span class="cf-row-value" id="rcptQty">—</span></div>
+          <div class="cf-row"><span class="cf-row-label">Unit Price</span><span class="cf-row-value" id="rcptUnitPrice">—</span></div>
+          <div class="cf-row full" style="margin-top:6px;">
+            <span class="cf-row-label">⏱ Est. Delivery</span>
+            <span class="cf-row-value" style="color:var(--cf-success); font-weight:700;">5 min – 1 hour</span>
+          </div>
+        </div>
+
+        <hr class="cf-divider">
+
+        <div class="cf-section-label"><i class="fas fa-wallet" style="font-size:0.5rem;"></i> Payment</div>
+        <div class="cf-rows" style="position: relative; overflow: hidden;">
+          <img src="images/ilhamstore.png" alt="IlhamStore" class="cf-logo-watermark" onerror="this.style.display='none'">
+          
+          <div class="cf-row"><span class="cf-row-label">Method</span><span class="cf-row-value" id="rcptPayMethod">—</span></div>
+          <div class="cf-row"><span class="cf-row-label">Your Number</span><span class="cf-row-value highlight" id="rcptPayAccount">—</span></div>
+          <div class="cf-row full"><span class="cf-row-label">Transaction ID</span><span class="cf-row-value highlight" id="rcptTxnId">—</span></div>
+        </div>
+
+        <hr class="cf-divider">
+
+        <div class="cf-section-label"><i class="fas fa-user" style="font-size:0.5rem;"></i> Billing</div>
+        <div class="cf-rows">
+          <div class="cf-row"><span class="cf-row-label">Name</span><span class="cf-row-value" id="rcptName">—</span></div>
+          <div class="cf-row"><span class="cf-row-label">Phone</span><span class="cf-row-value" id="rcptPhone">—</span></div>
+          <div class="cf-row full"><span class="cf-row-label">Email</span><span class="cf-row-value" id="rcptEmail">—</span></div>
+        </div>
+
+        <hr class="cf-divider">
+
+        <div class="cf-total">
+          <span class="cf-total-label">Total Paid</span>
+          <span class="cf-total-value" id="rcptTotal">৳0</span>
+        </div>
+
+      </div>
+
+      <div class="cf-receipt-foot">
+        <p>
+          <strong>⏳ PAYMENT VERIFICATION IN PROGRESS</strong> — Top-up will be delivered after confirmation.<br>
+          Facebook: <strong>Official.Ilhamstore</strong> · Support: <strong>support.ilhamstore@gmail.com</strong>
+        </p>
+      </div>
+
+    </div>
+
+    <div class="cf-actions">
+      <button class="cf-btn cf-btn-primary" id="downloadBtn" onclick="downloadReceipt()">
+        <i class="fas fa-download"></i> Save Receipt
+      </button>
+      <a href="https://wa.me/8801558086520" target="_blank" rel="noopener noreferrer" class="cf-btn cf-btn-whatsapp">
+        <i class="fab fa-whatsapp"></i> Support
+      </a>
+      <a href="index.html" class="cf-btn cf-btn-secondary" onclick="sessionStorage.removeItem('cartStoreOrder')">
+        <i class="fas fa-home"></i> Home
+      </a>
+    </div>
+
+    <div class="cf-saving" id="cfSaving">
+      <div class="spinner"></div>
+      Generating receipt image...
+    </div>
+
+    <div class="cf-note">
+      <i class="fas fa-info-circle"></i>
+      <div>
+        <strong>What's next?</strong> Your payment is being verified. Once confirmed, your top-up will be delivered within minutes. Save this receipt as proof.
+      </div>
+    </div>
+
+    <div class="cf-support">
+      <a href="https://wa.me/8801558086520" target="_blank" rel="noopener noreferrer" class="cf-support-link wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="cf-support-link ms"><i class="fab fa-facebook-messenger"></i> Messenger</a>
+      <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="cf-support-link tg"><i class="fab fa-telegram-plane"></i> Telegram</a>
+      <a href="mailto:support.ilhamstore@gmail.com" class="cf-support-link"><i class="fas fa-envelope"></i> Email</a>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="f-logo">Ilham<span>Store</span></div>
+          <p>Top Up Instantly – Trusted by Thousands.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://t.me/Officialilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://www.youtube.com/@IlhamStoreOfficial" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Quick Links</h4><ul>
+          <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+          <li><a href="index.html#live-apps"><i class="fas fa-chevron-right"></i> Live Apps</a></li>
+          <li><a href="index.html#games"><i class="fas fa-chevron-right"></i> Games</a></li>
+          <li><a href="index.html#giftcards"><i class="fas fa-chevron-right"></i> Gift Cards</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#" onclick="openLegal('termsModal');return false;"><i class="fas fa-chevron-right"></i> Terms of Use</a></li>
+          <li><a href="#" onclick="openLegal('privacyModal');return false;"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+          <li><a href="#" onclick="openLegal('refundModal');return false;"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+          <li><a href="#" onclick="openLegal('faqModal');return false;"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Contact</h4><ul>
+          <li><a href="mailto:support.ilhamstore@gmail.com"><i class="fas fa-envelope"></i> support.ilhamstore@gmail.com</a></li>
+          <li><a href="https://t.me/Officialilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i> Telegram</a></li>
+          <li><a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-messenger"></i> Messenger</a></li>
+          <li><a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook Page</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-pay">
+        <div class="fp-item"><i class="fas fa-wallet"></i> bKash</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Nagad</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Rocket</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Upay</div>
+      </div>
+      <div class="footer-bottom">&copy; <span id="footerYear"></span> IlhamStore.com — All rights reserved.</div>
+    </div>
+  </footer>  
+  
+  <div class="legal-modal" id="termsModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('termsModal')" aria-label="Close">&times;</button>
+      <h1>Terms of Use</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing and using IlhamStore ("the Service"), you agree to be bound by these Terms of Use.</p>
+      <h2>2. Service Description</h2>
+      <p>IlhamStore provides digital top-up services, game credits, and gift cards. All products are delivered digitally.</p>
+      <h2>3. User Responsibilities</h2>
+      <ul><li>You must provide accurate account information when placing an order.</li><li>You are responsible for verifying correct game ID before purchase.</li></ul>
+      <h2>4. Payment Terms</h2>
+      <p>All payments must be made through bKash, Nagad, Rocket, or Upay. Prices are in BDT.</p>
+      <h2>5. Contact</h2>
+      <p>Contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="privacyModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('privacyModal')" aria-label="Close">&times;</button>
+      <h1>Privacy Policy</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Information We Collect</h2>
+      <p>We collect personal information, account information, and technical data to provide our Service.</p>
+      <h2>2. How We Use Your Information</h2>
+      <p>To process orders, communicate updates, provide support, and prevent fraud.</p>
+      <h2>3. Data Security</h2>
+      <p>We implement SSL encryption and secure payment gateways to protect your data.</p>
+      <h2>4. Contact</h2>
+      <p>Contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="refundModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('refundModal')" aria-label="Close">&times;</button>
+      <h1>Refund Policy</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Eligibility for Refund</h2>
+      <ul><li>Order not delivered within 24 hours.</li><li>Delivered product is incorrect.</li><li>Technical error on our end.</li></ul>
+      <h2>2. Non-Refundable Items</h2>
+      <ul><li>Incorrect account ID provided.</li><li>Account is banned.</li><li>Gift cards already revealed or redeemed.</li></ul>
+      <h2>3. Contact</h2>
+      <p>Contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="faqModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('faqModal')" aria-label="Close">&times;</button>
+      <h1>Frequently Asked Questions</h1>
+      <h2>How does top-up work?</h2>
+      <p>Select product, choose package, enter ID, complete payment.</p>
+      <h2>How long does delivery take?</h2>
+      <p>Most orders delivered instantly or within 5-15 minutes.</p>
+      <h2>What payment methods do you accept?</h2>
+      <p>bKash, Nagad, Rocket, and Upay.</p>
+      <h2>How can I contact support?</h2>
+      <p>Email: <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> or Telegram.</p>
+    </div>
+  </div>
+
+  <div class="chat-float">
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+    <div class="chat-options" id="chatOptions">
+      <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt"><div class="chat-opt-icon ms"><i class="fab fa-facebook-messenger"></i></div><span class="chat-opt-label">Messenger</span></a>
+      <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt"><div class="chat-opt-icon tg"><i class="fab fa-telegram-plane"></i></div><span class="chat-opt-label">Telegram</span></a>
+    </div>
+    <button class="chat-main-btn" id="chatToggle" onclick="toggleChat()" aria-label="Open chat options"><i class="fas fa-comments chat-icon"></i><i class="fas fa-times close-icon"></i></button>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <script>
+    'use strict';
+
+    /* =============================================
+       INIT
+       ============================================= */
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    const CONFIG = Object.freeze({
+      PAYMENT_METHODS: Object.freeze({
+        bkash: { name: 'bKash', accountNumber: '01558086520' },
+        nagad: { name: 'Nagad', accountNumber: '01558086420' },
+        rocket: { name: 'rocket', accountNumber: '015580865206' },
+        upay: { name: 'Upay', accountNumber: '01709217102' }
+      }),
+      SESSION: Object.freeze({
+        CLEANUP_DELAY_MS: 180000,
+        MAX_AGE_MS: 1800000
+      }),
+      RECEIPT: Object.freeze({
+        WATERMARK_ROWS: 26,
+        WATERMARK_REPEATS: 12,
+        DOWNLOAD_SCALE: 2,
+        DOWNLOAD_FORMAT: 'image/png',
+        DOWNLOAD_PREFIX: 'IlhamStore_Receipt_'
+      })
+    });
+
+    let orderData = null;
+
+    /* =============================================
+       RECEIPT RENDERER
+       ============================================= */
+    const ReceiptRenderer = {
+      formatCurrency(amount) {
+        return '৳' + (amount || 0).toLocaleString('en-BD');
+      },
+
+      formatDate(isoString) {
+        const date = new Date(isoString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      },
+
+      formatTime(isoString) {
+        const date = new Date(isoString);
+        return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      },
+
+      maskAccount(account) {
+        if (!account || account.length < 5) return '—';
+        const start = account.slice(0, 4);
+        const end = account.slice(-3);
+        const middle = '*'.repeat(account.length - 7);
+        return start + middle + end;
+      },
+
+      render(order) {
+        const timestamp = order.verifiedAt || order.timestamp || Date.now();
+        
+        this.setText('rcptOrderIdText', '#' + (order.orderId || '—'));
+        this.setText('rcptDate', this.formatDate(timestamp));
+        this.setText('rcptTime', this.formatTime(timestamp));
+        this.setText('rcptProduct', order.product || '—');
+        this.setText('rcptPackage', order.package || '—');
+        this.setText('rcptUserId', order.userId || '—');
+        this.setText('rcptQty', '×' + (order.quantity || 1));
+        this.setText('rcptUnitPrice', this.formatCurrency(order.unitPrice));
+        
+        const payMethod = CONFIG.PAYMENT_METHODS[order.paymentMethod] || {};
+        this.setText('rcptPayMethod', order.paymentMethodName || payMethod.name || order.paymentMethod || '—');
+        this.setText('rcptPayAccount', this.maskAccount(order.paymentAccount));
+        this.setText('rcptTxnId', order.transactionId || '—');
+
+        this.setText('rcptName', order.billingName || '—');
+        this.setText('rcptPhone', order.billingPhone || '—');
+        this.setText('rcptEmail', order.billingEmail || '—');
+        this.setText('rcptTotal', this.formatCurrency(order.totalPrice));
+
+        document.title = `Order #${order.orderId} – IlhamStore`;
+      },
+
+      setText(id, text) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+      }
+    };
+
+    /* =============================================
+       WATERMARK BUILDER
+       ============================================= */
+    const WatermarkBuilder = {
+      build() {
+        const text = 'ILHAMSTORE · ';
+        const fullRow = text.repeat(CONFIG.RECEIPT.WATERMARK_REPEATS);
+        
+        const container = document.getElementById('watermarkContainer');
+        let rows = '';
+        
+        for (let i = 0; i < CONFIG.RECEIPT.WATERMARK_ROWS; i++) {
+          const offset = i % 2 === 0 ? 0 : -80;
+          rows += `<div class="cf-watermark-row" style="margin-left:${offset}px;">${fullRow}</div>`;
+        }
+        
+        container.innerHTML = `
+          <div class="cf-watermark-pattern">${rows}</div>
+          <div class="cf-watermark-center">ILHAMSTORE</div>
+        `;
+      }
+    };
+
+    /* =============================================
+       SESSION MANAGER
+       ============================================= */
+    const SessionManager = {
+      cleanStale() {
+        if (!orderData) return false;
+
+        const verifiedAt = orderData.verifiedAt ? new Date(orderData.verifiedAt).getTime() : 0;
+        if (verifiedAt > 0 && (Date.now() - verifiedAt > CONFIG.SESSION.CLEANUP_DELAY_MS)) {
+          sessionStorage.removeItem('cartStoreOrder');
+          return true;
+        }
+
+        const ts = orderData.timestamp ? new Date(orderData.timestamp).getTime() : 0;
+        if (ts > 0 && (Date.now() - ts) > CONFIG.SESSION.MAX_AGE_MS) {
+          sessionStorage.removeItem('cartStoreOrder');
+          return true;
+        }
+        return false;
+      },
+
+      clear() {
+        sessionStorage.removeItem('cartStoreOrder');
+      }
+    };
+
+    /* =============================================
+       GLOBAL FUNCTIONS (Exposed for onclick HTML attributes)
+       ============================================= */
+    function copyOrderId() {
+      const oid = orderData?.orderId;
+      if (!oid) return;
+
+      const el = document.getElementById('rcptOrderId');
+      const icon = el.querySelector('.copy-icon');
+      
+      try {
+        navigator.clipboard.writeText(oid);
+        el.classList.add('copied');
+        icon.className = 'fas fa-check copy-icon';
+        setTimeout(() => {
+          el.classList.remove('copied');
+          icon.className = 'fas fa-copy copy-icon';
+        }, 2000);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = oid;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        el.classList.add('copied');
+        icon.className = 'fas fa-check copy-icon';
+        setTimeout(() => {
+          el.classList.remove('copied');
+          icon.className = 'fas fa-copy copy-icon';
+        }, 2000);
+      }
+      toast('Order ID copied!', 'success');
+    }
+
+    async function downloadReceipt() {
+      const btn = document.getElementById('downloadBtn');
+      const savingEl = document.getElementById('cfSaving');
+      
+      btn.style.display = 'none';
+      savingEl.classList.add('show');
+
+      try {
+        const element = document.getElementById('receiptCard');
+        
+        const canvas = await html2canvas(element, {
+          scale: CONFIG.RECEIPT.DOWNLOAD_SCALE,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          logging: false
+        });
+
+        const link = document.createElement('a');
+        link.download = `${CONFIG.RECEIPT.DOWNLOAD_PREFIX}${orderData?.orderId || 'order'}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        toast('Receipt saved to your device!', 'success');
+      } catch (err) {
+        console.error('Download error:', err);
+        toast('Failed to generate image. Please take a screenshot.', 'error');
+      } finally {
+        savingEl.classList.remove('show');
+        btn.style.display = 'flex';
+      }
+    }
+
+    /* =============================================
+      INITIALIZATION
+       ============================================= */
+    function loadOrder() {
+      const stored = sessionStorage.getItem('cartStoreOrder');
+      if (!stored) {
+        window.location.href = 'index.html';
+        return;
+      }
+      
+      try {
+        orderData = JSON.parse(stored);
+      } catch (e) {
+        SessionManager.clear();
+        window.location.href = 'index.html';
+        return;
+      }
+
+      if (!orderData || !orderData.orderId) {
+        SessionManager.clear();
+        window.location.href = 'index.html';
+        return;
+      }
+
+      if (SessionManager.cleanStale()) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      ReceiptRenderer.render(orderData);
+      WatermarkBuilder.build();
+    }
+
+    /* =============================================
+      LEGAL MODALS
+       ============================================= */
+    function openLegal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      const box = modal.querySelector('.legal-modal-box');
+      box.scrollTop = 0;
+      modal.querySelector('.legal-close').focus();
+    }
+
+    function closeLegal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.legal-modal').forEach(m => {
+      m.addEventListener('click', function(e) {
+        if (e.target === this) closeLegal(this.id);
+      });
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal.active').forEach(m => closeLegal(m.id));
+      }
+    });
+
+    /* =============================================
+      SEARCH, MENU, CHAT, SCROLL, TOAST
+       ============================================= */
+    const sInput = document.getElementById('searchInput');
+    const mInput = document.getElementById('mSearchInput');
+    const sDrop = document.getElementById('searchDropdown');
+
+    function runSearch(query) {
+      const q = query.trim().toLowerCase();
+      if (q.length < 2) { sDrop.classList.remove('open'); return; }
+      sDrop.innerHTML = '<div class="search-empty"><a href="index.html" style="color:var(--cf-accent);">Go to homepage to search</a></div>';
+      sDrop.classList.add('open');
+
+      if (window.innerWidth > 768) {
+        const wrapper = document.getElementById('searchWrapper');
+        if (wrapper && window.getComputedStyle(wrapper).display !== 'none') {
+          const r = wrapper.getBoundingClientRect();
+          sDrop.style.position = 'fixed';
+          sDrop.style.top = (r.bottom + 6) + 'px';
+          sDrop.style.left = r.left + 'px';
+          sDrop.style.width = r.width + 'px';
+          sDrop.style.right = 'auto';
+        }
+      } else {
+        const r = mInput.getBoundingClientRect();
+        sDrop.style.position = 'fixed';
+        sDrop.style.top = (r.bottom + 6) + 'px';
+        sDrop.style.left = '12px';
+        sDrop.style.right = '12px';
+        sDrop.style.width = 'auto';
+      }
+    }
+
+    sInput.addEventListener('input', function() { runSearch(this.value); });
+    mInput.addEventListener('input', function() { runSearch(this.value); });
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-wrapper') && !e.target.closest('.m-search') && !e.target.closest('.search-dropdown')) {
+        sDrop.classList.remove('open');
+      }
+    });
+
+    function doSearch() {
+      runSearch(sInput.value);
+      sInput.focus();
+    }
+
+    const mobToggle = document.getElementById('mobToggle');
+    const navBar = document.getElementById('navBar');
+
+    mobToggle.addEventListener('click', () => {
+      navBar.classList.toggle('open');
+      mobToggle.querySelector('i').className = navBar.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+    });
+
+    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
+      navBar.classList.remove('open');
+      mobToggle.querySelector('i').className = 'fas fa-bars';
+    }));
+
+    document.addEventListener('click', function(e) {
+      if (navBar.classList.contains('open') && !e.target.closest('.nav-bar') && !e.target.closest('.mobile-toggle')) {
+        navBar.classList.remove('open');
+        mobToggle.querySelector('i').className = 'fas fa-bars';
+      }
+    });
+
+    function toggleChat() {
+      document.getElementById('chatToggle').classList.toggle('open');
+      document.getElementById('chatOptions').classList.toggle('show');
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+    });
+
+    function toast(msg, type = '') {
+      const w = document.getElementById('toastWrap');
+      const t = document.createElement('div');
+      t.className = 'toast ' + type;
+      t.innerHTML = `<i class="fas ${type==='error'?'fa-exclamation-circle':type==='success'?'fa-check-circle':'fa-info-circle'}"></i> ${msg}`;
+      w.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(100%)';
+        t.style.transition = 'all 0.3s';
+        setTimeout(() => t.remove(), 300);
+      }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadOrder);
+  </script>
+
+  <!-- ===== SAFE ANTI-COPY & PROTECTION ===== -->
+  <style>
+    /* Disable text selection globally to prevent copying */
+    body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+    /* Allow selection ONLY in inputs so customers can paste IDs */
+    input, textarea, select { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
+    /* Disable image dragging */
+    img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; user-drag: none; -webkit-touch-callout: none; }
+  </style>
+  <script>
+    // Disable Right-Click Context Menu safely
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+    // Prevent Copy/Cut unless it's inside an input field
+    document.addEventListener('copy', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
+    document.addEventListener('cut', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
+    // Disable basic keyboard shortcuts for dev tools and view source
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
+      if (e.key === 'F12') { e.preventDefault(); return false; }
+      if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); return false; }
+      if (e.ctrlKey && (e.key === 's' || e.key === 'S')) { e.preventDefault(); return false; }
+    });
+  </script>
+</body>
+</html>

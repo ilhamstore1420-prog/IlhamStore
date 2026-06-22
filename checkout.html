@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout – IlhamStore</title>
+  
+  <!-- Security: Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://script.google.com; connect-src 'self' https://script.google.com;">
+  
+  <!-- Anti-Scraping: Robots -->
+  <meta name="robots" content="noarchive, max-snippet:-1">
+  <meta name="googlebot" content="noarchive, max-snippet:-1">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/ilhamstore.png">
+  
+  <style>
+    :root {
+      --ck-accent: #7C3AED;
+      --ck-accent-light: #A78BFA;
+      --ck-accent-bg: #F5F3FF;
+      --ck-accent-dark: #6D28D9;
+      --ck-gradient: linear-gradient(135deg, #7C3AED 0%, #6D28D9 50%, #5B21B6 100%);
+    }
+
+    .logo-text { font-size:1.35rem;font-weight:800;font-family:'Inter',sans-serif;color:#1E293B;letter-spacing:-.02em;display:flex;align-items:center; }
+    .logo-text span { color:#7C3AED; }
+
+    .ck-wrap {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 28px;
+      padding: 28px 0 48px;
+      align-items: start;
+    }
+
+    .ck-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 20px 0 4px;
+    }
+
+    .ck-step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      transition: color 0.3s;
+    }
+
+    .ck-step-item.active { color: var(--ck-accent); }
+    .ck-step-item.done { color: #059669; }
+
+    .ck-step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 2px solid var(--gray-300);
+      color: var(--gray-400);
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+
+    .ck-step-item.active .ck-step-num {
+      border-color: var(--ck-accent);
+      background: var(--ck-gradient);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+    }
+
+    .ck-step-item.done .ck-step-num {
+      border-color: #059669;
+      background: #059669;
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(5,150,105,0.3);
+    }
+
+    .ck-step-line {
+      width: 36px;
+      height: 2px;
+      background: var(--gray-200);
+      margin: 0 6px;
+      flex-shrink: 0;
+      border-radius: 2px;
+      transition: background 0.3s;
+    }
+
+    .ck-step-line.done { background: #059669; }
+
+    .ck-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .ck-card-head {
+      padding: 16px 20px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .ck-card-head i { color: var(--ck-accent); font-size: 0.85rem; }
+    .ck-card-body { padding: 20px; }
+
+    .ck-field { margin-bottom: 16px; }
+
+    .ck-field label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+
+    .ck-field label i { color: var(--ck-accent); font-size: 0.68rem; }
+    .ck-field label .req { color: #DC2626; font-size: 0.75rem; }
+
+    .ck-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: var(--gray-800);
+      background: var(--gray-50);
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .ck-input:focus {
+      border-color: var(--ck-accent);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(124,58,237,0.08);
+      outline: none;
+    }
+
+    .ck-input::placeholder { color: var(--gray-400); }
+
+    .ck-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .ck-pay-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .ck-pay-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 2px solid var(--gray-200);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(.4,0,.2,1);
+      background: var(--white);
+      position: relative;
+    }
+
+    .ck-pay-option:hover {
+      border-color: var(--ck-accent-light);
+      background: var(--ck-accent-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(124,58,237,0.08);
+    }
+
+    .ck-pay-option.selected {
+      border-color: var(--ck-accent);
+      background: var(--ck-accent-bg);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+    }
+
+    .ck-pay-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .ck-pay-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+    .ck-pay-icon .fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      font-size: 1.1rem;
+    }
+
+    .pay-bkash { background: #FEE2E2; color: #E2136E; }
+    .pay-nagad { background: #FFF7ED; color: #F26522; }
+    .pay-rocket { background: #FDF2F8; color: #8B2F89; }
+    .pay-upay { background: #EFF6FF; color: #2563EB; }
+
+    .ck-pay-name { font-size: 0.85rem; font-weight: 700; color: var(--gray-800); }
+    .ck-pay-type { font-size: 0.65rem; color: var(--gray-400); font-weight: 500; margin-top:2px; }
+
+    .ck-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--ck-gradient);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 14px;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 12px rgba(124,58,237,0.25);
+      border: none;
+      cursor: pointer;
+    }
+
+    .ck-submit:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(124,58,237,0.3); }
+    .ck-submit:active { transform: scale(0.98); }
+
+    .ck-secure {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 0.72rem;
+      color: var(--gray-400);
+    }
+
+    .ck-secure i { color: #059669; }
+
+    .ck-summary {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: 20px;
+      overflow: hidden;
+      position: sticky;
+      top: 90px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .ck-summary-head {
+      background: var(--ck-gradient);
+      color: var(--white);
+      padding: 18px 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ck-summary-body { padding: 20px; }
+
+    .ck-spam-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: #EFF6FF;
+      border: 1px solid #93C5FD;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .ck-spam-notice i {
+      color: #2563EB;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ck-spam-notice div {
+      font-size: 0.78rem;
+      color: #1E40AF;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .ck-spam-notice strong {
+      font-weight: 800;
+      color: #1E3A8A;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.85rem;
+    }
+
+    .ck-sum-product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--ck-accent-bg);
+      color: var(--ck-accent);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .ck-sum-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .ck-sum-item:last-of-type { border-bottom: none; }
+
+    .ck-sum-label {
+      font-size: 0.76rem;
+      color: var(--gray-500);
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .ck-sum-value {
+      font-size: 0.8rem;
+      color: var(--gray-800);
+      font-weight: 600;
+      text-align: right;
+      word-break: break-all;
+    }
+
+    .ck-sum-package-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: var(--ck-accent-bg);
+      border: 1px solid #DDD6FE;
+      border-radius: 12px;
+      margin: 6px 0 4px;
+    }
+
+    .ck-sum-pkg-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    .ck-sum-pkg-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ck-accent);
+      flex-shrink: 0;
+    }
+
+    .ck-sum-pkg-price {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--ck-accent);
+    }
+
+    .ck-sum-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0 0;
+      margin-top: 6px;
+      border-top: 2px dashed var(--gray-200);
+    }
+
+    .ck-sum-total-label {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .ck-sum-total-value {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--ck-accent);
+      line-height: 1;
+    }
+
+    .ck-sum-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 10px 12px;
+      background: #FEF3C7;
+      border-radius: 10px;
+      border: 1px solid #FDE68A;
+    }
+
+    .ck-sum-warning i {
+      color: #D97706;
+      font-size: 0.72rem;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .ck-sum-warning span {
+      font-size: 0.68rem;
+      color: #92400E;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .ck-pay-instruction {
+      display: none;
+      animation: fadeSlideIn 0.35s ease;
+    }
+
+    .ck-pay-instruction.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ck-pi-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .ck-pi-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .ck-pi-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+    .ck-pi-icon .fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      font-size: 1.5rem;
+    }
+
+    .ck-pi-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--gray-900);
+    }
+
+    .ck-pi-subtitle {
+      font-size: 0.78rem;
+      color: var(--gray-400);
+      margin-top: 2px;
+    }
+
+    .ck-pi-info {
+      background: var(--ck-accent-bg);
+      border: 1px solid #DDD6FE;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .ck-pi-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+
+    .ck-pi-info-row + .ck-pi-info-row { border-top: 1px solid rgba(124,58,237,0.08); }
+
+    .ck-pi-info-label {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      font-weight: 500;
+      display: flex; align-items: center;
+    }
+
+    .ck-pi-info-label i { margin-right: 6px; color: var(--ck-accent); font-size: 0.7rem; }
+
+    .ck-pi-info-value {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ck-copy-btn {
+      padding: 4px 10px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--gray-600);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .ck-copy-btn:hover { border-color: var(--ck-accent); color: var(--ck-accent); }
+
+    .ck-copy-btn.copied {
+      background: #D1FAE5;
+      border-color: #059669;
+      color: #059669;
+    }
+
+    .ck-pi-steps {
+      margin-bottom: 20px;
+      background: var(--gray-50);
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--gray-100);
+    }
+
+    .ck-pi-step {
+      display: flex;
+      gap: 12px;
+      padding: 8px 0;
+    }
+
+    .ck-pi-step + .ck-pi-step { border-top: 1px dashed var(--gray-200); }
+
+    .ck-pi-step-num {
+      width: 24px;
+      height: 24px;
+      background: var(--ck-gradient);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ck-pi-step-text {
+      font-size: 0.82rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    .ck-pi-step-text strong { color: var(--gray-900); }
+    .ck-pi-step-text .highlight { color: var(--ck-accent); font-weight: 700; }
+
+    .ck-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #FEF3C7;
+      border: 1px solid #FCD34D;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }      
+
+    .ck-notice i {
+      color: #D97706;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ck-notice-text {
+      font-size: 0.75rem;
+      color: #92400E;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .ck-notice-text strong { font-weight: 700; }
+
+    .ck-notice-blue {
+      background: #EFF6FF;
+      border-color: #93C5FD;
+    }
+
+    .ck-notice-blue i { color: #2563EB; }
+    .ck-notice-blue .ck-notice-text { color: #1E40AF; }
+
+    .ck-txn-section {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .ck-txn-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ck-txn-label i { color: var(--ck-accent); }
+
+    .ck-txn-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      background: var(--gray-50);
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.03em;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .ck-txn-input:focus {
+      border-color: var(--ck-accent);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(124,58,237,0.08);
+      outline: none;
+    }
+
+    .ck-txn-input::placeholder { color: var(--gray-400); font-weight: 400; }
+
+    .ck-txn-hint {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      margin-top: 6px;
+    }
+
+    .ck-txn-divider {
+      border: none;
+      border-top: 1px solid var(--gray-200);
+      margin: 16px 0;
+    }
+
+    .ck-verify-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--ck-gradient);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 14px;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 14px rgba(124,58,237,0.3);
+      border: none;
+      cursor: pointer;
+    }
+
+    .ck-verify-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,0.4); }
+    .ck-verify-btn:active { transform: scale(0.98); }
+
+    .ck-sending {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px;
+      background: var(--ck-accent-bg);
+      color: var(--ck-accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .ck-sending.show { display: flex; }
+
+    .ck-sending .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--ck-accent-light);
+      border-top-color: var(--ck-accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .ck-blocked-overlay {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px;
+      background: #FEF2F2;
+      border: 2px solid #FECACA;
+      color: #991B1B;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .ck-blocked-overlay.show { display: flex; }
+    .ck-blocked-overlay i { font-size: 1.2rem; flex-shrink: 0; }
+
+    .ck-mobile-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-top: 1px solid var(--gray-200);
+      padding: 12px 16px;
+      z-index: 100;
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+    }
+
+    .ck-mobile-bar.show { display: block; }
+
+    .ck-mobile-bar-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .ck-mb-total { flex-shrink: 0; }
+
+    .ck-mb-label {
+      font-size: 0.65rem;
+      color: var(--gray-400);
+      font-weight: 500;
+      display: block;
+    }
+
+    .ck-mb-value {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--ck-accent);
+      line-height: 1;
+    }
+
+    .ck-mobile-bar-btn {
+      flex: 1;
+      padding: 12px;
+      background: var(--ck-gradient);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .ck-mobile-bar-btn:hover { opacity: 0.9; }
+    .ck-mobile-bar-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .ck-mobile-bar-btn .spinner-sm {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    .search-dropdown{position:fixed;top:0;left:0;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);box-shadow:var(--shadow-lg);max-height:380px;overflow-y:auto;display:none;z-index:10001;}
+    .search-dropdown.open{display:block;}
+    .search-item{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:var(--transition);}
+    .search-item:hover{background:var(--accent-bg);}
+    .search-item-img{width:40px;height:40px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--gray-100);display:flex;align-items:center;justify-content:center;position:relative;}
+    .search-item-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+    .search-item-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:8px;}
+    .search-item-info{flex:1;min-width:0;}
+    .search-item-name{font-size:.875rem;font-weight:600;color:var(--gray-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .search-item-cat{font-size:.7rem;color:var(--gray-400);}
+    .search-empty{padding:24px;text-align:center;color:var(--gray-400);font-size:.85rem;}
+
+    .legal-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.55);overflow-y:auto;}
+    .legal-modal.active{display:flex;justify-content:center;align-items:flex-start;padding:1.5rem;}
+    .legal-modal-box{background:#fff;max-width:800px;width:100%;border-radius:16px;padding:2.5rem;position:relative;animation:legalIn .3s ease;}
+    @keyframes legalIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    .legal-close{position:absolute;top:1rem;right:1rem;background:#F1F5F9;border:none;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748B;transition:.2s;}
+    .legal-close:hover{background:#E2E8F0;color:#1E293B;}
+    .legal-modal-box h1{font-size:1.6rem;font-weight:800;margin-bottom:1.5rem;color:#1E293B;padding-right:2rem;}
+    .legal-modal-box h2{font-size:1.1rem;font-weight:700;margin:1.5rem 0 .5rem;color:#334155;}
+    .legal-modal-box p,.legal-modal-box li{font-size:.92rem;color:#475569;line-height:1.7;margin-bottom:.5rem;}
+    .legal-modal-box ul{padding-left:1.5rem;margin-bottom:.75rem;}
+    .legal-modal-box ul li{margin-bottom:.3rem;}
+    .legal-updated{font-size:.78rem;color:#94A3B8;margin-bottom:1.5rem;}
+    @media(max-width:600px){
+      .legal-modal-box{padding:1.5rem;border-radius:12px;}
+      .legal-modal-box h1{font-size:1.3rem;}
+    }
+
+    @media (max-width: 768px) {
+      .ck-wrap {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 16px 0 100px;
+      }
+      .ck-right { order: -1; }
+      .ck-summary { position: static; }
+      .ck-row { grid-template-columns: 1fr; }
+      .ck-pay-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .ck-step-item span { display: none; }
+      .ck-steps { gap: 0; }
+      .ck-card-body { padding: 16px; }
+      .ck-pay-option { padding: 12px; }
+    }
+
+    @media (min-width: 769px) {
+      .ck-mobile-bar { display: none !important; }
+    }
+
+    @media (max-width: 480px) {
+      .ck-pay-grid { gap: 8px; }
+      .ck-pay-option { padding: 10px 12px; }
+      .ck-pi-header { gap: 10px; }
+      .ck-sum-total-value { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="header-top">
+        <a href="index.html" class="logo">
+          <img src="images/ilhamstore.png" alt="IlhamStore" width="36" height="36" onerror="this.style.display='none'; this.parentElement.style.gap='0'">
+          <span class="logo-text">Ilham<span>Store</span></span>
+        </a>
+        <div class="search-wrapper" id="searchWrapper">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
+            <button onclick="doSearch()" aria-label="Submit search"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="hdr-btn"><i class="fas fa-truck"></i><span>Track</span></a>
+          <a href="#" class="hdr-btn" aria-label="Account"><i class="fas fa-user"></i></a>
+          <button class="mobile-toggle" id="mobToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+      </div>
+      <div class="m-search">
+        <input type="text" id="mSearchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
+      </div>
+    </div>
+  </header>
+
+  <div class="search-dropdown" id="searchDropdown" role="listbox" aria-live="polite" aria-label="Search results"></div>
+
+  <nav class="nav-bar" id="navBar" aria-label="Main navigation">
+    <div class="container">
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="index.html#live-apps" class="nav-link"><i class="fas fa-mobile-screen"></i> Live Apps</a>
+      <a href="index.html#games" class="nav-link"><i class="fas fa-gamepad"></i> Games</a>
+      <a href="index.html#giftcards" class="nav-link"><i class="fas fa-gift"></i> Gift Cards</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="ck-steps">
+      <div class="ck-step-item done" id="step1">
+        <div class="ck-step-num"><i class="fas fa-check"></i></div>
+        <span>Select Product</span>
+      </div>
+      <div class="ck-step-line done"></div>
+      <div class="ck-step-item active" id="step2">
+        <div class="ck-step-num">2</div>
+        <span>Checkout</span>
+      </div>
+      <div class="ck-step-line" id="stepLine2"></div>
+      <div class="ck-step-item" id="step3">
+        <div class="ck-step-num">3</div>
+        <span>Payment</span>
+      </div>
+      <div class="ck-step-line" id="stepLine3"></div>
+      <div class="ck-step-item" id="step4">
+        <div class="ck-step-num">4</div>
+        <span>Confirmed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="ck-wrap">
+
+      <div class="ck-left">
+
+        <div id="checkoutView">
+
+          <div class="ck-card" style="margin-bottom:20px;">
+            <div class="ck-card-head"><i class="fas fa-user-circle"></i> Billing Information</div>
+            <div class="ck-card-body">
+              <div class="ck-field">
+                <label><i class="fas fa-user"></i> Full Name <span class="req">*</span></label>
+                <input type="text" class="ck-input" id="ckName" placeholder="Enter your full name">
+              </div>
+              <div class="ck-row">
+                <div class="ck-field">
+                  <label><i class="fas fa-phone"></i> Phone Number <span class="req">*</span></label>
+                  <input type="tel" class="ck-input" id="ckPhone" placeholder="e.g., 0187066xxxx">
+                </div>
+                <div class="ck-field">
+                  <label><i class="fas fa-envelope"></i> Email Address <span class="req">*</span></label>
+                  <input type="email" class="ck-input" id="ckEmail" placeholder="you@gmail.com" oninput="updateSummaryDynamic()">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ck-card">
+            <div class="ck-card-head"><i class="fas fa-wallet"></i> Select Payment Method</div>
+            <div class="ck-card-body">
+
+              <div class="ck-notice ck-notice-blue">
+                <i class="fas fa-info-circle"></i>
+                <div class="ck-notice-text">
+                  পেমেন্ট করার জন্য প্রথমে আপনার পছন্দের পেমেন্ট মাধ্যম নির্বাচন করুন।<br>
+                  বিকাশ/নগদ/রকেট/উপায় — যেটি ব্যবহার করেছেন সেটি নির্বাচন করুন।
+                </div>
+              </div>
+
+              <div class="ck-pay-grid">
+                <div class="ck-pay-option" onclick="selectPayment('bkash', this)">
+                  <div class="ck-pay-icon pay-bkash">
+                    <img src="images/payments/bkash.png" alt="bKash" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="fallback" style="display:none;"><i class="fas fa-wallet"></i></div>
+                  </div>
+                  <div>
+                    <div class="ck-pay-name">bKash</div>
+                    <div class="ck-pay-type">Mobile Banking</div>
+                  </div>
+                </div>
+                <div class="ck-pay-option" onclick="selectPayment('nagad', this)">
+                  <div class="ck-pay-icon pay-nagad">
+                    <img src="images/payments/nagad.png" alt="Nagad" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="fallback" style="display:none;"><i class="fas fa-wallet"></i></div>
+                  </div>
+                  <div>
+                    <div class="ck-pay-name">Nagad</div>
+                    <div class="ck-pay-type">Mobile Banking</div>
+                  </div>
+                </div>
+                <div class="ck-pay-option" onclick="selectPayment('rocket', this)">
+                  <div class="ck-pay-icon pay-rocket">
+                    <img src="images/payments/rocket.png" alt="Rocket" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="fallback" style="display:none;"><i class="fas fa-wallet"></i></div>
+                  </div>
+                  <div>
+                    <div class="ck-pay-name">Rocket</div>
+                    <div class="ck-pay-type">Mobile Banking</div>
+                  </div>
+                </div>
+                <div class="ck-pay-option" onclick="selectPayment('upay', this)">
+                  <div class="ck-pay-icon pay-upay">
+                    <img src="images/payments/upay.png" alt="Upay" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="fallback" style="display:none;"><i class="fas fa-wallet"></i></div>
+                  </div>
+                  <div>
+                    <div class="ck-pay-name">Upay</div>
+                    <div class="ck-pay-type">Mobile Banking</div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="inlinePaymentInstructions" class="ck-pay-instruction">
+                <hr style="border:none;border-top:2px dashed var(--gray-200);margin:0 0 20px;">
+
+                <div class="ck-pi-header">
+                  <div class="ck-pay-icon ck-pi-icon" id="piIcon"></div>
+                  <div>
+                    <div class="ck-pi-title" id="piTitle">Payment</div>
+                    <div class="ck-pi-subtitle">নিচের নির্দেশনা অনুসরণ করে পেমেন্ট সম্পন্ন করুন</div>
+                  </div>
+                </div>
+
+                <div class="ck-pi-info">
+                  <div class="ck-pi-info-row">
+                    <span class="ck-pi-info-label"><i class="fas fa-hashtag"></i> Invoice ID</span>
+                    <span class="ck-pi-info-value" id="piInvoice">—</span>
+                  </div>
+                  <div class="ck-pi-info-row">
+                    <span class="ck-pi-info-label"><i class="fas fa-bangladeshi-taka-sign"></i> পেমেন্টের পরিমাণ</span>
+                    <span class="ck-pi-info-value" style="color:var(--ck-accent);font-size:1.15rem;" id="piAmount">৳0</span>
+                  </div>
+                  <div class="ck-pi-info-row">
+                    <span class="ck-pi-info-label"><i class="fas fa-user"></i> পাঠানোর ঠিকানা</span>
+                    <span class="ck-pi-info-value" id="piAccount">
+                      <span id="piAccountNum">—</span>
+                      <button class="ck-copy-btn" id="copyAccountBtn" onclick="copyAccount()">
+                        <i class="fas fa-copy"></i> Copy
+                      </button>
+                    </span>
+                  </div>
+                </div> 
+
+                <div class="ck-pi-steps" id="piSteps"></div>
+
+                <div class="ck-notice">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  <div class="ck-notice-text">
+                    <strong>গুরুত্বপূর্ণ:</strong> উপরে উল্লেখিত নম্বরে ঠিক <strong id="noticeAmount">৳0</strong> পাঠান। ভুল পরিমাণ হলে অর্ডার দেরি হতে পারে। পেমেন্ট যাচাই হওয়ার পর অর্ডার স্বয়ংক্রিয়ভাবে প্রসেস করা হবে।
+                  </div>
+                </div>
+
+                <div class="ck-txn-section">
+                  <div class="ck-txn-label"><i class="fas fa-mobile-screen"></i> আপনার <span id="piMethodLabel">bKash</span> নম্বর <span class="req" style="color:#DC2626;font-size:0.75rem;">*</span></div>
+                  <input type="tel" class="ck-txn-input" id="ckPayAccount" placeholder="e.g., 01712345678">
+                  <div class="ck-txn-hint">যে নম্বর থেকে টাকা পাঠিয়েছেন সেই নম্বরটি লিখুন</div>
+
+                  <hr class="ck-txn-divider">
+
+                  <div class="ck-txn-label"><i class="fas fa-hashtag"></i> Transaction ID (TrxID) <span class="req" style="color:#DC2626;font-size:0.75rem;">*</span></div>
+                  <input type="text" class="ck-txn-input" id="ckTxnId" placeholder="e.g., TXN123456789" style="text-transform:uppercase;">
+                  <div class="ck-txn-hint">টাকা পাঠানোর পর আপনি যে Transaction ID পেয়েছেন তা সঠিকভাবে লিখুন। ভুল Transaction ID প্রদান করলে অর্ডার যাচাই করা সম্ভব হবে না।</div>
+                </div>
+
+                <div class="ck-blocked-overlay" id="ckBlocked">
+                  <i class="fas fa-ban"></i>
+                  <span id="ckBlockedMsg">Duplicate Transaction ID detected!</span>
+                </div>
+
+                <div class="ck-sending" id="ckSending">
+                  <div class="spinner"></div>
+                  পেমেন্ট যাচাই করা হচ্ছে...
+                </div>
+
+                <button class="ck-verify-btn" id="verifyBtn" onclick="verifyPayment()">
+                  <i class="fas fa-check-circle"></i> Verify Payment
+                </button>
+
+                <div class="ck-secure" style="margin-top:14px;">
+                  <i class="fas fa-shield-halved"></i> নিরাপদ ও এনক্রিপ্টেড পেমেন্ট
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ck-right">
+        <div class="ck-summary">
+          <div class="ck-summary-head"><i class="fas fa-receipt"></i> Order Summary</div>
+          <div class="ck-summary-body" id="summaryBody"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ck-mobile-bar" id="mobileStickyBar">
+    <div class="ck-mobile-bar-inner">
+      <div class="ck-mb-total">
+        <span class="ck-mb-label">Total</span>
+        <span class="ck-mb-value" id="mobileTotalPrice">৳0</span>
+      </div>
+      <button class="ck-mobile-bar-btn" id="verifyBtnMobile" onclick="verifyPayment()">
+        <i class="fas fa-check-circle"></i> Verify Payment
+      </button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="f-logo">Ilham<span>Store</span></div>
+          <p>Top Up Instantly – Trusted by Thousands.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://t.me/Officialilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://www.youtube.com/@IlhamStoreOfficial" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Quick Links</h4><ul>
+          <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+          <li><a href="index.html#live-apps"><i class="fas fa-chevron-right"></i> Live Apps</a></li>
+          <li><a href="index.html#games"><i class="fas fa-chevron-right"></i> Games</a></li>
+          <li><a href="index.html#giftcards"><i class="fas fa-chevron-right"></i> Gift Cards</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#" onclick="openLegal('termsModal');return false;"><i class="fas fa-chevron-right"></i> Terms of Use</a></li>
+          <li><a href="#" onclick="openLegal('privacyModal');return false;"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+          <li><a href="#" onclick="openLegal('refundModal');return false;"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+          <li><a href="#" onclick="openLegal('faqModal');return false;"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Contact</h4><ul>
+          <li><a href="mailto:support.ilhamstore@gmail.com"><i class="fas fa-envelope"></i> support.ilhamstore@gmail.com</a></li>
+          <li><a href="https://t.me/Officialilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i> Telegram</a></li>
+          <li><a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-messenger"></i> Messenger</a></li>
+          <li><a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook Page</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-pay">
+        <div class="fp-item"><i class="fas fa-wallet"></i> bKash</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Nagad</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Rocket</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Upay</div>
+      </div>
+      <div class="footer-bottom">&copy; <span id="footerYear"></span> IlhamStore.com — All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- LEGAL MODALS -->
+  <div class="legal-modal" id="termsModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('termsModal')" aria-label="Close">&times;</button>
+      <h1>Terms of Use</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing and using IlhamStore ("the Service"), you agree to be bound by these Terms of Use.</p>
+      <h2>2. Service Description</h2>
+      <p>IlhamStore provides digital top-up services, game credits, and gift cards. All products are delivered digitally.</p>
+      <h2>3. User Responsibilities</h2>
+      <ul><li>You must provide accurate account information when placing an order.</li><li>You are responsible for verifying correct game ID before purchase.</li><li>You must not use our services for illegal purposes.</li></ul>
+      <h2>4. Payment Terms</h2>
+      <p>All payments must be made through bKash, Nagad, Rocket, or Upay. Prices are in BDT.</p>
+      <h2>5. Delivery</h2>
+      <p>Most top-ups are delivered instantly or within minutes. Some may take up to 24 hours.</p>
+      <h2>6. Contact</h2>
+      <p>Contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="privacyModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('privacyModal')" aria-label="Close">&times;</button>
+      <h1>Privacy Policy</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Information We Collect</h2>
+      <p>We collect personal information, account information, and technical data to provide our Service.</p>
+      <h2>2. How We Use Your Information</h2>
+      <p>To process orders, communicate updates, provide support, and prevent fraud.</p>
+      <h2>3. Data Security</h2>
+      <p>We implement SSL encryption and secure payment gateways to protect your data.</p>
+      <h2>4. Contact</h2>
+      <p>Contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="refundModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('refundModal')" aria-label="Close">&times;</button>
+      <h1>Refund Policy</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Eligibility for Refund</h2>
+      <ul><li>Order not delivered within 24 hours.</li><li>Delivered product is incorrect.</li><li>Technical error on our end.</li></ul>
+      <h2>2. Non-Refundable Items</h2>
+      <ul><li>Incorrect account ID provided.</li><li>Account is banned.</li><li>Gift cards already revealed or redeemed.</li></ul>
+      <h2>3. Contact</h2>
+      <p>Contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="faqModal" role="dialog" aria-modal="true">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('faqModal')" aria-label="Close">&times;</button>
+      <h1>Frequently Asked Questions</h1>
+      <h2>How does top-up work?</h2>
+      <p>Select product, choose package, enter ID, complete payment.</p>
+      <h2>How long does delivery take?</h2>
+      <p>Most orders delivered instantly or within 5-15 minutes.</p>
+      <h2>What payment methods do you accept?</h2>
+      <p>bKash, Nagad, Rocket, and Upay.</p>
+      <h2>How can I contact support?</h2>
+      <p>Email: <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> or Telegram.</p>
+    </div>
+  </div>
+
+  <div class="chat-float">
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+    <div class="chat-options" id="chatOptions">
+      <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt"><div class="chat-opt-icon ms"><i class="fab fa-facebook-messenger"></i></div><span class="chat-opt-label">Messenger</span></a>
+      <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt"><div class="chat-opt-icon tg"><i class="fab fa-telegram-plane"></i></div><span class="chat-opt-label">Telegram</span></a>
+    </div>
+    <button class="chat-main-btn" id="chatToggle" onclick="toggleChat()" aria-label="Open chat options"><i class="fas fa-comments chat-icon"></i><i class="fas fa-times close-icon"></i></button>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+
+ <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    /* =============================================
+       SECURITY: Obfuscated Google Script URL
+       (Base64 Encoded to hide from scrapers viewing source code)
+       ============================================= */
+    const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3RjROTVFHWktvVENXVVctaGJHdjJsVFBNaGl5U0JCNjFXVzQ2MHlVaElfU205NXNqQkJIQi1hREd5ZTk1UWkySWkvZXhlYw==';
+    const GOOGLE_SHEET_URL = atob(_0x4f8a);
+    const API_SECRET='ILHS_SECRET_2025_X9K2M';
+
+    const paymentConfig = {
+      bkash: {
+        name: 'bKash',
+        img: 'images/payments/bkash.png',
+        fallbackIcon: 'fas fa-wallet',
+        iconClass: 'pay-bkash',
+        accountNumber: '01558086520',
+        accountLength: 11,
+        steps: [
+          { text: 'আপনার bKash মোবাইল মেনুতে <strong class="highlight">*247#</strong> ডায়াল করুন অথবা bKash অ্যাপ খুলুন' },
+          { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
+          { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01558086520</strong>' },
+          { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+          { text: 'আপনার bKash পিন দিয়ে কনফার্ম করুন' },
+          { text: 'সম্পন্ন! bKash থেকে কনফার্মেশন মেসেজে Transaction ID পাবেন' }
+        ]
+      },
+      nagad: {
+        name: 'Nagad',
+        img: 'images/payments/nagad.png',
+        fallbackIcon: 'fas fa-wallet',
+        iconClass: 'pay-nagad',
+        accountNumber: '01558086520',
+        accountLength: 11,
+        steps: [
+          { text: 'আপনার Nagad মোবাইল মেনুতে <strong class="highlight">*167#</strong> ডায়াল করুন অথবা Nagad অ্যাপ খুলুন' },
+          { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
+          { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01558086520</strong>' },
+          { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+          { text: 'আপনার Nagad পিন দিয়ে কনফার্ম করুন' },
+          { text: 'সম্পন্ন! Nagad থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
+        ]
+      },
+      rocket: {
+        name: 'Rocket',
+        img: 'images/payments/rocket.png',
+        fallbackIcon: 'fas fa-wallet',
+        iconClass: 'pay-rocket',
+        accountNumber: '015580865206',
+        accountLength: 12,
+        steps: [
+          { text: 'আপনার Rocket মোবাইল মেনুতে <strong class="highlight">*322#</strong> ডায়াল করুন অথবা Rocket অ্যাপ খুলুন' },
+          { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
+          { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">015580865206</strong>' },
+          { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+          { text: 'আপনার Rocket পিন দিয়ে কনফার্ম করুন' },
+          { text: 'সম্পন্ন! Rocket থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
+        ]
+      },
+      upay: {
+        name: 'Upay',
+        img: 'images/payments/upay.png',
+        fallbackIcon: 'fas fa-wallet',
+        iconClass: 'pay-upay',
+        accountNumber: '01709217102',
+        accountLength: 11,
+        steps: [
+          { text: 'আপনার Upay মোবাইল মেনুতে <strong class="highlight">*268#</strong> ডায়াল করুন অথবা Upay অ্যাপ খুলুন' },
+          { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
+          { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01709217102</strong>' },
+          { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+          { text: 'আপনার Upay পিন দিয়ে কনফার্ম করুন' },
+          { text: 'সম্পন্ন! Upay থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
+        ]
+      }
+    };
+
+    let orderData = null;
+    let selectedPayment = null;
+    let isVerifying = false;
+
+    function loadOrder() {
+      const stored = sessionStorage.getItem('cartStoreOrder');
+      if (!stored) { window.location.href = 'index.html'; return; }
+      try {
+        orderData = JSON.parse(stored);
+      } catch (e) {
+        sessionStorage.removeItem('cartStoreOrder');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      if (orderData.paymentStatus === 'Verifying' || orderData.paymentStatus === 'Confirmed') {
+        const verifiedAt = orderData.verifiedAt ? new Date(orderData.verifiedAt).getTime() : 0;
+        const elapsed = Date.now() - verifiedAt;
+        if (elapsed < 90000) {
+          window.location.replace('confirmation.html');
+          return;
+        }
+        sessionStorage.removeItem('cartStoreOrder');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      renderSummary();
+    }
+
+    function parseUserId(userId) {
+      if (!userId) return { id: '—', serverId: null };
+      const match = userId.match(/^(.+)\((\d+)\)$/);
+      if (match) return { id: match[1].trim(), serverId: match[2] };
+      return { id: userId, serverId: null };
+    }
+
+    function renderSummary() {
+      const container = document.getElementById('summaryBody');
+      if (!orderData) return;
+
+      const parsed = parseUserId(orderData.userId);
+      const methodName = selectedPayment
+        ? (paymentConfig[selectedPayment]?.name || '—')
+        : (orderData.paymentMethod ? (paymentConfig[orderData.paymentMethod]?.name || orderData.paymentMethod) : '—');
+      const email = orderData.billingEmail || '';
+
+      let html = '';
+      html += `<div class="ck-spam-notice"><i class="fas fa-envelope-circle-check"></i><div><strong>Please check your Spam/Junk folder!</strong> Our confirmation emails sometimes end up there. Add support.ilhamstore@gmail.com to your contacts to ensure you receive your delivery code.</div></div>`;
+      html += `<div class="ck-sum-product-badge"><i class="fas fa-bolt"></i> ${orderData.cat || 'Order'}</div>`;
+      html += `<div class="ck-sum-item"><span class="ck-sum-label">Product</span><span class="ck-sum-value">${orderData.product || '—'}</span></div>`;
+      html += `<div class="ck-sum-package-row"><div class="ck-sum-pkg-name"><span class="ck-sum-pkg-dot"></span>${orderData.package || '—'}</div><div class="ck-sum-pkg-price">৳${(orderData.unitPrice || 0).toLocaleString()}</div></div>`;
+      html += `<div class="ck-sum-item"><span class="ck-sum-label">User ID</span><span class="ck-sum-value" style="font-family:monospace;letter-spacing:0.04em;">${parsed.id}</span></div>`;
+      if (parsed.serverId) {
+        html += `<div class="ck-sum-item"><span class="ck-sum-label">Server ID</span><span class="ck-sum-value" style="font-family:monospace;">${parsed.serverId}</span></div>`;
+      }
+      if (orderData.quantity && orderData.quantity > 1) {
+        html += `<div class="ck-sum-item"><span class="ck-sum-label">Quantity</span><span class="ck-sum-value">×${orderData.quantity}</span></div>`;
+      }
+      html += `<div class="ck-sum-item"><span class="ck-sum-label">Email</span><span class="ck-sum-value" id="sumEmail">${email || '—'}</span></div>`;
+      html += `<div class="ck-sum-item"><span class="ck-sum-label">Payment</span><span class="ck-sum-value" id="sumPayment">${methodName}</span></div>`;
+      html += `<div class="ck-sum-item"><span class="ck-sum-label">Order ID</span><span class="ck-sum-value" style="font-family:monospace;font-size:0.72rem;">${orderData.orderId || '—'}</span></div>`;
+      html += `<div class="ck-sum-total"><span class="ck-sum-total-label">Total</span><span class="ck-sum-total-value">৳${(orderData.totalPrice || 0).toLocaleString()}</span></div>`;
+      html += `<div class="ck-sum-warning"><i class="fas fa-exclamation-circle"></i><span>ভুল তথ্য প্রদান করলে কর্তৃপক্ষ দায়ী নয়।</span></div>`;
+
+      container.innerHTML = html;
+
+      const mobilePrice = document.getElementById('mobileTotalPrice');
+      if (mobilePrice) mobilePrice.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+    }
+
+    function updateSummaryDynamic() {
+      const emailEl = document.getElementById('sumEmail');
+      if (emailEl) emailEl.textContent = document.getElementById('ckEmail')?.value?.trim() || '—';
+      const payEl = document.getElementById('sumPayment');
+      if (payEl) payEl.textContent = selectedPayment ? (paymentConfig[selectedPayment]?.name || '—') : '—';
+    }
+
+    function isValidEmail(email) {
+      const allowedDomains = ['gmail.com','yahoo.com','hotmail.com','outlook.com','live.com','icloud.com','me.com','aol.com','protonmail.com','proton.me'];
+      const emailRegex = /^[^\s@]+@([^\s@]+\.[^\s@]+)$/;
+      const match = email.match(emailRegex);
+      if (!match) return false;
+      return allowedDomains.includes(match[1].toLowerCase());
+    }
+
+    function selectPayment(method, el) {
+      const name = document.getElementById('ckName').value.trim();
+      const phone = document.getElementById('ckPhone').value.trim();
+      const email = document.getElementById('ckEmail').value.trim();
+
+      if (!name) { toast('Please enter your name first','error'); document.getElementById('ckName').focus(); return; }
+      if (!phone) { toast('Please enter your phone number first','error'); document.getElementById('ckPhone').focus(); return; }
+      if (!email) { toast('Please enter your email address first','error'); document.getElementById('ckEmail').focus(); return; }
+      if (!isValidEmail(email)) { toast('Please use a genuine email (Gmail, Yahoo, Outlook, etc.)','error'); document.getElementById('ckEmail').focus(); return; }
+
+      selectedPayment = method;
+      document.querySelectorAll('.ck-pay-option').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+      updateSummaryDynamic();
+
+      orderData.billingName = name;
+      orderData.billingPhone = phone;
+      orderData.billingEmail = email;
+      orderData.paymentMethod = selectedPayment;
+      sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+
+      renderPaymentView();
+      const instrEl = document.getElementById('inlinePaymentInstructions');
+      instrEl.style.display = 'block';
+      instrEl.className = 'ck-pay-instruction active';
+
+      document.getElementById('step2').className = 'ck-step-item done';
+      document.getElementById('step2').querySelector('.ck-step-num').innerHTML = '<i class="fas fa-check"></i>';
+      document.getElementById('stepLine2').className = 'ck-step-line done';
+      document.getElementById('step3').className = 'ck-step-item active';
+
+      document.getElementById('mobileStickyBar').classList.add('show');
+
+      setTimeout(() => instrEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+
+      sendToGoogleSheets('Checkout_Started');
+    }
+
+    function renderPaymentView() {
+      const config = paymentConfig[selectedPayment];
+      if (!config) return;
+
+      const iconEl = document.getElementById('piIcon');
+      iconEl.className = `ck-pay-icon ck-pi-icon ${config.iconClass}`;
+      iconEl.innerHTML = `<img src="${config.img}" alt="${config.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="fallback" style="display:none;"><i class="${config.fallbackIcon}"></i></div>`;
+
+      document.getElementById('piTitle').textContent = config.name + ' Payment';
+      document.getElementById('piMethodLabel').textContent = config.name;
+      document.getElementById('piInvoice').textContent = orderData.orderId || 'IS' + Date.now();
+      document.getElementById('piAmount').textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+      document.getElementById('piAccountNum').textContent = config.accountNumber;
+
+      const noticeAmountEl = document.getElementById('noticeAmount');
+      if (noticeAmountEl) noticeAmountEl.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+
+      const stepsHtml = config.steps.map((step, i) => `
+        <div class="ck-pi-step">
+          <div class="ck-pi-step-num">${i + 1}</div>
+          <div class="ck-pi-step-text">${step.text}</div>
+        </div>
+      `).join('');
+      document.getElementById('piSteps').innerHTML = stepsHtml;
+
+      const amountEl = document.getElementById('stepAmount');
+      if (amountEl) amountEl.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+
+      document.getElementById('ckPayAccount').value = '';
+      document.getElementById('ckPayAccount').placeholder = `যেমন: আপনার ${config.name} নম্বর (${config.accountLength} ডিজিট)`;
+      document.getElementById('ckTxnId').value = '';
+    }
+
+    function copyAccount() {
+      const num = document.getElementById('piAccountNum').textContent;
+      const btn = document.getElementById('copyAccountBtn');
+      navigator.clipboard.writeText(num).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        toast('অ্যাকাউন্ট নম্বর কপি হয়েছে!', 'success');
+        setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
+      }).catch(() => {
+        const ta = document.createElement('textarea'); ta.value = num;
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        toast('অ্যাকাউন্ট নম্বর কপি হয়েছে!', 'success');
+        setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
+      });
+    }
+
+    function resetVerifyUI() {
+      const verifyBtn = document.getElementById('verifyBtn');
+      if (verifyBtn) verifyBtn.style.display = 'flex';
+      const mobileBtn = document.getElementById('verifyBtnMobile');
+      if (mobileBtn) { mobileBtn.disabled = false; mobileBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Payment'; }
+      document.getElementById('ckSending').classList.remove('show');
+      document.getElementById('ckBlocked').classList.remove('show');
+      isVerifying = false;
+    }
+
+    async function sendToGoogleSheets(status) {
+      if (!GOOGLE_SHEET_URL) return null;
+
+      const config = selectedPayment ? paymentConfig[selectedPayment] : {};
+
+      const payload = {
+        secret: API_SECRET,
+        timestamp: orderData.timestamp || new Date().toISOString(),
+        orderId: orderData.orderId || '',
+        product: orderData.product || '',
+        package: orderData.package || '',
+        userId: orderData.userId || '',
+        quantity: orderData.quantity || '',
+        unitPrice: orderData.unitPrice || '',
+        totalPrice: orderData.totalPrice || '',
+        currency: orderData.currency || '',
+        category: orderData.cat || '',
+        billingName: orderData.billingName || '',
+        billingPhone: orderData.billingPhone || '',
+        billingEmail: orderData.billingEmail || '',
+        paymentMethod: config.name || orderData.paymentMethod || '',
+        paymentAccount: document.getElementById('ckPayAccount')?.value?.trim() || '',
+        transactionId: document.getElementById('ckTxnId')?.value?.trim() || '',
+        receiverAccount: config.accountNumber || '',
+        status: status
+      };
+
+      try {
+        const response = await fetch(GOOGLE_SHEET_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.result === 'success') {
+          console.log('✅ Data saved securely via POST');
+          if (result.verifyHash) {
+            orderData.serverVerifyHash = result.verifyHash;
+            sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+            console.log('🛡️ Server verify hash saved:', result.verifyHash);
+          }
+          return result;
+        } else {
+          console.error('❌ Server rejected:', result.message);
+          return result;
+        }
+      } catch (err) {
+        console.error('❌ Secure POST failed, using fallback:', err);
+        sendToGoogleSheetsFallback(status);
+        return null;
+      }
+    }
+
+    function sendToGoogleSheetsFallback(status) {
+      try {
+        const config = selectedPayment ? paymentConfig[selectedPayment] : {};
+        const params = new URLSearchParams({
+          timestamp: orderData.timestamp || new Date().toISOString(),
+          orderId: orderData.orderId || '',
+          product: orderData.product || '',
+          package: orderData.package || '',
+          userId: orderData.userId || '',
+          quantity: orderData.quantity || '',
+          unitPrice: orderData.unitPrice || '',
+          totalPrice: orderData.totalPrice || '',
+          currency: orderData.currency || '',
+          category: orderData.cat || '',
+          billingName: orderData.billingName || '',
+          billingPhone: orderData.billingPhone || '',
+          billingEmail: orderData.billingEmail || '',
+          paymentMethod: config.name || orderData.paymentMethod || '',
+          paymentAccount: document.getElementById('ckPayAccount')?.value?.trim() || '',
+          transactionId: document.getElementById('ckTxnId')?.value?.trim() || '',
+          receiverAccount: config.accountNumber || '',
+          status: status
+        });
+        const img = new Image();
+        img.src = GOOGLE_SHEET_URL + '?' + params.toString();
+        console.log('✅ Fallback sent via GET pixel');
+      } catch (e) {
+        console.error('❌ Fallback error:', e);
+      }
+    }
+
+    async function verifyPayment() {
+      if (isVerifying) return;
+
+      const name = document.getElementById('ckName').value.trim();
+      const phone = document.getElementById('ckPhone').value.trim();
+      const email = document.getElementById('ckEmail').value.trim();
+
+      if (!name) { toast('Please enter your name','error'); document.getElementById('ckName').focus(); return; }
+      if (!phone) { toast('Please enter your phone number','error'); document.getElementById('ckPhone').focus(); return; }
+      if (!email) { toast('Please enter your email address','error'); document.getElementById('ckEmail').focus(); return; }
+      if (!isValidEmail(email)) { toast('Please use a genuine email (Gmail, Yahoo, Outlook, etc.)','error'); document.getElementById('ckEmail').focus(); return; }
+
+      const payAccount = document.getElementById('ckPayAccount').value.trim();
+      const txnId = document.getElementById('ckTxnId').value.trim().toUpperCase();
+
+      if (!payAccount) {
+        toast('আপনার ' + (paymentConfig[selectedPayment]?.name || 'payment') + ' নম্বর লিখুন', 'error');
+        document.getElementById('ckPayAccount').focus();
+        return;
+      }
+
+      const numRule = paymentConfig[selectedPayment];
+      if (!/^\d+$/.test(payAccount)) {
+        toast(numRule.name + ' নম্বর শুধুমাত্র সংখ্যা হতে হবে!', 'error');
+        document.getElementById('ckPayAccount').focus();
+        return;
+      }
+      if (payAccount.length !== numRule.accountLength) {
+        toast(numRule.name + ' নম্বর ঠিক ' + numRule.accountLength + ' ডিজিটের হতে হবে! আপনি ' + payAccount.length + ' ডিজিট দিয়েছেন।', 'error');
+        document.getElementById('ckPayAccount').focus();
+        return;
+      }
+
+      if (!txnId) {
+        toast('Transaction ID লিখুন', 'error');
+        document.getElementById('ckTxnId').focus();
+        return;
+      }
+      if (txnId.length < 8 || !/^[a-zA-Z0-9]+$/.test(txnId)) {
+        toast('Transaction ID সঠিক নয়। আপনার মেসেজ থেকে সঠিক ID লিখুন।', 'error');
+        document.getElementById('ckTxnId').focus();
+        return;
+      }
+
+      isVerifying = true;
+
+      const sendEl = document.getElementById('ckSending');
+      const btnEl = document.getElementById('verifyBtn');
+      const mobileBtn = document.getElementById('verifyBtnMobile');
+      const blockedEl = document.getElementById('ckBlocked');
+      const blockedMsg = document.getElementById('ckBlockedMsg');
+
+      blockedEl.classList.remove('show');
+
+      sendEl.classList.add('show');
+      btnEl.style.display = 'none';
+      if (mobileBtn) {
+        mobileBtn.disabled = true;
+        mobileBtn.innerHTML = '<div class="spinner-sm"></div> যাচাই হচ্ছে...';
+      }
+
+      orderData.billingName = name;
+      orderData.billingPhone = phone;
+      orderData.billingEmail = email;
+      orderData.paymentAccount = payAccount;
+      orderData.transactionId = txnId;
+      orderData.paymentStatus = 'Verifying';
+      orderData.verifiedAt = new Date().toISOString();
+      orderData.paymentMethodName = paymentConfig[selectedPayment]?.name || selectedPayment;
+      orderData.receiverAccount = paymentConfig[selectedPayment]?.accountNumber || '';
+
+      sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+
+      const serverResult = await sendToGoogleSheets('Verifying');
+
+      if (serverResult && serverResult.result !== 'success') {
+        const errMsg = serverResult.message || 'Server rejected the request';
+
+        if (errMsg.toLowerCase().includes('duplicate') || errMsg.toLowerCase().includes('already')) {
+          blockedMsg.textContent = '⚠️ এই Transaction ID আগেই ব্যবহৃত হয়েছে! একই TrxID দুইবার ব্যবহার করা যাবে না।';
+          blockedEl.classList.add('show');
+          toast('⚠️ এই Transaction ID আগেই ব্যবহৃত হয়েছে!', 'error');
+        } else {
+          toast('❌ ' + errMsg, 'error');
+        }
+
+        resetVerifyUI();
+        return;
+      }
+
+      if (!serverResult) {
+        console.warn('⚠️ Server did not return a result (fallback used). No verifyHash available.');
+      }
+
+      setTimeout(() => {
+        sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+        window.location.replace('confirmation.html');
+      }, 800);
+    }
+
+    function openLegal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.legal-modal-box').scrollTop = 0;
+      modal.querySelector('.legal-close').focus();
+    }
+    function closeLegal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.legal-modal').forEach(m => {
+      m.addEventListener('click', function(e) {
+        if (e.target === this) closeLegal(this.id);
+      });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal.active').forEach(m => closeLegal(m.id));
+      }
+    });
+
+    const sInput = document.getElementById('searchInput');
+    const mInput = document.getElementById('mSearchInput');
+    const sDrop = document.getElementById('searchDropdown');
+
+    function runSearch(query) {
+      const q = query.trim().toLowerCase();
+      if (q.length < 2) { sDrop.classList.remove('open'); return; }
+      sDrop.innerHTML = '<div class="search-empty"><a href="index.html" style="color:var(--ck-accent);">Go to homepage to search</a></div>';
+      sDrop.classList.add('open');
+      if (window.innerWidth > 768) {
+        const wrapper = document.getElementById('searchWrapper');
+        if (wrapper && window.getComputedStyle(wrapper).display !== 'none') {
+            const rect = wrapper.getBoundingClientRect();
+            sDrop.style.position = 'fixed';
+            sDrop.style.top = (rect.bottom + 6) + 'px';
+            sDrop.style.left = rect.left + 'px';
+            sDrop.style.width = rect.width + 'px';
+            sDrop.style.right = 'auto';
+        }
+      } else {
+        const mRect = mInput.getBoundingClientRect();
+        sDrop.style.position = 'fixed';
+        sDrop.style.top = (mRect.bottom + 6) + 'px';
+        sDrop.style.left = '12px';
+        sDrop.style.right = '12px';
+        sDrop.style.width = 'auto';
+      }
+    }
+    sInput.addEventListener('input', function() { runSearch(this.value); });
+    mInput.addEventListener('input', function() { runSearch(this.value); });
+    
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-wrapper') && !e.target.closest('.m-search') && !e.target.closest('.search-dropdown')) sDrop.classList.remove('open');
+    });
+    function doSearch() { runSearch(sInput.value); sInput.focus(); }
+
+    const mobToggle = document.getElementById('mobToggle');
+    const navBar = document.getElementById('navBar');
+    mobToggle.addEventListener('click', () => {
+      navBar.classList.toggle('open');
+      mobToggle.querySelector('i').className = navBar.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+    });
+    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
+      navBar.classList.remove('open');
+      mobToggle.querySelector('i').className = 'fas fa-bars';
+    }));
+    document.addEventListener('click', function(e) {
+      if(navBar.classList.contains('open') && !e.target.closest('.nav-bar') && !e.target.closest('.mobile-toggle')){
+        navBar.classList.remove('open');
+        mobToggle.querySelector('i').className='fas fa-bars';
+      }
+    });
+
+    function toggleChat() {
+      document.getElementById('chatToggle').classList.toggle('open');
+      document.getElementById('chatOptions').classList.toggle('show');
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+    });
+
+    function toast(msg, type = '') {
+      const w = document.getElementById('toastWrap');
+      const t = document.createElement('div');
+      t.className = 'toast ' + type;
+      t.innerHTML = `<i class="fas ${type==='error'?'fa-exclamation-circle':type==='success'?'fa-check-circle':'fa-info-circle'}"></i> ${msg}`;
+      w.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(100%)';
+        t.style.transition = 'all 0.3s';
+        setTimeout(() => t.remove(), 300);
+      }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadOrder);
+  </script>
+
+  <!-- ===== SAFE ANTI-COPY & PROTECTION ===== -->
+  <style>
+    /* Disable text selection globally to prevent copying */
+    body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+    /* Allow selection ONLY in inputs so customers can paste IDs */
+    input, textarea, select { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
+    /* Disable image dragging */
+    img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; user-drag: none; -webkit-touch-callout: none; }
+  </style>
+  <script>
+    // Disable Right-Click Context Menu safely
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+    // Prevent Copy/Cut unless it's inside an input field
+    document.addEventListener('copy', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
+    document.addEventListener('cut', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
+    // Disable basic keyboard shortcuts for dev tools and view source
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
+      if (e.key === 'F12') { e.preventDefault(); return false; }
+      if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); return false; }
+      if (e.ctrlKey && (e.key === 's' || e.key === 'S')) { e.preventDefault(); return false; }
+    });
+  </script>
+</body>
+</html>
