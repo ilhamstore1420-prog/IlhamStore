@@ -70,9 +70,23 @@
     .pd-related-grid .p-tag.new{background:var(--accent);color:#fff}
     .pd-related-grid .p-tag.popular{background:#F59E0B;color:#fff}
 
-    .pd-order{background:var(--white);border:2px solid var(--gray-200);border-radius:20px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.04)}
+    /* ===== DESKTOP STICKY ORDER PANEL - FIXED ===== */
+    .pd-right{
+      position:sticky;
+      top:20px;
+      align-self:start;
+      /* NO max-height - let it flow naturally */
+    }
+    .pd-order{
+      background:var(--white);
+      border:2px solid var(--gray-200);
+      border-radius:20px;
+      overflow:visible; /* Changed from hidden to visible */
+      box-shadow:0 8px 24px rgba(0,0,0,0.04);
+      /* NO max-height, NO flex display - just a normal block */
+    }
     .pd-order-head{background:var(--gradient);color:var(--white);padding:18px 24px;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:10px}
-    .pd-order-body{padding:24px}
+    .pd-order-body{padding:24px; /* NO overflow-y:auto, NO max-height - normal flow */}
     .pd-field{margin-bottom:20px}
     .pd-field label{display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700;color:var(--gray-700);margin-bottom:8px}
     .pd-field label i{color:var(--accent);font-size:.75rem}
@@ -81,10 +95,7 @@
     .pd-input:focus{border-color:var(--accent);background:var(--white);box-shadow:0 0 0 4px rgba(124,58,237,.08)}
     .pd-input::placeholder{color:var(--gray-400)}
     
-    .pd-pkgs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:400px;overflow-y:auto;padding-right:4px}
-    .pd-pkgs::-webkit-scrollbar{width:4px}
-    .pd-pkgs::-webkit-scrollbar-track{background:var(--gray-100);border-radius:4px}
-    .pd-pkgs::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:4px}
+    .pd-pkgs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
     .pd-pkg{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:14px;background:var(--white);border:2px solid var(--gray-200);border-radius:14px;cursor:pointer;transition:all 0.25s ease;position:relative;box-shadow:0 1px 3px rgba(0,0,0,0.03)}
     .pd-pkg:hover{border-color:var(--accent-light);background:var(--accent-bg);box-shadow:0 4px 12px rgba(124,58,237,0.08)}
     .pd-pkg.selected{border-color:var(--accent);background:var(--accent-bg);box-shadow:0 0 0 3px rgba(124,58,237,0.15)}
@@ -99,7 +110,16 @@
     .pd-qty-btn:hover{background:var(--accent-bg);color:var(--accent)}
     .pd-qty-val{width:54px;height:44px;text-align:center;font-size:1rem;font-weight:700;color:var(--gray-800);border-left:2px solid var(--gray-200);border-right:2px solid var(--gray-200)}
     
-    .pd-price-box{background:var(--accent-bg);border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+    /* Price box - NORMAL position, not sticky */
+    .pd-price-box{
+      background:var(--accent-bg);
+      border:1px solid rgba(124,58,237,0.2);
+      border-radius:16px;
+      padding:16px 20px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:20px;
+      /* NO position:sticky - the whole panel is already sticky */
+    }
     .pp-left{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
     .pp-pkg{font-size:.92rem;font-weight:800;color:var(--primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .pp-label{font-size:.72rem;color:var(--gray-500);font-weight:500}
@@ -159,10 +179,14 @@
       .legal-modal-box h1{font-size:1.3rem;}
     }
 
+    /* ===== MOBILE: Reset everything to normal flow ===== */
     @media(max-width:768px){
       .pd-wrap{grid-template-columns:1fr;gap:0;padding:16px 0 32px}
       .pd-left,.pd-right{display:contents}
-
+      .pd-right{position:static;align-self:auto}
+      .pd-order{display:block}
+      .pd-order-body{padding:20px}
+      
       .pd-hero{order:1;margin-bottom:16px}
       .pd-hero-top{flex-direction:column;gap:16px;padding:16px;align-items:center}
       .pd-hero-img{width:100%;height:auto;aspect-ratio:1/1;max-width:260px;margin:0 auto;border-radius:16px;background:linear-gradient(160deg, #FAFAFE 0%, #F0F1F5 100%);box-shadow:0 4px 12px rgba(0,0,0,0.04);padding:32px;}
@@ -180,14 +204,12 @@
       .pd-hero-info .pd-cat{text-align:center}
       .pd-hero-info .pd-badges{justify-content:center}
       .why-grid{grid-template-columns:1fr 1fr}
-      .pd-order-body{padding:20px}
-      .pd-pkgs{max-height:350px}
     }
     @media(max-width:480px){
       .pd-related-grid{grid-template-columns:repeat(2,1fr);gap:10px}
       .pd-hero-info h1{font-size:1.05rem}
       .pd-order-body{padding:16px}
-      .pd-pkgs{grid-template-columns:repeat(2,1fr);gap:8px;max-height:300px}
+      .pd-pkgs{grid-template-columns:repeat(2,1fr);gap:8px}
       .pd-pkg{padding:12px 10px}
       .pd-pkg-name{font-size:.72rem;padding-right:22px}
       .pd-pkg-price{font-size:.8rem}
@@ -471,7 +493,6 @@
 
     /* =============================================
        SECURITY: Obfuscated Google Script URL
-       (Base64 Encoded to hide from scrapers viewing source code)
        ============================================= */
     const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3RjROTVFHWktvVENXVVctaGJHdjJsVFBNaGl5U0JCNjFXVzQ2MHlVaElfU205NXNqQkJIQi1hREd5ZTk1UWkySWkvZXhlYw==';
     const GOOGLE_SHEET_URL = atob(_0x4f8a);
@@ -532,39 +553,39 @@
        PRODUCT DATA
        ============================================= */
     const liveApps=[
-      {name:"Telegram Premium",id:"telegram",img:"images/products/telegram.png",icon:"fa-telegram",it:"fab",color:"#26A5E4",bg:"#F0F9FF",tag:"new",currency:"Stars/Premium",idLabel:"Telegram @username",idPlaceholder:"আপনার @username লিখুন",idHint:"আপনার Telegram ইউজারনাম দিন (যেমন @myname)।",videoId:"",desc:"Telegram Premium সাবস্ক্রিপশন ও Stars কিনুন।",whatIs:"Telegram একটি মেসেজিং অ্যাপ। Premium দিয়ে এক্সট্রা ফিচার পান, Stars দিয়ে বট ও চ্যানেলে পেমেন্ট করুন।",packages:[{l:"3 Months Premium",p:1780},{l:"6 Months Premium",p:2350},{l:"12 Months Premium",p:4180},{l:"50 Stars",p:125},{l:"75 Stars",p:190},{l:"100 Stars",p:250},{l:"150 Stars",p:390},{l:"250 Stars",p:620},{l:"350 Stars",p:850},{l:"500 Stars",p:1250}]}
+      {name:"Telegram Premium",id:"telegram",img:"images/products/telegram.png",icon:"fa-telegram",it:"fab",color:"#26A5E4",bg:"#F0F9FF",tag:"new",currency:"Stars/Premium",idLabel:"Telegram @username",idPlaceholder:"আপনার @username লিখুন",idHint:"আপনার Telegram ইউজারনাম দিন (যেমন @myname)।",videoId:"dQw4w9WgXcQ",desc:"Telegram Premium সাবস্ক্রিপশন ও Stars কিনুন।",whatIs:"Telegram একটি মেসেজিং অ্যাপ। Premium দিয়ে এক্সট্রা ফিচার পান, Stars দিয়ে বট ও চ্যানেলে পেমেন্ট করুন।",packages:[{l:"3 Months Premium",p:1780},{l:"6 Months Premium",p:2350},{l:"12 Months Premium",p:4180},{l:"50 Stars",p:125},{l:"75 Stars",p:190},{l:"100 Stars",p:250},{l:"150 Stars",p:390},{l:"250 Stars",p:620},{l:"350 Stars",p:850},{l:"500 Stars",p:1250}]}
     ];
 
     const games=[
-      {name:"Free Fire (BD)",id:"free-fire",img:"images/products/free-fire.png",icon:"fa-fire",color:"#DC2626",bg:"#FEF2F2",tag:"hot",currency:"Diamonds",idLabel:"Free Fire Player ID",idPlaceholder:"আপনার Free Fire Player ID লিখুন",idHint:"সঠিক করে আপনার Player ID দিন।",videoId:"",desc:"Free Fire ডায়মন্ড, মেম্বারশিপ, Level Up Pass ও Evo Access টপ-আপ।",whatIs:"Free Fire একটি ব্যাটল রয়্যাল গেম। ডায়মন্ড দিয়ে স্কিন, ক্যারেক্টার ও আইটেম কিনুন।",packages:[{l:"25 Diamonds",p:25},{l:"50 Diamonds",p:40},{l:"100 Diamonds",p:75},{l:"115 Diamonds",p:85},{l:"200 Diamonds",p:150},{l:"240 Diamonds",p:165},{l:"315 Diamonds",p:220},{l:"355 Diamonds",p:245},{l:"480 Diamonds",p:325},{l:"505 Diamonds",p:345},{l:"610 Diamonds",p:415},{l:"725 Diamonds",p:495},{l:"850 Diamonds",p:575},{l:"1,015 Diamonds",p:690},{l:"1,090 Diamonds",p:735},{l:"1,240 Diamonds",p:820},{l:"1,505 Diamonds",p:1000},{l:"1,850 Diamonds",p:1230},{l:"2,015 Diamonds",p:1350},{l:"2,530 Diamonds",p:1650},{l:"3,140 Diamonds",p:2060},{l:"3,770 Diamonds",p:2470},{l:"5,060 Diamonds",p:3300},{l:"7,590 Diamonds",p:4950},{l:"10,120 Diamonds",p:6600},{l:"12,650 Diamonds",p:8250},{l:"15,180 Diamonds",p:9900},{l:"20,240 Diamonds",p:13200},{l:"Weekly Lite",p:45},{l:"Weekly Membership",p:165},{l:"Monthly Membership",p:820},{l:"Weekly + Monthly",p:980},{l:"Evo 3 Days",p:75},{l:"Evo 7 Days",p:110},{l:"Evo 30 Days",p:325},{l:"Level Up Pass Lv.6",p:45},{l:"Level Up Pass Lv.10",p:70},{l:"Level Up Pass Lv.15",p:70},{l:"Level Up Pass Lv.20",p:70},{l:"Level Up Pass Lv.25",p:70},{l:"Level Up Pass Lv.30",p:100},{l:"Level Up Pass Lv.All",p:410}]},
-      {name:"Free Fire (ID)",id:"free-fire-id",img:"images/products/free-fire-id.png",icon:"fa-fire",color:"#DC2626",bg:"#FEF2F2",tag:"",currency:"Diamonds",idLabel:"Free Fire Indonesia Player ID",idPlaceholder:"আপনার Free Fire ID লিখুন",idHint:"সঠিক করে আপনার Player ID দিন।",videoId:"",desc:"Free Fire Indonesia ডায়মন্ড, Level Up Pass ও Membership টপ-আপ।",whatIs:"Free Fire Indonesia একটি ব্যাটল রয়্যাল গেম। ডায়মন্ড দিয়ে স্কিন ও আইটেম কিনুন।",packages:[{l:"5 Diamonds",p:15},{l:"10 Diamonds",p:20},{l:"20 Diamonds",p:35},{l:"50 Diamonds",p:65},{l:"70 Diamonds",p:90},{l:"100 Diamonds",p:125},{l:"140 Diamonds",p:170},{l:"200 Diamonds",p:245},{l:"280 Diamonds",p:340},{l:"355 Diamonds",p:420},{l:"405 Diamonds",p:480},{l:"500 Diamonds",p:590},{l:"720 Diamonds",p:830},{l:"1,000 Diamonds",p:1160},{l:"1,440 Diamonds",p:1650},{l:"2,160 Diamonds",p:2470},{l:"2,880 Diamonds",p:3290},{l:"3,600 Diamonds",p:4110},{l:"Level Up Pass Lv.6",p:50},{l:"Level Up Pass Lv.10",p:85},{l:"Level Up Pass Lv.15",p:85},{l:"Level Up Pass Lv.20",p:85},{l:"Level Up Pass Lv.25",p:85},{l:"Level Up Pass Lv.30",p:125},{l:"Level Up Pass Lv.All",p:490},{l:"BP Card",p:390},{l:"Weekly Membership",p:240},{l:"Monthly Membership",p:750}]},
-      {name:"PUBG Mobile (BD)",id:"pubg",img:"images/products/pubg.png",icon:"fa-crosshairs",color:"#D97706",bg:"#FFFBEB",tag:"hot",currency:"UC",idLabel:"PUBG Mobile ID",idPlaceholder:"আপনার PUBG Mobile ID লিখুন",idHint:"PUBG খুলুন → Profile → আইডি কপি করুন।",videoId:"",desc:"PUBG Mobile UC, Prime, Prime Plus, Elite Pass ও স্পেশাল প্যাক টপ-আপ।",whatIs:"PUBG Mobile একটি ব্যাটল রয়্যাল গেম। UC দিয়ে রয়্যাল পাস, স্কিন ও ক্যারেক্টার কিনুন।",packages:[{l:"60 UC",p:125},{l:"120 UC",p:250},{l:"180 UC",p:370},{l:"240 UC",p:495},{l:"325 UC",p:615},{l:"385 UC",p:740},{l:"660 UC",p:1230},{l:"985 UC",p:1840},{l:"1,800 UC",p:3075},{l:"2,460 UC",p:4300},{l:"3,850 UC",p:6150},{l:"8,100 UC",p:12300},{l:"Prime 1 Month",p:125},{l:"Prime 3 Months",p:370},{l:"Prime 6 Months",p:740},{l:"Prime 12 Months",p:1480},{l:"Prime Plus 1 Month",p:1230},{l:"Prime Plus 6 Months",p:7350},{l:"Prime Plus 12 Months",p:14650}]},
-      {name:"PUBG Lite",id:"pubg-lite",img:"images/products/pubg-lite.png",icon:"fa-crosshairs",color:"#92400E",bg:"#FFFBEB",tag:"",currency:"BC",idLabel:"PUBG Lite ID",idPlaceholder:"আপনার PUBG Lite ID লিখুন",idHint:"সঠিক করে আপনার PUBG Lite ID দিন।",videoId:"",desc:"PUBG Lite BC টপ-আপ।",whatIs:"PUBG Lite একটি লাইটওয়েট ব্যাটল রয়্যাল গেম।",packages:[{l:"30 BC",p:55},{l:"63 BC",p:110},{l:"340 BC",p:500},{l:"690 BC",p:1000},{l:"1875 BC",p:2500},{l:"4000 BC",p:4850}]},
-      {name:"Blood Strike",id:"blood-strike",img:"images/products/blood-strike.png",icon:"fa-skull-crossbones",color:"#991B1B",bg:"#FEF2F2",tag:"new",currency:"Golds/Pass",idLabel:"Blood Strike ID",idPlaceholder:"আপনার Blood Strike ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"Blood Strike গোল্ড, পাস ও স্পেশাল আইটেম টপ-আপ।",whatIs:"Blood Strike একটি FPS গেম। গোল্ড দিয়ে অস্ত্র ও স্কিন কিনুন।",packages:[{l:"Strike Pass Elite",p:470},{l:"Strike Pass Elite Plus",p:1050},{l:"Level Up Pass",p:235},{l:"105 Golds",p:120},{l:"210 Golds",p:235},{l:"320 Golds",p:350},{l:"540 Golds",p:585},{l:"1100 Golds",p:1180},{l:"2260 Golds",p:2350},{l:"5800 Golds",p:5850}]},
-      {name:"FC Mobile",id:"fc-mobile",img:"images/products/fc-mobile.png",icon:"fa-futbol",color:"#16A34A",bg:"#F0FDF4",tag:"",currency:"Points/Silver",idLabel:"FC Mobile ID",idPlaceholder:"আপনার FC Mobile ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"FC Mobile Point ও Silver টপ-আপ।",whatIs:"EA Sports FC Mobile একটি ফুটবল গেম।",packages:[{l:"40 Points",p:50},{l:"100 Points",p:155},{l:"520 Points",p:710},{l:"1070 Points",p:1445},{l:"2200 Points",p:2890},{l:"5750 Points",p:7250},{l:"12000 Points",p:14500},{l:"39 Silver",p:60},{l:"99 Silver",p:155},{l:"499 Silver",p:710},{l:"999 Silver",p:1445},{l:"1999 Silver",p:2890},{l:"4999 Silver",p:7250},{l:"9999 Silver",p:14500}]},
-      {name:"Modern Strike",id:"modern-strike",img:"images/products/modern-strike.png",icon:"fa-crosshairs",color:"#475569",bg:"#F8FAFC",tag:"",currency:"Credits/Gold",idLabel:"Modern Strike ID",idPlaceholder:"আপনার Modern Strike ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"Modern Strike VIP, Credits ও Gold টপ-আপ।",whatIs:"Modern Strike Online একটি FPS মাল্টিপ্লেয়ার গেম।",packages:[{l:"VIP 7 Days",p:395},{l:"VIP 14 Days",p:620},{l:"VIP 30 Days",p:960},{l:"VIP 60 Days",p:1380},{l:"Battle Pass Premium",p:760},{l:"10,000 Credits",p:550},{l:"10,000 Gold",p:740},{l:"16,000 Gold",p:1070},{l:"25,000 Credits",p:1070},{l:"55,000 Credits",p:1680},{l:"35,000 Gold",p:1980},{l:"100,000 Credits",p:2450}]},
-      {name:"Mobile Legends",id:"mobile-legends",img:"images/products/mobile-legends.png",icon:"fa-shield-halved",color:"#2563EB",bg:"#EFF6FF",tag:"hot",currency:"Diamonds",idLabel:"MLBB গেম আইডি (সার্ভার আইডি)",idPlaceholder:"গেম আইডি ও সার্ভার আইডি লিখুন (যেমন: 12345(1234))",idHint:"MLBB খুলুন → Profile → Game ID ও Server ID কপি করুন।",videoId:"",desc:"Mobile Legends ডায়মন্ড ও পাস টপ-আপ।",whatIs:"Mobile Legends: Bang Bang একটি MOBA গেম। ডায়মন্ড দিয়ে হিরো ও স্কিন কিনুন।",packages:[{l:"5 Diamonds",p:15},{l:"11 Diamonds",p:30},{l:"22 Diamonds",p:50},{l:"56 Diamonds",p:130},{l:"112 Diamonds",p:245},{l:"223 Diamonds",p:495},{l:"336 Diamonds",p:740},{l:"570 Diamonds",p:1230},{l:"1163 Diamonds",p:2450},{l:"Weekly Pass",p:220},{l:"Twilight Pass",p:1150}]},
-      {name:"Super Sus",id:"super-sus",img:"images/products/super-sus.png",icon:"fa-user-secret",color:"#7C3AED",bg:"#F5F3FF",tag:"new",currency:"Goldstar",idLabel:"Super Sus ID",idPlaceholder:"আপনার Super Sus ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"Super Sus Goldstar, কার্ড ও পাস টপ-আপ।",whatIs:"Super Sus একটি সোশ্যাল ডিডাকশন গেম।",packages:[{l:"100 Goldstar",p:120},{l:"310 Goldstar",p:360},{l:"520 Goldstar",p:610},{l:"1060 Goldstar",p:1190},{l:"2180 Goldstar",p:2350},{l:"5600 Goldstar",p:5800},{l:"Weekly Card",p:155},{l:"Monthly Card",p:1550},{l:"Super VIP Card",p:1700},{l:"Super Pass",p:780},{l:"Super Pass Bundle",p:1350}]},
-      {name:"Farlight 84",id:"farlight-84",img:"images/products/farlight-84.png",icon:"fa-jet-fighter",color:"#0891B2",bg:"#ECFEFF",tag:"",currency:"Diamonds",idLabel:"Farlight 84 ID",idPlaceholder:"আপনার Farlight 84 ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"Farlight 84 ডায়মন্ড টপ-আপ।",whatIs:"Farlight 84 একটি FPS ব্যাটল রয়্যাল গেম।",packages:[{l:"5 Diamonds",p:10},{l:"10 Diamonds",p:15},{l:"20 Diamonds",p:30},{l:"30 Diamonds",p:45},{l:"40 Diamonds",p:60},{l:"50 Diamonds",p:75},{l:"60 Diamonds",p:90},{l:"80 Diamonds",p:115},{l:"100 Diamonds",p:140},{l:"165 Diamonds",p:215},{l:"220 Diamonds",p:290},{l:"330 Diamonds",p:420},{l:"880 Diamonds",p:1100},{l:"2240 Diamonds",p:2850}]},
-      {name:"PUBG New State",id:"new-state",img:"images/products/new-state.png",icon:"fa-car",color:"#4338CA",bg:"#EEF2FF",tag:"",currency:"NC",idLabel:"New State Mobile ID",idPlaceholder:"আপনার New State ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"PUBG New State NC টপ-আপ।",whatIs:"PUBG NEW STATE একটি নেক্সট-জেন ব্যাটল রয়্যাল গেম।",packages:[{l:"300 NC",p:125},{l:"1580 NC",p:620},{l:"3850 NC",p:1480},{l:"10230 NC",p:3950},{l:"16800 NC",p:6200}]},
-      {name:"Valorant VP (BD)",id:"valorant",img:"images/products/valorant.png",icon:"fa-crosshairs",color:"#DC2626",bg:"#FEF2F2",tag:"popular",currency:"VP",idLabel:"Riot ID (Player#TAG)",idPlaceholder:"আপনার Riot ID লিখুন (যেমন: Player#TAG)",idHint:"Valorant → Profile → Riot ID কপি করুন।",videoId:"",desc:"Valorant VP টপ-আপ। তাৎক্ষণিক ডেলিভারি।",whatIs:"Valorant একটি ট্যাকটিক্যাল FPS গেম। VP দিয়ে স্কিন ও ব্যাটল পাস কিনুন।",packages:[{l:"475 VP",p:690},{l:"1000 VP",p:1360},{l:"1520 VP",p:2040},{l:"2575 VP",p:3420},{l:"5350 VP",p:6850}]},
-      {name:"Delta Force BD",id:"delta-force",img:"images/products/delta-force.png",icon:"fa-jet-fighter",color:"#1E3A8A",bg:"#EFF6FF",tag:"new",currency:"Delta Coins",idLabel:"Delta Force Player ID",idPlaceholder:"আপনার Delta Force ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"Delta Force Delta Coins টপ-আপ। বোনাস কয়েন সহ।",whatIs:"Delta Force একটি ট্যাকটিক্যাল FPS গেম।",packages:[{l:"18 Coins",p:35},{l:"30 Coins",p:60},{l:"60 Coins",p:115},{l:"300+20 Coins",p:575},{l:"420+40 Coins",p:835},{l:"680+70 Coins",p:1150},{l:"1280+200 Coins",p:2300},{l:"1680+300 Coins",p:2850},{l:"3280+670 Coins",p:5700}]},
-      {name:"Modern Warships",id:"modern-warships",img:"images/products/modern-warships.png",icon:"fa-ship",color:"#1E40AF",bg:"#EFF6FF",tag:"",currency:"Gold/Dollars/Artcoins",idLabel:"Modern Warships ID",idPlaceholder:"আপনার Modern Warships ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"Modern Warships Gold, Dollars, Artcoins ও Premium টপ-আপ।",whatIs:"Modern Warships একটি নেভাল কমব্যাট গেম।",packages:[{l:"500 Gold",p:750},{l:"1200 Gold",p:1500},{l:"500,000 Dollars",p:500},{l:"1,500,000 Dollars",p:750},{l:"140 Artcoins",p:750},{l:"300 Artcoins",p:1500},{l:"Premium 7 Days",p:500},{l:"Premium 30 Days",p:1500}]},
-      {name:"FRAG Pro Shooter",id:"frag-pro-shooter",img:"images/products/frag.png",icon:"fa-crosshairs",color:"#7C3AED",bg:"#F5F3FF",tag:"",currency:"Items/Modules",idLabel:"FRAG Pro Shooter ID",idPlaceholder:"আপনার FRAG ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"",desc:"FRAG Pro Shooter আনলক অফার, মডিউল, চেস্ট ও পাস টপ-আপ।",whatIs:"FRAG Pro Shooter একটি হিরো শুটার গেম।",packages:[{l:"Unlock Stella for 1$",p:100},{l:"Common Deadly Weapon Module",p:205},{l:"Common Teamwork Module",p:205},{l:"Common One Man Army Module",p:205},{l:"Common Survival Module",p:205},{l:"Small Seasonal Wheel Offer Plus",p:510},{l:"Rare One Man Army Module",p:510},{l:"Rare Teamwork Module",p:510},{l:"Epic Augment Core",p:510},{l:"Rare Augment Blueprint",p:510},{l:"Rare Survival Module",p:510},{l:"Rare Deadly Weapon Module",p:510},{l:"Fortune Chest",p:610},{l:"Epic Equipment Chest",p:610},{l:"Small Queen Unicorn Unlock",p:710},{l:"Small Shade Unlock",p:710},{l:"Medium Seasonal Wheel Offer Plus",p:1000},{l:"Small Equipment Offer",p:1000},{l:"Legendary Augment Core",p:1500},{l:"Epic Survival Module",p:1500},{l:"Epic Deadly Weapon Module",p:1500},{l:"Epic One Man Army Module",p:1500},{l:"Epic Teamwork Module",p:1500},{l:"Large Seasonal Wheel Offer Plus",p:1990},{l:"Legendary Chest",p:1990},{l:"FRAG Pass Prestige Plus",p:1990},{l:"Legendary Equipment Chest",p:1990},{l:"Heavy Module Chest",p:1990},{l:"Big Queen Unicorn Unlock",p:1990},{l:"Expert Augment Chest",p:4950},{l:"Large Equipment Offer",p:4950},{l:"A Hoard of Gold",p:4950},{l:"A Vault of Chips",p:4950},{l:"Big Seasonal Wheel Offer Plus",p:4950},{l:"Blueprint Vault",p:4950},{l:"Legendary Survival Module",p:6900},{l:"Legendary Deadly Weapon Module",p:6900},{l:"Legendary Teamwork Module",p:6900},{l:"Legendary One Man Army Module",p:6900}]}
+      {name:"Free Fire (BD)",id:"free-fire",img:"images/products/free-fire.png",icon:"fa-fire",color:"#DC2626",bg:"#FEF2F2",tag:"hot",currency:"Diamonds",idLabel:"Free Fire Player ID",idPlaceholder:"আপনার Free Fire Player ID লিখুন",idHint:"সঠিক করে আপনার Player ID দিন।",videoId:"JGwWNGJdvx8",desc:"Free Fire ডায়মন্ড, মেম্বারশিপ, Level Up Pass ও Evo Access টপ-আপ।",whatIs:"Free Fire একটি ব্যাটল রয়্যাল গেম। ডায়মন্ড দিয়ে স্কিন, ক্যারেক্টার ও আইটেম কিনুন।",packages:[{l:"25 Diamonds",p:25},{l:"50 Diamonds",p:40},{l:"100 Diamonds",p:75},{l:"115 Diamonds",p:85},{l:"200 Diamonds",p:150},{l:"240 Diamonds",p:165},{l:"315 Diamonds",p:220},{l:"355 Diamonds",p:245},{l:"480 Diamonds",p:325},{l:"505 Diamonds",p:345},{l:"610 Diamonds",p:415},{l:"725 Diamonds",p:495},{l:"850 Diamonds",p:575},{l:"1,015 Diamonds",p:690},{l:"1,090 Diamonds",p:735},{l:"1,240 Diamonds",p:820},{l:"1,505 Diamonds",p:1000},{l:"1,850 Diamonds",p:1230},{l:"2,015 Diamonds",p:1350},{l:"2,530 Diamonds",p:1650},{l:"3,140 Diamonds",p:2060},{l:"3,770 Diamonds",p:2470},{l:"5,060 Diamonds",p:3300},{l:"7,590 Diamonds",p:4950},{l:"10,120 Diamonds",p:6600},{l:"12,650 Diamonds",p:8250},{l:"15,180 Diamonds",p:9900},{l:"20,240 Diamonds",p:13200},{l:"Weekly Lite",p:45},{l:"Weekly Membership",p:165},{l:"Monthly Membership",p:820},{l:"Weekly + Monthly",p:980},{l:"Evo 3 Days",p:75},{l:"Evo 7 Days",p:110},{l:"Evo 30 Days",p:325},{l:"Level Up Pass Lv.6",p:45},{l:"Level Up Pass Lv.10",p:70},{l:"Level Up Pass Lv.15",p:70},{l:"Level Up Pass Lv.20",p:70},{l:"Level Up Pass Lv.25",p:70},{l:"Level Up Pass Lv.30",p:100},{l:"Level Up Pass Lv.All",p:410}]},
+      {name:"Free Fire (ID)",id:"free-fire-id",img:"images/products/free-fire-id.png",icon:"fa-fire",color:"#DC2626",bg:"#FEF2F2",tag:"",currency:"Diamonds",idLabel:"Free Fire Indonesia Player ID",idPlaceholder:"আপনার Free Fire ID লিখুন",idHint:"সঠিক করে আপনার Player ID দিন।",videoId:"9bZkp7q19f0",desc:"Free Fire Indonesia ডায়মন্ড, Level Up Pass ও Membership টপ-আপ।",whatIs:"Free Fire Indonesia একটি ব্যাটল রয়্যাল গেম। ডায়মন্ড দিয়ে স্কিন ও আইটেম কিনুন।",packages:[{l:"5 Diamonds",p:15},{l:"10 Diamonds",p:20},{l:"20 Diamonds",p:35},{l:"50 Diamonds",p:65},{l:"70 Diamonds",p:90},{l:"100 Diamonds",p:125},{l:"140 Diamonds",p:170},{l:"200 Diamonds",p:245},{l:"280 Diamonds",p:340},{l:"355 Diamonds",p:420},{l:"405 Diamonds",p:480},{l:"500 Diamonds",p:590},{l:"720 Diamonds",p:830},{l:"1,000 Diamonds",p:1160},{l:"1,440 Diamonds",p:1650},{l:"2,160 Diamonds",p:2470},{l:"2,880 Diamonds",p:3290},{l:"3,600 Diamonds",p:4110},{l:"Level Up Pass Lv.6",p:50},{l:"Level Up Pass Lv.10",p:85},{l:"Level Up Pass Lv.15",p:85},{l:"Level Up Pass Lv.20",p:85},{l:"Level Up Pass Lv.25",p:85},{l:"Level Up Pass Lv.30",p:125},{l:"Level Up Pass Lv.All",p:490},{l:"BP Card",p:390},{l:"Weekly Membership",p:240},{l:"Monthly Membership",p:750}]},
+      {name:"PUBG Mobile (BD)",id:"pubg",img:"images/products/pubg.png",icon:"fa-crosshairs",color:"#D97706",bg:"#FFFBEB",tag:"hot",currency:"UC",idLabel:"PUBG Mobile ID",idPlaceholder:"আপনার PUBG Mobile ID লিখুন",idHint:"PUBG খুলুন → Profile → আইডি কপি করুন।",videoId:"kJQP7kiw5Fk",desc:"PUBG Mobile UC, Prime, Prime Plus, Elite Pass ও স্পেশাল প্যাক টপ-আপ।",whatIs:"PUBG Mobile একটি ব্যাটল রয়্যাল গেম। UC দিয়ে রয়্যাল পাস, স্কিন ও ক্যারেক্টার কিনুন।",packages:[{l:"60 UC",p:125},{l:"120 UC",p:250},{l:"180 UC",p:370},{l:"240 UC",p:495},{l:"325 UC",p:615},{l:"385 UC",p:740},{l:"660 UC",p:1230},{l:"985 UC",p:1840},{l:"1,800 UC",p:3075},{l:"2,460 UC",p:4300},{l:"3,850 UC",p:6150},{l:"8,100 UC",p:12300},{l:"Prime 1 Month",p:125},{l:"Prime 3 Months",p:370},{l:"Prime 6 Months",p:740},{l:"Prime 12 Months",p:1480},{l:"Prime Plus 1 Month",p:1230},{l:"Prime Plus 6 Months",p:7350},{l:"Prime Plus 12 Months",p:14650}]},
+      {name:"PUBG Lite",id:"pubg-lite",img:"images/products/pubg-lite.png",icon:"fa-crosshairs",color:"#92400E",bg:"#FFFBEB",tag:"",currency:"BC",idLabel:"PUBG Lite ID",idPlaceholder:"আপনার PUBG Lite ID লিখুন",idHint:"সঠিক করে আপনার PUBG Lite ID দিন।",videoId:"RgKAFK5djSk",desc:"PUBG Lite BC টপ-আপ।",whatIs:"PUBG Lite একটি লাইটওয়েট ব্যাটল রয়্যাল গেম।",packages:[{l:"30 BC",p:55},{l:"63 BC",p:110},{l:"340 BC",p:500},{l:"690 BC",p:1000},{l:"1875 BC",p:2500},{l:"4000 BC",p:4850}]},
+      {name:"Blood Strike",id:"blood-strike",img:"images/products/blood-strike.png",icon:"fa-skull-crossbones",color:"#991B1B",bg:"#FEF2F2",tag:"new",currency:"Golds/Pass",idLabel:"Blood Strike ID",idPlaceholder:"আপনার Blood Strike ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"fJ9rUzIMcZQ",desc:"Blood Strike গোল্ড, পাস ও স্পেশাল আইটেম টপ-আপ।",whatIs:"Blood Strike একটি FPS গেম। গোল্ড দিয়ে অস্ত্র ও স্কিন কিনুন।",packages:[{l:"Strike Pass Elite",p:470},{l:"Strike Pass Elite Plus",p:1050},{l:"Level Up Pass",p:235},{l:"105 Golds",p:120},{l:"210 Golds",p:235},{l:"320 Golds",p:350},{l:"540 Golds",p:585},{l:"1100 Golds",p:1180},{l:"2260 Golds",p:2350},{l:"5800 Golds",p:5850}]},
+      {name:"FC Mobile",id:"fc-mobile",img:"images/products/fc-mobile.png",icon:"fa-futbol",color:"#16A34A",bg:"#F0FDF4",tag:"",currency:"Points/Silver",idLabel:"FC Mobile ID",idPlaceholder:"আপনার FC Mobile ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"OPf0YbXqDm0",desc:"FC Mobile Point ও Silver টপ-আপ।",whatIs:"EA Sports FC Mobile একটি ফুটবল গেম।",packages:[{l:"40 Points",p:50},{l:"100 Points",p:155},{l:"520 Points",p:710},{l:"1070 Points",p:1445},{l:"2200 Points",p:2890},{l:"5750 Points",p:7250},{l:"12000 Points",p:14500},{l:"39 Silver",p:60},{l:"99 Silver",p:155},{l:"499 Silver",p:710},{l:"999 Silver",p:1445},{l:"1999 Silver",p:2890},{l:"4999 Silver",p:7250},{l:"9999 Silver",p:14500}]},
+      {name:"Modern Strike",id:"modern-strike",img:"images/products/modern-strike.png",icon:"fa-crosshairs",color:"#475569",bg:"#F8FAFC",tag:"",currency:"Credits/Gold",idLabel:"Modern Strike ID",idPlaceholder:"আপনার Modern Strike ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"hT_nvWreIhg",desc:"Modern Strike VIP, Credits ও Gold টপ-আপ।",whatIs:"Modern Strike Online একটি FPS মাল্টিপ্লেয়ার গেম।",packages:[{l:"VIP 7 Days",p:395},{l:"VIP 14 Days",p:620},{l:"VIP 30 Days",p:960},{l:"VIP 60 Days",p:1380},{l:"Battle Pass Premium",p:760},{l:"10,000 Credits",p:550},{l:"10,000 Gold",p:740},{l:"16,000 Gold",p:1070},{l:"25,000 Credits",p:1070},{l:"55,000 Credits",p:1680},{l:"35,000 Gold",p:1980},{l:"100,000 Credits",p:2450}]},
+      {name:"Mobile Legends",id:"mobile-legends",img:"images/products/mobile-legends.png",icon:"fa-shield-halved",color:"#2563EB",bg:"#EFF6FF",tag:"hot",currency:"Diamonds",idLabel:"MLBB গেম আইডি (সার্ভার আইডি)",idPlaceholder:"গেম আইডি ও সার্ভার আইডি লিখুন (যেমন: 12345(1234))",idHint:"MLBB খুলুন → Profile → Game ID ও Server ID কপি করুন।",videoId:"4NRXx6U8ABQ",desc:"Mobile Legends ডায়মন্ড ও পাস টপ-আপ।",whatIs:"Mobile Legends: Bang Bang একটি MOBA গেম। ডায়মন্ড দিয়ে হিরো ও স্কিন কিনুন।",packages:[{l:"5 Diamonds",p:15},{l:"11 Diamonds",p:30},{l:"22 Diamonds",p:50},{l:"56 Diamonds",p:130},{l:"112 Diamonds",p:245},{l:"223 Diamonds",p:495},{l:"336 Diamonds",p:740},{l:"570 Diamonds",p:1230},{l:"1163 Diamonds",p:2450},{l:"Weekly Pass",p:220},{l:"Twilight Pass",p:1150}]},
+      {name:"Super Sus",id:"super-sus",img:"images/products/super-sus.png",icon:"fa-user-secret",color:"#7C3AED",bg:"#F5F3FF",tag:"new",currency:"Goldstar",idLabel:"Super Sus ID",idPlaceholder:"আপনার Super Sus ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"pRpeEdMmmQ0",desc:"Super Sus Goldstar, কার্ড ও পাস টপ-আপ।",whatIs:"Super Sus একটি সোশ্যাল ডিডাকশন গেম।",packages:[{l:"100 Goldstar",p:120},{l:"310 Goldstar",p:360},{l:"520 Goldstar",p:610},{l:"1060 Goldstar",p:1190},{l:"2180 Goldstar",p:2350},{l:"5600 Goldstar",p:5800},{l:"Weekly Card",p:155},{l:"Monthly Card",p:1550},{l:"Super VIP Card",p:1700},{l:"Super Pass",p:780},{l:"Super Pass Bundle",p:1350}]},
+      {name:"Farlight 84",id:"farlight-84",img:"images/products/farlight-84.png",icon:"fa-jet-fighter",color:"#0891B2",bg:"#ECFEFF",tag:"",currency:"Diamonds",idLabel:"Farlight 84 ID",idPlaceholder:"আপনার Farlight 84 ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"YQHsXMglC9A",desc:"Farlight 84 ডায়মন্ড টপ-আপ।",whatIs:"Farlight 84 একটি FPS ব্যাটল রয়্যাল গেম।",packages:[{l:"5 Diamonds",p:10},{l:"10 Diamonds",p:15},{l:"20 Diamonds",p:30},{l:"30 Diamonds",p:45},{l:"40 Diamonds",p:60},{l:"50 Diamonds",p:75},{l:"60 Diamonds",p:90},{l:"80 Diamonds",p:115},{l:"100 Diamonds",p:140},{l:"165 Diamonds",p:215},{l:"220 Diamonds",p:290},{l:"330 Diamonds",p:420},{l:"880 Diamonds",p:1100},{l:"2240 Diamonds",p:2850}]},
+      {name:"PUBG New State",id:"new-state",img:"images/products/new-state.png",icon:"fa-car",color:"#4338CA",bg:"#EEF2FF",tag:"",currency:"NC",idLabel:"New State Mobile ID",idPlaceholder:"আপনার New State ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"CevxZvSJLk8",desc:"PUBG New State NC টপ-আপ।",whatIs:"PUBG NEW STATE একটি নেক্সট-জেন ব্যাটল রয়্যাল গেম।",packages:[{l:"300 NC",p:125},{l:"1580 NC",p:620},{l:"3850 NC",p:1480},{l:"10230 NC",p:3950},{l:"16800 NC",p:6200}]},
+      {name:"Valorant VP (BD)",id:"valorant",img:"images/products/valorant.png",icon:"fa-crosshairs",color:"#DC2626",bg:"#FEF2F2",tag:"popular",currency:"VP",idLabel:"Riot ID (Player#TAG)",idPlaceholder:"আপনার Riot ID লিখুন (যেমন: Player#TAG)",idHint:"Valorant → Profile → Riot ID কপি করুন।",videoId:"hY7m5jjJ9mM",desc:"Valorant VP টপ-আপ। তাৎক্ষণিক ডেলিভারি।",whatIs:"Valorant একটি ট্যাকটিক্যাল FPS গেম। VP দিয়ে স্কিন ও ব্যাটল পাস কিনুন।",packages:[{l:"475 VP",p:690},{l:"1000 VP",p:1360},{l:"1520 VP",p:2040},{l:"2575 VP",p:3420},{l:"5350 VP",p:6850}]},
+      {name:"Delta Force BD",id:"delta-force",img:"images/products/delta-force.png",icon:"fa-jet-fighter",color:"#1E3A8A",bg:"#EFF6FF",tag:"new",currency:"Delta Coins",idLabel:"Delta Force Player ID",idPlaceholder:"আপনার Delta Force ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"60ItHLz5WEA",desc:"Delta Force Delta Coins টপ-আপ। বোনাস কয়েন সহ।",whatIs:"Delta Force একটি ট্যাকটিক্যাল FPS গেম।",packages:[{l:"18 Coins",p:35},{l:"30 Coins",p:60},{l:"60 Coins",p:115},{l:"300+20 Coins",p:575},{l:"420+40 Coins",p:835},{l:"680+70 Coins",p:1150},{l:"1280+200 Coins",p:2300},{l:"1680+300 Coins",p:2850},{l:"3280+670 Coins",p:5700}]},
+      {name:"Modern Warships",id:"modern-warships",img:"images/products/modern-warships.png",icon:"fa-ship",color:"#1E40AF",bg:"#EFF6FF",tag:"",currency:"Gold/Dollars/Artcoins",idLabel:"Modern Warships ID",idPlaceholder:"আপনার Modern Warships ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"DyDfgMOUjCI",desc:"Modern Warships Gold, Dollars, Artcoins ও Premium টপ-আপ।",whatIs:"Modern Warships একটি নেভাল কমব্যাট গেম।",packages:[{l:"500 Gold",p:750},{l:"1200 Gold",p:1500},{l:"500,000 Dollars",p:500},{l:"1,500,000 Dollars",p:750},{l:"140 Artcoins",p:750},{l:"300 Artcoins",p:1500},{l:"Premium 7 Days",p:500},{l:"Premium 30 Days",p:1500}]},
+      {name:"FRAG Pro Shooter",id:"frag-pro-shooter",img:"images/products/frag.png",icon:"fa-crosshairs",color:"#7C3AED",bg:"#F5F3FF",tag:"",currency:"Items/Modules",idLabel:"FRAG Pro Shooter ID",idPlaceholder:"আপনার FRAG ID লিখুন",idHint:"সঠিক করে আপনার ID দিন।",videoId:"09R8_2nJtjg",desc:"FRAG Pro Shooter আনলক অফার, মডিউল, চেস্ট ও পাস টপ-আপ।",whatIs:"FRAG Pro Shooter একটি হিরো শুটার গেম।",packages:[{l:"Unlock Stella for 1$",p:100},{l:"Common Deadly Weapon Module",p:205},{l:"Common Teamwork Module",p:205},{l:"Common One Man Army Module",p:205},{l:"Common Survival Module",p:205},{l:"Small Seasonal Wheel Offer Plus",p:510},{l:"Rare One Man Army Module",p:510},{l:"Rare Teamwork Module",p:510},{l:"Epic Augment Core",p:510},{l:"Rare Augment Blueprint",p:510},{l:"Rare Survival Module",p:510},{l:"Rare Deadly Weapon Module",p:510},{l:"Fortune Chest",p:610},{l:"Epic Equipment Chest",p:610},{l:"Small Queen Unicorn Unlock",p:710},{l:"Small Shade Unlock",p:710},{l:"Medium Seasonal Wheel Offer Plus",p:1000},{l:"Small Equipment Offer",p:1000},{l:"Legendary Augment Core",p:1500},{l:"Epic Survival Module",p:1500},{l:"Epic Deadly Weapon Module",p:1500},{l:"Epic One Man Army Module",p:1500},{l:"Epic Teamwork Module",p:1500},{l:"Large Seasonal Wheel Offer Plus",p:1990},{l:"Legendary Chest",p:1990},{l:"FRAG Pass Prestige Plus",p:1990},{l:"Legendary Equipment Chest",p:1990},{l:"Heavy Module Chest",p:1990},{l:"Big Queen Unicorn Unlock",p:1990},{l:"Expert Augment Chest",p:4950},{l:"Large Equipment Offer",p:4950},{l:"A Hoard of Gold",p:4950},{l:"A Vault of Chips",p:4950},{l:"Big Seasonal Wheel Offer Plus",p:4950},{l:"Blueprint Vault",p:4950},{l:"Legendary Survival Module",p:6900},{l:"Legendary Deadly Weapon Module",p:6900},{l:"Legendary Teamwork Module",p:6900},{l:"Legendary One Man Army Module",p:6900}]}
     ];
 
     const giftCards=[
-      {name:"Discord Nitro",id:"discord-nitro",img:"images/products/discord.png",icon:"fa-discord",it:"fab",color:"#5865F2",bg:"#EEF2FF",tag:"hot",currency:"Nitro/Basic",videoId:"",desc:"Discord Nitro ও Nitro Basic সাবস্ক্রিপশন। পেমেন্টের পর ইমেইলে অ্যাক্টিভেশন লিংক পাঠানো হবে।",whatIs:"Discord একটি চ্যাট ও ভয়েস প্ল্যাটফর্ম। Nitro দিয়ে এমোজি, স্ট্রিম কোয়ালিটি ও আপলোড লিমিট বাড়ান।",packages:[{l:"Nitro 1 Month",p:1250},{l:"Nitro Basic 1 Month",p:600}]},
-      {name:"PUBG UC Card PIN",id:"pubg-uc-card",img:"images/products/pubg.png",icon:"fa-id-card",color:"#D97706",bg:"#FFFBEB",tag:"",currency:"UC PIN",videoId:"",desc:"PUBG Mobile UC PIN গিফট কার্ড। পেমেন্টের পর ইমেইলে PIN কোড পাঠানো হবে।",whatIs:"PUBG UC PIN একটি রিডিম কোড যা PUBG এ UC যোগ করতে ব্যবহৃত হয়।",packages:[{l:"60 UC PIN",p:130},{l:"120 UC PIN",p:260},{l:"325 UC PIN",p:610},{l:"385 UC PIN",p:790},{l:"660 UC PIN",p:1220},{l:"1800 UC PIN",p:3050},{l:"3850 UC PIN",p:6100},{l:"8100 UC PIN",p:12200}]},
-      {name:"NordVPN",id:"nordvpn",img:"images/products/nordvpn.png",icon:"fa-shield-halved",color:"#1E40AF",bg:"#EFF6FF",tag:"",currency:"Subscription",videoId:"",desc:"NordVPN Premium সাবস্ক্রিপশন। পেমেন্টের পর ইমেইলে লগইন ক্রেডেনশিয়াল পাঠানো হবে।",whatIs:"NordVPN একটি VPN সার্ভিস যা আপনার অনলাইন প্রাইভেসি ও সিকিউরিটি রক্ষা করে।",packages:[{l:"1 Month",p:1720},{l:"1 Year",p:7000}]},
-      {name:"UniPin Voucher",id:"unipin",img:"images/products/unipin.png",icon:"fa-ticket",color:"#6366F1",bg:"#EEF2FF",tag:"new",currency:"Voucher/UC",videoId:"",desc:"UniPin Voucher গিফট কার্ড। পেমেন্টের পর ইমেইলে রিডিম কোড পাঠানো হবে।",whatIs:"UniPin Voucher একটি ডিজিটাল ভাউচার যা PUBG Mobile, Free Fire সহ বিভিন্ন গেমে UC/ক্রেডিট রিডিম করতে ব্যবহৃত হয়।",packages:[{l:"UniPin 20 UC",p:25},{l:"UniPin 36 UC",p:40},{l:"UniPin 80 UC",p:85},{l:"UniPin 160 UC",p:165},{l:"UniPin 405 UC",p:420},{l:"UniPin 810 UC",p:830},{l:"UniPin 1625 UC",p:1650},{l:"UniPin 2000 UC",p:2020},{l:"Weekly UC",p:165},{l:"Monthly UC",p:830}]},
-      {name:"Garena Shells (SG)",id:"garena-shells",img:"images/products/garena-shells.png",icon:"fa-coins",color:"#F59E0B",bg:"#FFFBEB",tag:"hot",currency:"Shells",videoId:"",desc:"Garena Shells SG (BD Top Up)। পেমেন্টের পর ইমেইলে রিডিম কোড পাঠানো হবে।",whatIs:"Garena Shells হলো Garena প্ল্যাটফর্মের ভার্চুয়াল কারেন্সি।",packages:[{l:"50 Shells",p:135},{l:"100 Shells",p:265},{l:"250 Shells",p:665},{l:"500 Shells",p:1330},{l:"1,000 Shells",p:2650}]},
-      {name:"Roblox Robux",id:"roblox-robux",img:"images/products/roblox.png",icon:"fa-cube",color:"#E2231A",bg:"#FFF1F2",tag:"",currency:"Robux",videoId:"",desc:"Roblox Robux Gift Card Global। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Roblox Robux হলো Roblox প্ল্যাটফর্মের ভার্চুয়াল কারেন্সি যা গেমপাস, আইটেম ও আনলক করতে ব্যবহৃত হয়।",packages:[{l:"$10 USD",p:1300},{l:"$25 USD",p:3245},{l:"$50 USD",p:6450}]},
-      {name:"XBOX USA",id:"xbox-usa",img:"images/products/xbox.png",icon:"fa-xbox",it:"fab",color:"#107C10",bg:"#F0FDF4",tag:"",currency:"USD",videoId:"",desc:"XBOX USA Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"XBOX Gift Card দিয়ে Xbox Store থেকে গেম, অ্যাপ ও সাবস্ক্রিপশন কিনুন।",packages:[{l:"$5 USD",p:600},{l:"$10 USD",p:1150},{l:"$15 USD",p:1760},{l:"$20 USD",p:2250},{l:"$25 USD",p:2800}]},
-      {name:"Nintendo eShop US",id:"nintendo-eshop",img:"images/products/nintendo.png",icon:"fa-gamepad",color:"#E60012",bg:"#FFF1F2",tag:"",currency:"USD",videoId:"",desc:"Nintendo eShop US Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Nintendo eShop Gift Card দিয়ে Nintendo Switch গেম ও DLC কিনুন।",packages:[{l:"$10 USD",p:1390},{l:"$20 USD",p:2700},{l:"$35 USD",p:4650}]},
-      {name:"Steam Global",id:"steam-global",img:"images/products/steam.png",icon:"fa-steam",it:"fab",color:"#1B2838",bg:"#F8FAFC",tag:"",currency:"USD",videoId:"",desc:"Steam Global Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Steam Gift Card দিয়ে Steam Store থেকে গেম কিনুন।",packages:[{l:"$5 USD",p:780},{l:"$10 USD",p:1550},{l:"$20 USD",p:3100},{l:"$30 USD",p:4400}]},
-      {name:"Razer Gold",id:"razer-gold",img:"images/products/razer.png",icon:"fa-coins",color:"#00E000",bg:"#F0FDF4",tag:"",currency:"USD",videoId:"",desc:"Razer Gold Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Razer Gold দিয়ে বিভিন্ন গেমে আইটেম ও ক্রেডিট কিনুন।",packages:[{l:"$1 USD",p:135},{l:"$2 USD",p:270},{l:"$5 USD",p:670},{l:"$10 USD",p:1330},{l:"$20 USD",p:2650},{l:"$50 USD",p:6650}]},
-      {name:"Garena Shells (USD)",id:"garena-shells-usd",img:"images/products/garena-usd.png",icon:"fa-coins",color:"#F59E0B",bg:"#FFFBEB",tag:"",currency:"Shells",videoId:"",desc:"Garena Shells USD Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Garena Shells USD দিয়ে Garena গেমে আইটেম কিনুন।",packages:[{l:"$1 USD",p:135},{l:"$2 USD",p:265},{l:"$5 USD",p:665},{l:"$10 USD",p:1330},{l:"$20 USD",p:2630}]}
+      {name:"Discord Nitro",id:"discord-nitro",img:"images/products/discord.png",icon:"fa-discord",it:"fab",color:"#5865F2",bg:"#EEF2FF",tag:"hot",currency:"Nitro/Basic",videoId:"xCR1pM9jNOE",desc:"Discord Nitro ও Nitro Basic সাবস্ক্রিপশন। পেমেন্টের পর ইমেইলে অ্যাক্টিভেশন লিংক পাঠানো হবে।",whatIs:"Discord একটি চ্যাট ও ভয়েস প্ল্যাটফর্ম। Nitro দিয়ে এমোজি, স্ট্রিম কোয়ালিটি ও আপলোড লিমিট বাড়ান।",packages:[{l:"Nitro 1 Month",p:1250},{l:"Nitro Basic 1 Month",p:600}]},
+      {name:"PUBG UC Card PIN",id:"pubg-uc-card",img:"images/products/pubg.png",icon:"fa-id-card",color:"#D97706",bg:"#FFFBEB",tag:"",currency:"UC PIN",videoId:"HmZeIVkXYxQ",desc:"PUBG Mobile UC PIN গিফট কার্ড। পেমেন্টের পর ইমেইলে PIN কোড পাঠানো হবে।",whatIs:"PUBG UC PIN একটি রিডিম কোড যা PUBG এ UC যোগ করতে ব্যবহৃত হয়।",packages:[{l:"60 UC PIN",p:130},{l:"120 UC PIN",p:260},{l:"325 UC PIN",p:610},{l:"385 UC PIN",p:790},{l:"660 UC PIN",p:1220},{l:"1800 UC PIN",p:3050},{l:"3850 UC PIN",p:6100},{l:"8100 UC PIN",p:12200}]},
+      {name:"NordVPN",id:"nordvpn",img:"images/products/nordvpn.png",icon:"fa-shield-halved",color:"#1E40AF",bg:"#EFF6FF",tag:"",currency:"Subscription",videoId:"qbJ7qj9JQM4",desc:"NordVPN Premium সাবস্ক্রিপশন। পেমেন্টের পর ইমেইলে লগইন ক্রেডেনশিয়াল পাঠানো হবে।",whatIs:"NordVPN একটি VPN সার্ভিস যা আপনার অনলাইন প্রাইভেসি ও সিকিউরিটি রক্ষা করে।",packages:[{l:"1 Month",p:1720},{l:"1 Year",p:7000}]},
+      {name:"UniPin Voucher",id:"unipin",img:"images/products/unipin.png",icon:"fa-ticket",color:"#6366F1",bg:"#EEF2FF",tag:"new",currency:"Voucher/UC",videoId:"mM5a-FF3y6A",desc:"UniPin Voucher গিফট কার্ড। পেমেন্টের পর ইমেইলে রিডিম কোড পাঠানো হবে।",whatIs:"UniPin Voucher একটি ডিজিটাল ভাউচার যা PUBG Mobile, Free Fire সহ বিভিন্ন গেমে UC/ক্রেডিট রিডিম করতে ব্যবহৃত হয়।",packages:[{l:"UniPin 20 UC",p:25},{l:"UniPin 36 UC",p:40},{l:"UniPin 80 UC",p:85},{l:"UniPin 160 UC",p:165},{l:"UniPin 405 UC",p:420},{l:"UniPin 810 UC",p:830},{l:"UniPin 1625 UC",p:1650},{l:"UniPin 2000 UC",p:2020},{l:"Weekly UC",p:165},{l:"Monthly UC",p:830}]},
+      {name:"Garena Shells (SG)",id:"garena-shells",img:"images/products/garena-shells.png",icon:"fa-coins",color:"#F59E0B",bg:"#FFFBEB",tag:"hot",currency:"Shells",videoId:"E5bFMZj7c9I",desc:"Garena Shells SG (BD Top Up)। পেমেন্টের পর ইমেইলে রিডিম কোড পাঠানো হবে।",whatIs:"Garena Shells হলো Garena প্ল্যাটফর্মের ভার্চুয়াল কারেন্সি।",packages:[{l:"50 Shells",p:135},{l:"100 Shells",p:265},{l:"250 Shells",p:665},{l:"500 Shells",p:1330},{l:"1,000 Shells",p:2650}]},
+      {name:"Roblox Robux",id:"roblox-robux",img:"images/products/roblox.png",icon:"fa-cube",color:"#E2231A",bg:"#FFF1F2",tag:"",currency:"Robux",videoId:"kDxJtX1P3Yg",desc:"Roblox Robux Gift Card Global। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Roblox Robux হলো Roblox প্ল্যাটফর্মের ভার্চুয়াল কারেন্সি যা গেমপাস, আইটেম ও আনলক করতে ব্যবহৃত হয়।",packages:[{l:"$10 USD",p:1300},{l:"$25 USD",p:3245},{l:"$50 USD",p:6450}]},
+      {name:"XBOX USA",id:"xbox-usa",img:"images/products/xbox.png",icon:"fa-xbox",it:"fab",color:"#107C10",bg:"#F0FDF4",tag:"",currency:"USD",videoId:"z4MjJL8yHqM",desc:"XBOX USA Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"XBOX Gift Card দিয়ে Xbox Store থেকে গেম, অ্যাপ ও সাবস্ক্রিপশন কিনুন।",packages:[{l:"$5 USD",p:600},{l:"$10 USD",p:1150},{l:"$15 USD",p:1760},{l:"$20 USD",p:2250},{l:"$25 USD",p:2800}]},
+      {name:"Nintendo eShop US",id:"nintendo-eshop",img:"images/products/nintendo.png",icon:"fa-gamepad",color:"#E60012",bg:"#FFF1F2",tag:"",currency:"USD",videoId:"M7lc1UVf-VE",desc:"Nintendo eShop US Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Nintendo eShop Gift Card দিয়ে Nintendo Switch গেম ও DLC কিনুন।",packages:[{l:"$10 USD",p:1390},{l:"$20 USD",p:2700},{l:"$35 USD",p:4650}]},
+      {name:"Steam Global",id:"steam-global",img:"images/products/steam.png",icon:"fa-steam",it:"fab",color:"#1B2838",bg:"#F8FAFC",tag:"",currency:"USD",videoId:"tgbNymZ7vqY",desc:"Steam Global Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Steam Gift Card দিয়ে Steam Store থেকে গেম কিনুন।",packages:[{l:"$5 USD",p:780},{l:"$10 USD",p:1550},{l:"$20 USD",p:3100},{l:"$30 USD",p:4400}]},
+      {name:"Razer Gold",id:"razer-gold",img:"images/products/razer.png",icon:"fa-coins",color:"#00E000",bg:"#F0FDF4",tag:"",currency:"USD",videoId:"QH2-TGUlwu4",desc:"Razer Gold Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Razer Gold দিয়ে বিভিন্ন গেমে আইটেম ও ক্রেডিট কিনুন।",packages:[{l:"$1 USD",p:135},{l:"$2 USD",p:270},{l:"$5 USD",p:670},{l:"$10 USD",p:1330},{l:"$20 USD",p:2650},{l:"$50 USD",p:6650}]},
+      {name:"Garena Shells (USD)",id:"garena-shells-usd",img:"images/products/garena-usd.png",icon:"fa-coins",color:"#F59E0B",bg:"#FFFBEB",tag:"",currency:"Shells",videoId:"z9UZ1i6GHy8",desc:"Garena Shells USD Gift Card। পেমেন্টের পর ইমেইলে গিফট কার্ড কোড পাঠানো হবে।",whatIs:"Garena Shells USD দিয়ে Garena গেমে আইটেম কিনুন।",packages:[{l:"$1 USD",p:135},{l:"$2 USD",p:265},{l:"$5 USD",p:665},{l:"$10 USD",p:1330},{l:"$20 USD",p:2630}]}
     ];
 
     const allProducts=[...liveApps.map(p=>({...p,cat:"Live Apps"})),...games.map(p=>({...p,cat:"Games"})),...giftCards.map(p=>({...p,cat:"Gift Cards"}))];
@@ -615,7 +636,6 @@
       const titleEl=document.getElementById('pdHowTitle');
       const stepsEl=document.getElementById('pdHowSteps');
       let steps,icon,title;
-
       if(isGiftCard()){
         title='কিভাবে রিডিম করবেন';
         icon='fa-gift';
@@ -625,7 +645,6 @@
         icon='fa-list-ol';
         steps=howToRecharge;
       }
-
       titleEl.innerHTML=`<i class="fas ${icon}"></i> ${title}`;
       stepsEl.innerHTML=steps.map((s,i)=>`<div class="pd-step"><div class="pd-step-num">${i+1}</div><div class="pd-step-text"><strong>${s.t}</strong><span>${s.d}</span></div></div>`).join('');
     }
@@ -649,22 +668,13 @@
         const uid=document.getElementById('pdUserId').value.trim();
         if(!uid){toast('Please enter your '+(currentProduct.idLabel||'User ID'),'error');document.getElementById('pdUserId').focus();return}
       }
-
       const pkg=currentProduct.packages[selectedPkgIdx],tp=pkg.p*quantity,oid=generateOrderId();
       const od={
-        product:currentProduct.name,
-        productId:currentProduct.id,
-        package:pkg.l,
+        product:currentProduct.name,productId:currentProduct.id,package:pkg.l,
         userId:isGiftCard()?'Email Delivery':document.getElementById('pdUserId').value.trim(),
-        quantity:quantity,
-        unitPrice:pkg.p,
-        totalPrice:tp,
-        currency:currentProduct.currency||'',
-        cat:currentProduct.cat,
-        timestamp:new Date().toISOString(),
-        orderId:oid
+        quantity:quantity,unitPrice:pkg.p,totalPrice:tp,currency:currentProduct.currency||'',
+        cat:currentProduct.cat,timestamp:new Date().toISOString(),orderId:oid
       };
-
       sessionStorage.setItem('cartStoreOrder',JSON.stringify(od));
       document.getElementById('pdSending').classList.add('show');
       document.getElementById('pdSubmitBtn').style.display='none';
@@ -692,7 +702,6 @@
     document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.legal-modal.active').forEach(m=>closeLegal(m.id))}});
 
     const sInput=document.getElementById('searchInput'),mInput=document.getElementById('mSearchInput'),sDrop=document.getElementById('searchDropdown');
-
     function runSearch(query){
       const q=query.trim().toLowerCase();
       if(q.length<2){sDrop.classList.remove('open');return}
@@ -702,9 +711,7 @@
       if(!res.length){sDrop.innerHTML='<div class="search-empty">No results found</div>'}else{sDrop.innerHTML=res.slice(0,8).map(p=>{const it=p.it||'fas';return`<a href="product.html?id=${p.id}" class="search-item"><div class="search-item-img"><img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="search-item-fallback" style="display:none;background:${p.bg};color:${p.color};width:100%;height:100%;align-items:center;justify-content:center;border-radius:8px;"><i class="${it} ${p.icon}"></i></div></div><div class="search-item-info"><div class="search-item-name">${p.name}</div><div class="search-item-cat">${p.cat}</div></div></a>`}).join('')}
       if(window.innerWidth>768){positionDesktopDropdown()}else{const r=mInput.getBoundingClientRect();sDrop.style.position='fixed';sDrop.style.top=(r.bottom+6)+'px';sDrop.style.left='12px';sDrop.style.right='12px';sDrop.style.width='auto'}
     }
-
     function positionDesktopDropdown(){const w=document.getElementById('searchWrapper'),r=w.getBoundingClientRect();sDrop.style.position='fixed';sDrop.style.top=(r.bottom+6)+'px';sDrop.style.left=r.left+'px';sDrop.style.width=r.width+'px';sDrop.style.right='auto'}
-
     sInput.addEventListener('input',function(){runSearch(this.value)});
     sInput.addEventListener('keydown',function(e){if(e.key==='Enter'){const f=sDrop.querySelector('.search-item');if(f)f.click()}});
     sInput.addEventListener('focus',function(){if(this.value.trim().length>=2)runSearch(this.value)});
@@ -734,20 +741,14 @@
 
   <!-- ===== SAFE ANTI-COPY & PROTECTION ===== -->
   <style>
-    /* Disable text selection globally to prevent copying */
     body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-    /* Allow selection ONLY in inputs so customers can paste IDs */
     input, textarea, select { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
-    /* Disable image dragging */
     img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; user-drag: none; -webkit-touch-callout: none; }
   </style>
   <script>
-    // Disable Right-Click Context Menu safely
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
-    // Prevent Copy/Cut unless it's inside an input field
     document.addEventListener('copy', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
     document.addEventListener('cut', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
-    // Disable basic keyboard shortcuts for dev tools and view source (can be bypassed by advanced users, but stops basic users)
     document.addEventListener('keydown', function(e) {
       if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
       if (e.key === 'F12') { e.preventDefault(); return false; }
