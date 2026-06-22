@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IlhamStore – Top Up Instantly | Trusted by Thousands</title>
+  <meta name="description" content="Instant top-up for PUBG, Free Fire, Mobile Legends, and more. Buy gift cards and game credits. Fast delivery, secure payment.">
+  <link rel="canonical" href="https://ilhamstore.com/">
+  <meta name="theme-color" content="#172554">
+
+  <!-- Security: Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self';">
+
+  <!-- Anti-Scraping: Robots -->
+  <meta name="robots" content="index, follow, noarchive, max-snippet:-1">
+  <meta name="googlebot" content="index, follow, noarchive, max-snippet:-1">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="IlhamStore – Top Up Instantly">
+  <meta property="og:description" content="Instant top-up for PUBG, Free Fire, Mobile Legends, and more. Buy gift cards and game credits. Fast delivery, secure payment.">
+  <meta property="og:image" content="https://ilhamstore.com/images/og-banner.png">
+  <meta property="og:url" content="https://ilhamstore.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IlhamStore">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IlhamStore – Top Up Instantly">
+  <meta name="twitter:image" content="https://ilhamstore.com/images/og-banner.png">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"IlhamStore",
+    "url":"https://ilhamstore.com",
+    "logo":"https://ilhamstore.com/images/ilhamstore.png",
+    "contactPoint":{
+      "@type":"ContactPoint",
+      "email":"support.ilhamstore@gmail.com",
+      "contactType":"customer service"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/ilhamstore.png">
+  <link rel="apple-touch-icon" href="images/ilhamstore.png">
+
+  <!-- ===== SAFE ANTI-COPY CSS ===== -->
+  <style>
+    /* Disable text selection globally to prevent copying */
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    /* Allow selection ONLY in inputs so customers can paste IDs and Payment TrxIDs */
+    input, textarea, select {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+    /* Disable image dragging */
+    img {
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+      -webkit-touch-callout: none; /* Disable iOS image save popup */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Accessibility: Skip to Content -->
+  <a href="#games" class="skip-link">Skip to content</a>
+
+  <!-- ======== HEADER ======== -->
+  <header class="header">
+    <div class="container">
+      <div class="header-top">
+        <a href="/" class="logo">
+          <img src="images/ilhamstore.png" alt="IlhamStore" width="36" height="36" onerror="this.style.display='none'; this.parentElement.style.gap='0'">
+          <span class="logo-text">Ilham<span>Store</span></span>
+        </a>
+        <div class="search-wrapper" id="searchWrapper">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
+            <button onclick="doSearch()" aria-label="Submit search"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="hdr-btn"><i class="fas fa-truck"></i><span>Track</span></a>
+          <a href="#" class="hdr-btn" aria-label="Account"><i class="fas fa-user"></i></a>
+          <button class="mobile-toggle" id="mobToggle" aria-label="Toggle navigation menu"><i class="fas fa-bars"></i></button>
+        </div>
+      </div>
+      <div class="m-search">
+        <input type="text" id="mSearchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
+      </div>
+    </div>
+  </header>
+
+  <div class="search-dropdown" id="searchDropdown" role="listbox" aria-live="polite" aria-label="Search results"></div>
+
+  <!-- ======== NAV ======== -->
+  <nav class="nav-bar" id="navBar" aria-label="Main navigation">
+    <div class="container">
+      <a href="/" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+      <a href="#games" class="nav-link"><i class="fas fa-gamepad"></i> Games</a>
+      <a href="#giftcards" class="nav-link"><i class="fas fa-gift"></i> Gift Cards</a>
+      <a href="#live-apps" class="nav-link"><i class="fas fa-mobile-screen"></i> Live Apps</a>
+    </div>
+  </nav>
+
+  <!-- ===== SIMPLE TOP BANNER ===== -->
+  <div class="container">
+    <div class="simple-banner">
+      <img src="images/banner2.png" alt="IlhamStore Banner" width="1200" height="300">
+    </div>
+  </div>
+
+  <!-- ======== GAMES ======== -->
+  <section class="section" id="games">
+    <div class="container">
+      <div class="section-head">
+        <div class="s-icon"><i class="fas fa-gamepad"></i></div>
+        <h2>Games Top Up</h2>
+      </div>
+      <div class="p-grid" id="gamesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== SIMPLE GIFT CARDS BANNER ===== -->
+  <div class="container">
+    <div class="simple-banner">
+      <img src="images/banner.png" alt="Gift Cards Banner" width="1200" height="300">
+    </div>
+  </div>
+
+  <!-- ======== GIFT CARDS ======== -->
+  <section class="section" id="giftcards">
+    <div class="container">
+      <div class="section-head">
+        <div class="s-icon"><i class="fas fa-gift"></i></div>
+        <h2>Gift Cards</h2>
+      </div>
+      <div class="p-grid" id="gcGrid"></div>
+    </div>
+  </section>
+
+  <!-- ======== LIVE APPS ======== -->
+  <section class="section" id="live-apps">
+    <div class="container">
+      <div class="section-head">
+        <div class="s-icon"><i class="fas fa-mobile-screen"></i></div>
+        <h2>Live Apps</h2>
+      </div>
+      <div class="p-grid" id="liveAppsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ======== FEATURES ======== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" style="justify-content:center;">
+        <div class="s-icon"><i class="fas fa-star"></i></div>
+        <h2>Why Choose IlhamStore?</h2>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-rocket"></i></div>
+          <div class="feat-title">Instant Delivery</div>
+          <div class="feat-desc">Top-up or gift card delivered within seconds after payment.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-comments"></i></div>
+          <div class="feat-title">24/7 Support</div>
+          <div class="feat-desc">Telegram, Messenger & Live Chat available around the clock.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-lock"></i></div>
+          <div class="feat-title">Secure Payment</div>
+          <div class="feat-desc">Multiple gateways with SSL protection. Your data is safe.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-bolt"></i></div>
+          <div class="feat-title">Easy & Fast</div>
+          <div class="feat-desc">Clean design, no confusion. Top-up in just 3 simple steps.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="f-logo">Ilham<span>Store</span></div>
+          <p>Top Up Instantly – Trusted by Thousands. Your one-stop shop for digital top-ups, game credits, and gift cards.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://t.me/Officialilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://www.youtube.com/@IlhamStoreOfficial" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
+            <li><a href="#games"><i class="fas fa-chevron-right"></i> Games</a></li>
+            <li><a href="#giftcards"><i class="fas fa-chevron-right"></i> Gift Cards</a></li>
+            <li><a href="#live-apps"><i class="fas fa-chevron-right"></i> Live Apps</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#" onclick="openLegal('termsModal');return false;"><i class="fas fa-chevron-right"></i> Terms of Use</a></li>
+            <li><a href="#" onclick="openLegal('privacyModal');return false;"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+            <li><a href="#" onclick="openLegal('refundModal');return false;"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+            <li><a href="#" onclick="openLegal('faqModal');return false;"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:support.ilhamstore@gmail.com"><i class="fas fa-envelope"></i> support.ilhamstore@gmail.com</a></li>
+            <li><a href="https://t.me/Officialilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i> Telegram</a></li>
+            <li><a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-messenger"></i> Messenger</a></li>
+            <li><a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook Page</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-pay">
+        <div class="fp-item"><i class="fas fa-wallet"></i> bKash</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Nagad</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Rocket</div>
+        <div class="fp-item"><i class="fas fa-wallet"></i> Upay</div>
+      </div>
+      <div class="footer-bottom">&copy; <span id="footerYear"></span> IlhamStore.com — All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- ======== FLOATING CHAT ======== -->
+  <div class="chat-float">
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+
+    <div class="chat-options" id="chatOptions">
+      <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt">
+        <div class="chat-opt-icon ms"><i class="fab fa-facebook-messenger"></i></div>
+        <span class="chat-opt-label">Messenger</span>
+      </a>
+      <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt">
+        <div class="chat-opt-icon tg"><i class="fab fa-telegram-plane"></i></div>
+        <span class="chat-opt-label">Telegram</span>
+      </a>
+    </div>
+
+    <button class="chat-main-btn" id="chatToggle" aria-label="Open chat options">
+      <i class="fas fa-comments chat-icon"></i>
+      <i class="fas fa-times close-icon"></i>
+    </button>
+  </div>
+
+  <!-- ======== LEGAL PAGE MODALS ======== -->
+  <div class="legal-modal" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('termsModal')" aria-label="Close">&times;</button>
+      <h1 id="termsTitle">Terms of Use</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing and using IlhamStore ("the Service"), you agree to be bound by these Terms of Use. If you do not agree with any part of these terms, you must not use our Service.</p>
+      <h2>2. Service Description</h2>
+      <p>IlhamStore provides digital top-up services, game credits, gift cards. All products are delivered digitally. We do not sell physical goods.</p>
+      <h2>3. User Responsibilities</h2>
+      <ul>
+        <li>You must provide accurate account information when placing an order.</li>
+        <li>You are responsible for verifying the correct game ID, server, or account details before completing a purchase.</li>
+        <li>You must not use our services for any illegal or unauthorized purpose.</li>
+        <li>You must not attempt to resell our services without prior written consent.</li>
+      </ul>
+      <h2>4. Payment Terms</h2>
+      <p>All payments must be made through our supported payment methods (bKash, Nagad, Rocket, Upay). Prices are listed in Bangladeshi Taka (BDT) and are subject to change without prior notice. Payment must be received in full before delivery is processed.</p>
+      <h2>5. Delivery</h2>
+      <p>Most top-ups are delivered instantly or within a few minutes. Some orders may take up to 24 hours depending on server status or technical issues. IlhamStore is not responsible for delays caused by third-party server maintenance or downtime.</p>
+      <h2>6. Account & ID Accuracy</h2>
+      <p>IlhamStore is not liable for failed deliveries due to incorrect account IDs, wrong server selection, or any user-provided information that is inaccurate. No refund or redelivery will be provided in such cases.</p>
+      <h2>7. Prohibited Activities</h2>
+      <ul>
+        <li>Using the Service for fraudulent purposes.</li>
+        <li>Attempting to exploit glitches or errors for personal gain.</li>
+        <li>Harassing or abusing our support staff.</li>
+        <li>Creating multiple accounts to abuse promotions.</li>
+      </ul>
+      <h2>8. Service Availability</h2>
+      <p>We strive to provide uninterrupted service but do not guarantee 100% uptime. Maintenance, updates, or unforeseen technical issues may temporarily affect availability.</p>
+      <h2>9. Intellectual Property</h2>
+      <p>All content on IlhamStore, including logos, text, graphics, and software, is the property of IlhamStore or its licensors and is protected by copyright and intellectual property laws.</p>
+      <h2>10. Limitation of Liability</h2>
+      <p>IlhamStore shall not be liable for any indirect, incidental, or consequential damages arising from the use of our Service. Our total liability shall not exceed the amount paid by you for the specific transaction in question.</p>
+      <h2>11. Changes to Terms</h2>
+      <p>We reserve the right to update these Terms of Use at any time. Continued use of the Service after changes constitutes acceptance of the revised terms.</p>
+      <h2>12. Governing Law</h2>
+      <p>These terms shall be governed by and construed in accordance with the laws of Bangladesh.</p>
+      <h2>13. Contact</h2>
+      <p>For questions about these Terms, contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> or via <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('privacyModal')" aria-label="Close">&times;</button>
+      <h1 id="privacyTitle">Privacy Policy</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Information We Collect</h2>
+      <p>We collect the following types of information to provide and improve our Service:</p>
+      <ul>
+        <li><strong>Personal Information:</strong> Name, email address, phone number, and payment information when you place an order.</li>
+        <li><strong>Account Information:</strong> Game IDs, server details required for delivery.</li>
+        <li><strong>Technical Data:</strong> IP address, browser type, device information, and browsing patterns on our website.</li>
+        <li><strong>Communication Data:</strong> Messages sent through our support channels (Telegram, Messenger, Email).</li>
+      </ul>
+      <h2>2. How We Use Your Information</h2>
+      <ul>
+        <li>To process and deliver your orders.</li>
+        <li>To communicate order status and updates.</li>
+        <li>To provide customer support.</li>
+        <li>To prevent fraud and unauthorized transactions.</li>
+        <li>To improve our website and services.</li>
+        <li>To send promotional offers (only with your consent).</li>
+      </ul>
+      <h2>3. Information Sharing</h2>
+      <p>We do not sell, rent, or share your personal information with third parties for marketing purposes. We may share your information only in the following cases:</p>
+      <ul>
+        <li>With payment processors to complete your transactions.</li>
+        <li>With game/service providers for order fulfillment.</li>
+        <li>If required by law or legal process.</li>
+        <li>To protect the rights and safety of IlhamStore and its users.</li>
+      </ul>
+      <h2>4. Data Security</h2>
+      <p>We implement industry-standard security measures including SSL encryption, secure payment gateways, and access controls to protect your personal data. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
+      <h2>5. Cookies</h2>
+      <p>Our website uses cookies to enhance your browsing experience, remember your preferences, and analyze website traffic. You can disable cookies in your browser settings, but some features may not function properly.</p>
+      <h2>6. Third-Party Services</h2>
+      <p>Our website may contain links to third-party websites or services. We are not responsible for the privacy practices of these external sites. We encourage you to read their privacy policies before providing any personal information.</p>
+      <h2>7. Data Retention</h2>
+      <p>We retain your personal data only for as long as necessary to fulfill the purposes outlined in this policy, unless a longer retention period is required by law.</p>
+      <h2>8. Your Rights</h2>
+      <ul>
+        <li>Request access to your personal data we hold.</li>
+        <li>Request correction of inaccurate data.</li>
+        <li>Request deletion of your data (subject to legal obligations).</li>
+        <li>Opt out of promotional communications.</li>
+      </ul>
+      <h2>9. Children's Privacy</h2>
+      <p>Our Service is not intended for children under 13 years of age. We do not knowingly collect personal information from children. If we discover that we have collected data from a child under 13, we will take steps to delete it promptly.</p>
+      <h2>10. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
+      <h2>11. Contact</h2>
+      <p>For privacy-related inquiries, contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> or via <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="refundModal" role="dialog" aria-modal="true" aria-labelledby="refundTitle">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('refundModal')" aria-label="Close">&times;</button>
+      <h1 id="refundTitle">Refund Policy</h1>
+      <p class="legal-updated">Last updated: July 2025</p>
+      <h2>1. Eligibility for Refund</h2>
+      <p>You may request a refund under the following conditions:</p>
+      <ul>
+        <li>The order was not delivered within 24 hours of payment.</li>
+        <li>The delivered product is incorrect or does not match the ordered item.</li>
+        <li>The order could not be fulfilled due to a technical error on our end.</li>
+        <li>Duplicate payment was made for the same order.</li>
+      </ul>
+      <h2>2. Non-Refundable Items</h2>
+      <p>Refunds will NOT be issued in the following cases:</p>
+      <ul>
+        <li>Incorrect account ID, game ID, or server details provided by the customer.</li>
+        <li>The account is banned, suspended, or restricted by the game/service provider.</li>
+        <li>Digital items that have already been delivered and used/consumed.</li>
+        <li>Gift cards or PIN codes that have been revealed or redeemed.</li>
+        <li>Change of mind after the order has been processed.</li>
+      </ul>
+      <h2>3. How to Request a Refund</h2>
+      <p>To request a refund, please contact us through one of the following channels:</p>
+      <ul>
+        <li>Email: <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></li>
+        <li>Telegram: <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">@official_Ilhamstore</a></li>
+        <li>Messenger: <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer">IlhamStore Messenger</a></li>
+      </ul>
+      <p>Please include your order ID, payment method, and reason for the refund request.</p>
+      <h2>4. Refund Processing Time</h2>
+      <ul>
+        <li><strong>bKash / Nagad / Rocket / Upay:</strong> 1–3 business days after approval.</li>
+        <li><strong>Store Credit:</strong> Instant after approval.</li>
+      </ul>
+      <p>Refunds will be processed using the same payment method used for the original purchase whenever possible.</p>
+      <h2>5. Partial Refunds</h2>
+      <p>In some cases, a partial refund may be offered if:</p>
+      <ul>
+        <li>Only part of the order was delivered.</li>
+        <li>The service was significantly delayed but eventually completed.</li>
+      </ul>
+      <h2>6. Delivery Issues</h2>
+      <p>If you experience delivery issues:</p>
+      <ul>
+        <li>Contact support within 48 hours of placing the order.</li>
+        <li>Provide a screenshot of your order confirmation and any error messages.</li>
+        <li>Our team will investigate and resolve the issue, or issue a refund if the order cannot be fulfilled.</li>
+      </ul>
+      <h2>7. Dispute Resolution</h2>
+      <p>If you disagree with a refund decision, you may escalate the matter by emailing <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> with detailed information. We will review and respond within 5 business days.</p>
+    </div>
+  </div> 
+  
+  <div class="legal-modal" id="faqModal" role="dialog" aria-modal="true" aria-labelledby="faqTitle">
+    <div class="legal-modal-box">
+      <button class="legal-close" onclick="closeLegal('faqModal')" aria-label="Close">&times;</button>
+      <h1 id="faqTitle">Frequently Asked Questions</h1>
+      <h2>How does top-up work?</h2>
+      <p>Simply select the product you want, choose a package, enter your game/account ID, and complete payment. Your top-up will be delivered to your account automatically or manually within minutes.</p>
+      <h2>How long does delivery take?</h2>
+      <p>Most orders are delivered instantly or within 5–15 minutes. Some orders may take up to 24 hours depending on server status, game maintenance, or high demand periods. You will be notified if there are any delays.</p>
+      <h2>What payment methods do you accept?</h2>
+      <p>We accept bKash, Nagad, Rocket, and Upay. Simply complete the payment using your preferred method and submit the transaction ID for verification.</p>
+      <h2>Is my payment secure?</h2>
+      <p>Yes. Our website uses SSL encryption, and we process payments through trusted and secure gateways. Your financial information is never stored on our servers.</p>
+      <h2>What if I don't receive my top-up?</h2>
+      <p>If you don't receive your order within 24 hours, please contact our support team immediately via Telegram or Messenger with your order details. We will investigate and resolve the issue or provide a refund.</p>
+      <h2>Can I get a refund?</h2>
+      <p>Refunds are available for orders that could not be delivered. Please read our <a href="#" onclick="closeLegal('faqModal');setTimeout(()=>openLegal('refundModal'),200);return false;">Refund Policy</a> for full details on eligibility and the refund process.</p>
+      <h2>Do I need an account to order?</h2>
+      <p>No account registration is required. Simply select your product, enter the required details, make payment, and receive your top-up. However, providing accurate information is essential for successful delivery.</p>
+      <h2>I entered the wrong ID. What should I do?</h2>
+      <p>Please contact us immediately before the order is processed. If the order has already been delivered to the wrong account, we may not be able to reverse it. Always double-check your ID before confirming payment.</p>
+      <h2>How do I track my order?</h2>
+      <p>You can use the Track Order feature in the header of our website. Enter your order ID to check the current status of your order.</p>
+      <h2>How can I contact support?</h2>
+      <ul>
+        <li>Email: <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></li>
+        <li>Telegram: <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">@official_Ilhamstore</a></li>
+        <li>Messenger: <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer">IlhamStore Messenger</a></li>
+        <li>Facebook: <a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer">Official Page</a></li>
+      </ul>
+      <h2>Do you offer discounts or promotions?</h2>
+      <p>Yes! Follow our Facebook page and Telegram channel for the latest deals, discounts, and promotional offers.</p>
+    </div>
+  </div>
+
+  <!-- ======== NOSCRIPT FALLBACK ======== -->
+  <noscript>
+    <style>.p-grid{display:none;}.noscript-msg{display:block!important;}</style>
+    <div class="noscript-msg" style="display:none;text-align:center;padding:3rem 1.5rem;">
+      <h2 style="font-size:1.4rem;font-weight:800;color:#1E293B;margin-bottom:0.5rem;">JavaScript Required</h2>
+      <p style="color:#64748B;font-size:0.95rem;">Please enable JavaScript to browse our products and use IlhamStore.</p>
+    </div>
+  </noscript>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <!-- ======== JAVASCRIPT ======== -->
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    const hiddenProducts = {
+      'telegram': false,
+      'free-fire': false, 'pubg': false, 'pubg-lite': false,
+      'blood-strike': false, 'fc-mobile': false, 'modern-strike': false,
+      'mobile-legends': false, 'super-sus': false, 'farlight-84': false,
+      'new-state': false, 'valorant': false, 'delta-force': false,
+      'free-fire-id': false, 'modern-warships': false, 'frag-pro-shooter': false,
+      'discord-nitro': false, 'pubg-uc-card': false, 'nordvpn': false,
+      'unipin': false, 'garena-shells': false, 'roblox-robux': false,
+      'xbox-usa': false, 'nintendo-eshop': false, 'steam-global': false,
+      'razer-gold': false, 'garena-shells-usd': false
+    };
+
+    function isVisible(p) { return !hiddenProducts[p.id]; }
+
+    const liveApps = [
+      { name:"Telegram Premium", id:"telegram", img:"images/products/telegram.png", icon:"fa-telegram", it:"fab", color:"#26A5E4", bg:"#F0F9FF", currency:"Stars", packages:[{l:"50 Stars",p:55},{l:"100 Stars",p:105},{l:"500 Stars",p:500},{l:"1 Month Premium",p:300}] }
+    ];
+
+    const games = [
+      { name:"Free Fire (BD)", id:"free-fire", img:"images/products/free-fire.png", icon:"fa-fire", color:"#DC2626", bg:"#FEF2F2", currency:"Diamonds", packages:[{l:"100 Diamonds",p:30},{l:"500 Diamonds",p:145},{l:"1000 Diamonds",p:280},{l:"5000 Diamonds",p:1380}] },
+      { name:"Free Fire (ID)", id:"free-fire-id", img:"images/products/free-fire-id.png", icon:"fa-fire", color:"#DC2626", bg:"#FEF2F2", currency:"Diamonds", packages:[{l:"100 Diamonds",p:40},{l:"500 Diamonds",p:190},{l:"1000 Diamonds",p:370}] },
+      { name:"PUBG Mobile (BD)", id:"pubg", img:"images/products/pubg.png", icon:"fa-crosshairs", color:"#D97706", bg:"#FFFBEB", currency:"UC", packages:[{l:"60 UC",p:120},{l:"325 UC",p:600},{l:"660 UC",p:1150},{l:"1800 UC",p:3000}] },
+      { name:"PUBG Lite", id:"pubg-lite", img:"images/products/pubg-lite.png", icon:"fa-crosshairs", color:"#92400E", bg:"#FFFBEB", currency:"Coins", packages:[{l:"60 Coins",p:80},{l:"325 Coins",p:400},{l:"660 Coins",p:780}] },
+      { name:"Blood Strike", id:"blood-strike", img:"images/products/blood-strike.png", icon:"fa-skull-crossbones", color:"#991B1B", bg:"#FEF2F2", currency:"Credits", packages:[{l:"60 Credits",p:60},{l:"300 Credits",p:290},{l:"600 Credits",p:560}] },
+      { name:"FC Mobile", id:"fc-mobile", img:"images/products/fc-mobile.png", icon:"fa-futbol", color:"#16A34A", bg:"#F0FDF4", currency:"Points", packages:[{l:"100 Points",p:80},{l:"500 Points",p:390},{l:"1000 Points",p:760}] },
+      { name:"Modern Strike", id:"modern-strike", img:"images/products/modern-strike.png", icon:"fa-crosshairs", color:"#475569", bg:"#F8FAFC", currency:"Gold", packages:[{l:"100 Gold",p:50},{l:"500 Gold",p:230},{l:"1000 Gold",p:440}] },
+      { name:"Mobile Legends", id:"mobile-legends", img:"images/products/mobile-legends.png", icon:"fa-shield-halved", color:"#2563EB", bg:"#EFF6FF", currency:"Diamonds", packages:[{l:"50 Diamonds",p:50},{l:"100 Diamonds",p:95},{l:"500 Diamonds",p:460},{l:"1000 Diamonds",p:900}] },
+      { name:"Super Sus", id:"super-sus", img:"images/products/super-sus.png", icon:"fa-user-secret", color:"#7C3AED", bg:"#F5F3FF", currency:"Gold", packages:[{l:"100 Gold",p:70},{l:"500 Gold",p:330},{l:"1000 Gold",p:640}] },
+      { name:"Farlight 84", id:"farlight-84", img:"images/products/farlight-84.png", icon:"fa-jet-fighter", color:"#0891B2", bg:"#ECFEFF", currency:"Diamonds", packages:[{l:"100 Diamonds",p:80},{l:"500 Diamonds",p:380},{l:"1000 Diamonds",p:740}] },
+      { name:"PUBG New State", id:"new-state", img:"images/products/new-state.png", icon:"fa-car", color:"#4338CA", bg:"#EEF2FF", currency:"NC", packages:[{l:"100 NC",p:130},{l:"500 NC",p:620},{l:"1000 NC",p:1200}] },
+      { name:"Valorant VP (BD)", id:"valorant", img:"images/products/valorant.png", icon:"fa-crosshairs", color:"#DC2626", bg:"#FEF2F2", currency:"VP", packages:[{l:"475 VP",p:500},{l:"1000 VP",p:1000},{l:"2050 VP",p:2000}] },
+      { name:"Delta Force BD", id:"delta-force", img:"images/products/delta-force.png", icon:"fa-jet-fighter", color:"#1E3A8A", bg:"#EFF6FF", currency:"Tokens", packages:[{l:"100 Tokens",p:120},{l:"500 Tokens",p:580},{l:"1000 Tokens",p:1140}] },
+      { name:"Modern Warships", id:"modern-warships", img:"images/products/modern-warships.png", icon:"fa-ship", color:"#1E40AF", bg:"#EFF6FF", currency:"Platinum", packages:[{l:"100 Platinum",p:110},{l:"500 Platinum",p:520},{l:"1000 Platinum",p:1000}] },
+      { name:"FRAG Pro Shooter", id:"frag-pro-shooter", img:"images/products/frag.png", icon:"fa-crosshairs", color:"#7C3AED", bg:"#F5F3FF", currency:"Gems", packages:[{l:"100 Gems",p:90},{l:"500 Gems",p:430},{l:"1000 Gems",p:840}] }
+    ];
+
+    const giftCards = [
+      {name:"Discord Nitro", id:"discord-nitro", img:"images/products/discord.png", icon:"fa-discord", it:"fab", color:"#5865F2", bg:"#EEF2FF", currency:"Nitro", packages:[{l:"1 Month",p:500},{l:"1 Year",p:4800}]},
+      { name:"PUBG UC Card PIN", id:"pubg-uc-card", img:"images/products/pubg.png", icon:"fa-id-card", color:"#D97706", bg:"#FFFBEB", currency:"UC PIN", packages:[{l:"60 UC PIN",p:130},{l:"325 UC PIN",p:620},{l:"660 UC PIN",p:1180}] },
+      { name:"Nord VPN", id:"nordvpn", img:"images/products/nordvpn.png", icon:"fa-shield-halved", color:"#1E40AF", bg:"#EFF6FF", currency:"Subscription", packages:[{l:"1 Month",p:400},{l:"1 Year",p:2800}] },
+      { name:"Unipin Voucher", id:"unipin", img:"images/products/unipin.png", icon:"fa-ticket", color:"#6366F1", bg:"#EEF2FF", currency:"Voucher", packages:[{l:"100 Points",p:100},{l:"300 Points",p:290},{l:"500 Points",p:480},{l:"1000 Points",p:950}] },
+      { name:"Garena Shells (SG)", id:"garena-shells", img:"images/products/garena-shells.png", icon:"fa-coins", color:"#F59E0B", bg:"#FFFBEB", currency:"Shells", packages:[{l:"100 Shells",p:180},{l:"200 Shells",p:350},{l:"500 Shells",p:860},{l:"1000 Shells",p:1700}] },
+      { name:"Roblox Robux", id:"roblox-robux", img:"images/products/roblox.png", icon:"fa-cube", color:"#E2231A", bg:"#FFF1F2", currency:"Robux", packages:[{l:"80 Robux",p:100},{l:"400 Robux",p:450},{l:"800 Robux",p:880}] },
+      { name:"XBOX USA", id:"xbox-usa", img:"images/products/xbox.png", icon:"fa-xbox", it:"fab", color:"#107C10", bg:"#F0FDF4", currency:"USD", packages:[{l:"$5 Card",p:550},{l:"$10 Card",p:1050},{l:"$25 Card",p:2600}] },
+      { name:"Nintendo eShop US", id:"nintendo-eshop", img:"images/products/nintendo.png", icon:"fa-gamepad", color:"#E60012", bg:"#FFF1F2", currency:"USD", packages:[{l:"$10 Card",p:1100},{l:"$20 Card",p:2150},{l:"$50 Card",p:5200}] },
+      { name:"Steam Global", id:"steam-global", img:"images/products/steam.png", icon:"fa-steam", it:"fab", color:"#1B2838", bg:"#F8FAFC", currency:"USD", packages:[{l:"$5 Card",p:580},{l:"$10 Card",p:1100},{l:"$20 Card",p:2150}] },
+      { name:"Razer Gold", id:"razer-gold", img:"images/products/razer.png", icon:"fa-coins", color:"#00E000", bg:"#F0FDF4", currency:"USD", packages:[{l:"$5 Card",p:560},{l:"$10 Card",p:1080},{l:"$20 Card",p:2100}] },
+      { name:"Garena Shells (USD)", id:"garena-shells-usd", img:"images/products/garena-usd.png", icon:"fa-coins", color:"#F59E0B", bg:"#FFFBEB", currency:"Shells", packages:[{l:"100 Shells",p:180},{l:"200 Shells",p:350},{l:"500 Shells",p:860}] }
+    ];
+
+    const allProducts = [
+      ...liveApps.filter(isVisible).map(p => ({...p, cat:"Live Apps"})),
+      ...games.filter(isVisible).map(p => ({...p, cat:"Games"})),
+      ...giftCards.filter(isVisible).map(p => ({...p, cat:"Gift Cards"}))
+    ];
+
+    function card(p) {
+      const it = p.it || 'fas';
+      return `
+        <a href="product.html?id=${p.id}" class="product-card">
+          <div class="p-img">
+            <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="p-img-fallback" style="display:none;background:${p.bg};color:${p.color};">
+              <i class="${it} ${p.icon}" style="font-size:2.4rem;"></i>
+              <span>${p.name}</span>
+            </div>
+          </div>
+          <div class="p-body">
+            <div class="p-name">${p.name}</div>
+          </div>
+        </a>`;
+    }
+
+    function renderAll() {
+      document.getElementById('liveAppsGrid').innerHTML = liveApps.filter(isVisible).map(card).join('');
+      document.getElementById('gamesGrid').innerHTML = games.filter(isVisible).map(card).join('');
+      document.getElementById('gcGrid').innerHTML = giftCards.filter(isVisible).map(card).join('');
+    }
+
+    const sInput = document.getElementById('searchInput');
+    const mInput = document.getElementById('mSearchInput');
+    const sDrop = document.getElementById('searchDropdown');
+
+    function debounce(fn, ms) {
+      let t;
+      return function(...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+    }
+
+    function positionDesktopDropdown() {
+      const wrapper = document.getElementById('searchWrapper');
+      if (!wrapper) return;
+      const rect = wrapper.getBoundingClientRect();
+      sDrop.style.position = 'fixed';
+      sDrop.style.top = (rect.bottom + 6) + 'px';
+      sDrop.style.left = rect.left + 'px';
+      sDrop.style.width = rect.width + 'px';
+      sDrop.style.right = 'auto';
+    }
+
+    function runSearch(query) {
+      const q = query.trim().toLowerCase();
+      if (q.length < 2) { sDrop.classList.remove('open'); return; }
+
+      sDrop.innerHTML = '<div class="search-empty"><i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i>Searching...</div>';
+      sDrop.classList.add('open');
+
+      const res = allProducts.filter(p =>
+        p.name.toLowerCase().includes(q) || p.id.includes(q) || (p.currency && p.currency.toLowerCase().includes(q))
+      );
+
+      if (!res.length) {
+        sDrop.innerHTML = '<div class="search-empty">No results found</div>';
+      } else {
+        sDrop.innerHTML = res.slice(0, 8).map(p => {
+          const it = p.it || 'fas';
+          return `
+            <a href="product?id=${p.id}" class="search-item">
+              <div class="search-item-img">
+                <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="search-item-fallback" style="display:none;background:${p.bg};color:${p.color};width:100%;height:100%;align-items:center;justify-content:center;border-radius:8px;">
+                  <i class="${it} ${p.icon}"></i>
+                </div>
+              </div>
+              <div class="search-item-info">
+                <div class="search-item-name">${p.name}</div>
+                <div class="search-item-cat">${p.cat}</div>
+              </div>
+            </a>`;
+        }).join('');
+      }
+
+      if (window.innerWidth > 768) {
+        positionDesktopDropdown();
+      } else {
+        const rect = mInput.getBoundingClientRect();
+        sDrop.style.position = 'fixed';
+        sDrop.style.top = (rect.bottom + 6) + 'px';
+        sDrop.style.left = '12px';
+        sDrop.style.right = '12px';
+        sDrop.style.width = 'auto';
+      }
+    }
+
+    sInput.addEventListener('input', debounce(function() { runSearch(this.value); }, 250));
+    sInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { const f = sDrop.querySelector('.search-item'); if (f) f.click(); } });
+    sInput.addEventListener('focus', function() { if (this.value.trim().length >= 2) { runSearch(this.value); } });
+
+    mInput.addEventListener('input', debounce(function() { runSearch(this.value); }, 250));
+    mInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { const f = sDrop.querySelector('.search-item'); if (f) f.click(); } });
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-wrapper') && !e.target.closest('.m-search') && !e.target.closest('.search-dropdown')) {
+        sDrop.classList.remove('open');
+      }
+    });
+
+    window.addEventListener('scroll', function() {
+      if (sDrop.classList.contains('open') && window.innerWidth > 768) positionDesktopDropdown();
+    }, { passive: true });
+    
+    window.addEventListener('resize', function() {
+      if (sDrop.classList.contains('open') && window.innerWidth > 768) positionDesktopDropdown();
+    });
+
+    function doSearch() { runSearch(sInput.value); sInput.focus(); }
+
+    const mobToggle = document.getElementById('mobToggle');
+    const navBar = document.getElementById('navBar');
+
+    mobToggle.addEventListener('click', () => {
+      navBar.classList.toggle('open');
+      const ic = mobToggle.querySelector('i');
+      ic.className = navBar.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (navBar.classList.contains('open') && !e.target.closest('.nav-bar') && !e.target.closest('.mobile-toggle')) {
+        navBar.classList.remove('open');
+        mobToggle.querySelector('i').className = 'fas fa-bars';
+      }
+    });
+
+    document.querySelectorAll('.nav-link').forEach(l =>
+      l.addEventListener('click', () => { navBar.classList.remove('open'); mobToggle.querySelector('i').className = 'fas fa-bars'; })
+    );
+
+    document.getElementById('chatToggle').addEventListener('click', toggleChat);
+    
+    function toggleChat() {
+      const btn = document.getElementById('chatToggle');
+      const opts = document.getElementById('chatOptions');
+      btn.classList.toggle('open');
+      opts.classList.toggle('show');
+    }
+
+    document.getElementById('scrollTop').addEventListener('click', function() {
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const t = document.querySelector(this.getAttribute('href'));
+        if (t) {
+          e.preventDefault();
+          const h = document.querySelector('.header').offsetHeight;
+          window.scrollTo({ top: t.offsetTop - h - 16, behavior: 'smooth' });
+        }
+      });
+    });
+
+    function toast(msg, type = '') {
+      const w = document.getElementById('toastWrap');
+      const t = document.createElement('div');
+      t.className = 'toast ' + type;
+      t.innerHTML = `<i class="fas ${type==='error'?'fa-exclamation-circle':type==='success'?'fa-check-circle':'fa-info-circle'}"></i> ${msg}`;
+      w.appendChild(t);
+      setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(100%)'; t.style.transition = 'all 0.3s'; setTimeout(() => t.remove(), 300); }, 3000);
+    }
+
+    function openLegal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.legal-modal-box').scrollTop = 0;
+      modal.querySelector('.legal-close').focus();
+    }
+    
+    function closeLegal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    document.querySelectorAll('.legal-modal').forEach(m => {
+      m.addEventListener('click', function(e) {
+        if (e.target === this) closeLegal(this.id);
+      });
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal.active').forEach(m => closeLegal(m.id));
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', renderAll);
+
+    /* ===== SAFE ANTI-COPY JAVASCRIPT ===== */
+    // Disable Right-Click Context Menu safely
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      return false;
+    });
+
+    // Prevent Copy/Cut unless it's inside an input field (so users can paste TrxIDs)
+    document.addEventListener('copy', function(e) {
+      if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) {
+        e.preventDefault();
+        return false;
+      }
+    });
+    document.addEventListener('cut', function(e) {
+      if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) {
+        e.preventDefault();
+        return false;
+      }
+    });
+  </script>
+
+</body>
+</html>
