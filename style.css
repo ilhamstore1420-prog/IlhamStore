@@ -207,7 +207,7 @@ button { cursor:pointer; }
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  aspect-ratio: 1200/300; /* Maintains a 4:1 ratio */
+  aspect-ratio: 2000/800;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -543,7 +543,7 @@ button { cursor:pointer; }
   .feat-grid { grid-template-columns:repeat(2,1fr); }
   .footer-main { grid-template-columns:repeat(2,1fr); gap:30px; }
   
-  .simple-banner { aspect-ratio: 1024/250; }
+  .simple-banner { aspect-ratio: 1024/410; }
 }
 
 /* ===== MOBILE (768px) — 2 COLUMNS ===== */
