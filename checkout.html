@@ -1239,554 +1239,643 @@
 
   <div class="toast-wrap" id="toastWrap"></div>
 
- <script>
-    document.getElementById('footerYear').textContent = new Date().getFullYear();
+<script>
+   document.getElementById('footerYear').textContent = new Date().getFullYear();
 
-    /* =============================================
-       SECURITY: Obfuscated Google Script URL
-       (Base64 Encoded to hide from scrapers viewing source code)
-       ============================================= */
-   const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3SXExQlRscDBJMFpUOUJud1R4d1l2VmNabV9qXzJvOEdaVENOOVhCMmppYXJZeG80Rk1QZl90U1lfWGlCVjk0V3QvZXhlYw==';
-    const GOOGLE_SHEET_URL = atob(_0x4f8a);
-    const API_SECRET='ILHS_SECRET_2025_X9K2M';
+/* =============================================
+   SECURITY: Obfuscated Google Script URL
+   ============================================= */
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6MFhjdG53dGFnaHMtTjRReGFtbWdOTEtMTHJyU1M5dlh2RWRlTEFxUEttcWtTZkkxOGZNQllwc0ZjcHZPWDVjSklvei9leGVj';
+const GOOGLE_SHEET_URL = atob(_0x4f8a);
+const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 
-    const paymentConfig = {
-      bkash: {
-        name: 'bKash',
-        img: 'images/payments/bkash.png',
-        fallbackIcon: 'fas fa-wallet',
-        iconClass: 'pay-bkash',
-        accountNumber: '01558086520',
-        accountLength: 11,
-        steps: [
-          { text: 'আপনার bKash মোবাইল মেনুতে <strong class="highlight">*247#</strong> ডায়াল করুন অথবা bKash অ্যাপ খুলুন' },
-          { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
-          { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01558086520</strong>' },
-          { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
-          { text: 'আপনার bKash পিন দিয়ে কনফার্ম করুন' },
-          { text: 'সম্পন্ন! bKash থেকে কনফার্মেশন মেসেজে Transaction ID পাবেন' }
-        ]
-      },
-      nagad: {
-        name: 'Nagad',
-        img: 'images/payments/nagad.png',
-        fallbackIcon: 'fas fa-wallet',
-        iconClass: 'pay-nagad',
-        accountNumber: '01558086520',
-        accountLength: 11,
-        steps: [
-          { text: 'আপনার Nagad মোবাইল মেনুতে <strong class="highlight">*167#</strong> ডায়াল করুন অথবা Nagad অ্যাপ খুলুন' },
-          { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
-          { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01558086520</strong>' },
-          { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
-          { text: 'আপনার Nagad পিন দিয়ে কনফার্ম করুন' },
-          { text: 'সম্পন্ন! Nagad থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
-        ]
-      },
-      rocket: {
-        name: 'Rocket',
-        img: 'images/payments/rocket.png',
-        fallbackIcon: 'fas fa-wallet',
-        iconClass: 'pay-rocket',
-        accountNumber: '015580865206',
-        accountLength: 12,
-        steps: [
-          { text: 'আপনার Rocket মোবাইল মেনুতে <strong class="highlight">*322#</strong> ডায়াল করুন অথবা Rocket অ্যাপ খুলুন' },
-          { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
-          { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">015580865206</strong>' },
-          { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
-          { text: 'আপনার Rocket পিন দিয়ে কনফার্ম করুন' },
-          { text: 'সম্পন্ন! Rocket থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
-        ]
-      },
-      upay: {
-        name: 'Upay',
-        img: 'images/payments/upay.png',
-        fallbackIcon: 'fas fa-wallet',
-        iconClass: 'pay-upay',
-        accountNumber: '01709217102',
-        accountLength: 11,
-        steps: [
-          { text: 'আপনার Upay মোবাইল মেনুতে <strong class="highlight">*268#</strong> ডায়াল করুন অথবা Upay অ্যাপ খুলুন' },
-          { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
-          { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01709217102</strong>' },
-          { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
-          { text: 'আপনার Upay পিন দিয়ে কনফার্ম করুন' },
-          { text: 'সম্পন্ন! Upay থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
-        ]
-      }
-    };
+const paymentConfig = {
+  bkash: {
+    name: 'bKash',
+    img: 'images/payments/bkash.png',
+    fallbackIcon: 'fas fa-wallet',
+    iconClass: 'pay-bkash',
+    accountNumber: '01558086520',
+    accountLength: 11,
+    steps: [
+      { text: 'আপনার bKash মোবাইল মেনুতে <strong class="highlight">*247#</strong> ডায়াল করুন অথবা bKash অ্যাপ খুলুন' },
+      { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
+      { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01558086520</strong>' },
+      { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+      { text: 'আপনার bKash পিন দিয়ে কনফার্ম করুন' },
+      { text: 'সম্পন্ন! bKash থেকে কনফারমেশন মেসেজে Transaction ID পাবেন' }
+    ]
+  },
+  nagad: {
+    name: 'Nagad',
+    img: 'images/payments/nagad.png',
+    fallbackIcon: 'fas fa-wallet',
+    iconClass: 'pay-nagad',
+    accountNumber: '01558086520',
+    accountLength: 11,
+    steps: [
+      { text: 'আপনার Nagad মোবাইল মেনুতে <strong class="highlight">*167#</strong> ডায়াল করুন অথবা Nagad অ্যাপ খুলুন' },
+      { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
+      { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01558086520</strong>' },
+      { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+      { text: 'আপনার Nagad পিন দিয়ে কনফার্ম করুন' },
+      { text: 'সম্পন্ন! Nagad থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
+    ]
+  },
+  rocket: {
+    name: 'Rocket',
+    img: 'images/payments/rocket.png',
+    fallbackIcon: 'fas fa-wallet',
+    iconClass: 'pay-rocket',
+    accountNumber: '015580865206',
+    accountLength: 12,
+    steps: [
+      { text: 'আপনার Rocket মোবাইল মেনুতে <strong class="highlight">*322#</strong> ডায়াল করুন অথবা Rocket অ্যাপ খুলুন' },
+      { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
+      { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">015580865206</strong>' },
+      { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+      { text: 'আপনার Rocket পিন দিয়ে কনফার্ম করুন' },
+      { text: 'সম্পন্ন! Rocket থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
+    ]
+  },
+  upay: {
+    name: 'Upay',
+    img: 'images/payments/upay.png',
+    fallbackIcon: 'fas fa-wallet',
+    iconClass: 'pay-upay',
+    accountNumber: '01709217102',
+    accountLength: 11,
+    steps: [
+      { text: 'আপনার Upay মোবাইল মেনুতে <strong class="highlight">*268#</strong> ডায়াল করুন অথবা Upay অ্যাপ খুলুন' },
+      { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
+      { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01709217102</strong>' },
+      { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+      { text: 'আপনার Upay পিন দিয়ে কনফার্ম করুন' },
+      { text: 'সম্পন্ন! Upay থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
+    ]
+  }
+};
 
-    let orderData = null;
-    let selectedPayment = null;
-    let isVerifying = false;
+let orderData = null;
+let selectedPayment = null;
+let isVerifying = false;
 
-    function loadOrder() {
-      const stored = sessionStorage.getItem('cartStoreOrder');
-      if (!stored) { window.location.href = 'index.html'; return; }
-      try {
-        orderData = JSON.parse(stored);
-      } catch (e) {
-        sessionStorage.removeItem('cartStoreOrder');
-        window.location.href = 'index.html';
-        return;
-      }
+/* =============================================
+   LOAD ORDER (with resubmission protection)
+   ============================================= */
+function loadOrder() {
+  const stored = sessionStorage.getItem('cartStoreOrder');
+  if (!stored) { window.location.href = 'index.html'; return; }
+  try {
+    orderData = JSON.parse(stored);
+  } catch (e) {
+    sessionStorage.removeItem('cartStoreOrder');
+    window.location.href = 'index.html';
+    return;
+  }
 
-      if (orderData.paymentStatus === 'Verifying' || orderData.paymentStatus === 'Confirmed') {
-        const verifiedAt = orderData.verifiedAt ? new Date(orderData.verifiedAt).getTime() : 0;
-        const elapsed = Date.now() - verifiedAt;
-        if (elapsed < 90000) {
-          window.location.replace('confirmation.html');
-          return;
-        }
-        sessionStorage.removeItem('cartStoreOrder');
-        window.location.href = 'index.html';
-        return;
-      }
+  // Already submitted — redirect to confirmation
+  if (orderData.paymentStatus === 'Confirmed') {
+    window.location.replace('confirmation.html');
+    return;
+  }
 
-      renderSummary();
+  // Already verifying — check how long ago
+  if (orderData.paymentStatus === 'Verifying') {
+    const verifiedAt = orderData.verifiedAt ? new Date(orderData.verifiedAt).getTime() : 0;
+    const elapsed = Date.now() - verifiedAt;
+    if (elapsed < 120000) {
+      // Less than 2 minutes — don't allow resubmission
+      window.location.replace('confirmation.html');
+      return;
     }
+    // More than 2 minutes — might have failed, allow retry
+    orderData.paymentStatus = 'Pending';
+    delete orderData.verifiedAt;
+    sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+  }
 
-    function parseUserId(userId) {
-      if (!userId) return { id: '—', serverId: null };
-      const match = userId.match(/^(.+)\((\d+)\)$/);
-      if (match) return { id: match[1].trim(), serverId: match[2] };
-      return { id: userId, serverId: null };
-    }
+  renderSummary();
+}
 
-    function renderSummary() {
-      const container = document.getElementById('summaryBody');
-      if (!orderData) return;
+function parseUserId(userId) {
+  if (!userId) return { id: '—', serverId: null };
+  const match = userId.match(/^(.+)\((\d+)\)$/);
+  if (match) return { id: match[1].trim(), serverId: match[2] };
+  return { id: userId, serverId: null };
+}
 
-      const parsed = parseUserId(orderData.userId);
-      const methodName = selectedPayment
-        ? (paymentConfig[selectedPayment]?.name || '—')
-        : (orderData.paymentMethod ? (paymentConfig[orderData.paymentMethod]?.name || orderData.paymentMethod) : '—');
-      const email = orderData.billingEmail || '';
+/* =============================================
+   RENDER ORDER SUMMARY
+   ============================================= */
+function renderSummary() {
+  const container = document.getElementById('summaryBody');
+  if (!orderData) return;
 
-      let html = '';
-      html += `<div class="ck-spam-notice"><i class="fas fa-envelope-circle-check"></i><div><strong>Please check your Spam/Junk folder!</strong> Our confirmation emails sometimes end up there. Add support.ilhamstore@gmail.com to your contacts to ensure you receive your delivery code.</div></div>`;
-      html += `<div class="ck-sum-product-badge"><i class="fas fa-bolt"></i> ${orderData.cat || 'Order'}</div>`;
-      html += `<div class="ck-sum-item"><span class="ck-sum-label">Product</span><span class="ck-sum-value">${orderData.product || '—'}</span></div>`;
-      html += `<div class="ck-sum-package-row"><div class="ck-sum-pkg-name"><span class="ck-sum-pkg-dot"></span>${orderData.package || '—'}</div><div class="ck-sum-pkg-price">৳${(orderData.unitPrice || 0).toLocaleString()}</div></div>`;
-      html += `<div class="ck-sum-item"><span class="ck-sum-label">User ID</span><span class="ck-sum-value" style="font-family:monospace;letter-spacing:0.04em;">${parsed.id}</span></div>`;
-      if (parsed.serverId) {
-        html += `<div class="ck-sum-item"><span class="ck-sum-label">Server ID</span><span class="ck-sum-value" style="font-family:monospace;">${parsed.serverId}</span></div>`;
-      }
-      if (orderData.quantity && orderData.quantity > 1) {
-        html += `<div class="ck-sum-item"><span class="ck-sum-label">Quantity</span><span class="ck-sum-value">×${orderData.quantity}</span></div>`;
-      }
-      html += `<div class="ck-sum-item"><span class="ck-sum-label">Email</span><span class="ck-sum-value" id="sumEmail">${email || '—'}</span></div>`;
-      html += `<div class="ck-sum-item"><span class="ck-sum-label">Payment</span><span class="ck-sum-value" id="sumPayment">${methodName}</span></div>`;
-      html += `<div class="ck-sum-item"><span class="ck-sum-label">Order ID</span><span class="ck-sum-value" style="font-family:monospace;font-size:0.72rem;">${orderData.orderId || '—'}</span></div>`;
-      html += `<div class="ck-sum-total"><span class="ck-sum-total-label">Total</span><span class="ck-sum-total-value">৳${(orderData.totalPrice || 0).toLocaleString()}</span></div>`;
-      html += `<div class="ck-sum-warning"><i class="fas fa-exclamation-circle"></i><span>ভুল তথ্য প্রদান করলে কর্তৃপক্ষ দায়ী নয়।</span></div>`;
+  const parsed = parseUserId(orderData.userId);
+  const methodName = selectedPayment
+    ? (paymentConfig[selectedPayment]?.name || '—')
+    : (orderData.paymentMethod ? (paymentConfig[orderData.paymentMethod]?.name || orderData.paymentMethod) : '—');
+  const email = orderData.billingEmail || '';
 
-      container.innerHTML = html;
+  let html = '';
+  html += '<div class="ck-spam-notice"><i class="fas fa-envelope-circle-check"></i><div><strong>Please check your Spam/Junk folder!</strong> Our confirmation emails sometimes end up there. Add support.ilhamstore@gmail.com to your contacts to ensure you receive your delivery code.</div></div>';
+  html += '<div class="ck-sum-product-badge"><i class="fas fa-bolt"></i> ' + (orderData.cat || 'Order') + '</div>';
+  html += '<div class="ck-sum-item"><span class="ck-sum-label">Product</span><span class="ck-sum-value">' + (orderData.product || '—') + '</span></div>';
+  html += '<div class="ck-sum-package-row"><div class="ck-sum-pkg-name"><span class="ck-sum-pkg-dot"></span>' + (orderData.package || '—') + '</div><div class="ck-sum-pkg-price">৳' + (orderData.unitPrice || 0).toLocaleString() + '</div></div>';
+  html += '<div class="ck-sum-item"><span class="ck-sum-label">User ID</span><span class="ck-sum-value" style="font-family:monospace;letter-spacing:0.04em;">' + parsed.id + '</span></div>';
+  if (parsed.serverId) {
+    html += '<div class="ck-sum-item"><span class="ck-sum-label">Server ID</span><span class="ck-sum-value" style="font-family:monospace;">' + parsed.serverId + '</span></div>';
+  }
+  if (orderData.quantity && orderData.quantity > 1) {
+    html += '<div class="ck-sum-item"><span class="ck-sum-label">Quantity</span><span class="ck-sum-value">×' + orderData.quantity + '</span></div>';
+  }
+  html += '<div class="ck-sum-item"><span class="ck-sum-label">Email</span><span class="ck-sum-value" id="sumEmail">' + (email || '—') + '</span></div>';
+  html += '<div class="ck-sum-item"><span class="ck-sum-label">Payment</span><span class="ck-sum-value" id="sumPayment">' + methodName + '</span></div>';
+  html += '<div class="ck-sum-item"><span class="ck-sum-label">Order ID</span><span class="ck-sum-value" style="font-family:monospace;font-size:0.72rem;">' + (orderData.orderId || '—') + '</span></div>';
+  html += '<div class="ck-sum-total"><span class="ck-sum-total-label">Total</span><span class="ck-sum-total-value">৳' + (orderData.totalPrice || 0).toLocaleString() + '</span></div>';
+  html += '<div class="ck-sum-warning"><i class="fas fa-exclamation-circle"></i><span>ভুল তথ্য প্রদান করলে কর্তৃপক্ষ দায়ী নয়।</span></div>';
 
-      const mobilePrice = document.getElementById('mobileTotalPrice');
-      if (mobilePrice) mobilePrice.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
-    }
+  container.innerHTML = html;
 
-    function updateSummaryDynamic() {
-      const emailEl = document.getElementById('sumEmail');
-      if (emailEl) emailEl.textContent = document.getElementById('ckEmail')?.value?.trim() || '—';
-      const payEl = document.getElementById('sumPayment');
-      if (payEl) payEl.textContent = selectedPayment ? (paymentConfig[selectedPayment]?.name || '—') : '—';
-    }
+  const mobilePrice = document.getElementById('mobileTotalPrice');
+  if (mobilePrice) mobilePrice.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+}
 
-    function isValidEmail(email) {
-      const allowedDomains = ['gmail.com','yahoo.com','hotmail.com','outlook.com','live.com','icloud.com','me.com','aol.com','protonmail.com','proton.me'];
-      const emailRegex = /^[^\s@]+@([^\s@]+\.[^\s@]+)$/;
-      const match = email.match(emailRegex);
-      if (!match) return false;
-      return allowedDomains.includes(match[1].toLowerCase());
-    }
+function updateSummaryDynamic() {
+  const emailEl = document.getElementById('sumEmail');
+  if (emailEl) emailEl.textContent = document.getElementById('ckEmail')?.value?.trim() || '—';
+  const payEl = document.getElementById('sumPayment');
+  if (payEl) payEl.textContent = selectedPayment ? (paymentConfig[selectedPayment]?.name || '—') : '—';
+}
 
-    function selectPayment(method, el) {
-      const name = document.getElementById('ckName').value.trim();
-      const phone = document.getElementById('ckPhone').value.trim();
-      const email = document.getElementById('ckEmail').value.trim();
+function isValidEmail(email) {
+  const allowedDomains = ['gmail.com','yahoo.com','hotmail.com','outlook.com','live.com','icloud.com','me.com','aol.com','protonmail.com','proton.me'];
+  const emailRegex = /^[^\s@]+@([^\s@]+\.[^\s@]+)$/;
+  const match = email.match(emailRegex);
+  if (!match) return false;
+  return allowedDomains.includes(match[1].toLowerCase());
+}
 
-      if (!name) { toast('Please enter your name first','error'); document.getElementById('ckName').focus(); return; }
-      if (!phone) { toast('Please enter your phone number first','error'); document.getElementById('ckPhone').focus(); return; }
-      if (!email) { toast('Please enter your email address first','error'); document.getElementById('ckEmail').focus(); return; }
-      if (!isValidEmail(email)) { toast('Please use a genuine email (Gmail, Yahoo, Outlook, etc.)','error'); document.getElementById('ckEmail').focus(); return; }
+/* =============================================
+   SELECT PAYMENT METHOD
+   ============================================= */
+function selectPayment(method, el) {
+  const name = document.getElementById('ckName').value.trim();
+  const phone = document.getElementById('ckPhone').value.trim();
+  const email = document.getElementById('ckEmail').value.trim();
 
-      selectedPayment = method;
-      document.querySelectorAll('.ck-pay-option').forEach(opt => opt.classList.remove('selected'));
-      el.classList.add('selected');
-      updateSummaryDynamic();
+  if (!name) { toast('Please enter your name first','error'); document.getElementById('ckName').focus(); return; }
+  if (!phone) { toast('Please enter your phone number first','error'); document.getElementById('ckPhone').focus(); return; }
+  if (!email) { toast('Please enter your email address first','error'); document.getElementById('ckEmail').focus(); return; }
+  if (!isValidEmail(email)) { toast('Please use a genuine email (Gmail, Yahoo, Outlook, etc.)','error'); document.getElementById('ckEmail').focus(); return; }
 
-      orderData.billingName = name;
-      orderData.billingPhone = phone;
-      orderData.billingEmail = email;
-      orderData.paymentMethod = selectedPayment;
-      sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+  selectedPayment = method;
+  document.querySelectorAll('.ck-pay-option').forEach(opt => opt.classList.remove('selected'));
+  el.classList.add('selected');
+  updateSummaryDynamic();
 
-      renderPaymentView();
-      const instrEl = document.getElementById('inlinePaymentInstructions');
-      instrEl.style.display = 'block';
-      instrEl.className = 'ck-pay-instruction active';
+  orderData.billingName = name;
+  orderData.billingPhone = phone;
+  orderData.billingEmail = email;
+  orderData.paymentMethod = selectedPayment;
+  sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
 
-      document.getElementById('step2').className = 'ck-step-item done';
-      document.getElementById('step2').querySelector('.ck-step-num').innerHTML = '<i class="fas fa-check"></i>';
-      document.getElementById('stepLine2').className = 'ck-step-line done';
-      document.getElementById('step3').className = 'ck-step-item active';
+  renderPaymentView();
+  const instrEl = document.getElementById('inlinePaymentInstructions');
+  instrEl.style.display = 'block';
+  instrEl.className = 'ck-pay-instruction active';
 
-      document.getElementById('mobileStickyBar').classList.add('show');
+  document.getElementById('step2').className = 'ck-step-item done';
+  document.getElementById('step2').querySelector('.ck-step-num').innerHTML = '<i class="fas fa-check"></i>';
+  document.getElementById('stepLine2').className = 'ck-step-line done';
+  document.getElementById('step3').className = 'ck-step-item active';
 
-      setTimeout(() => instrEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  document.getElementById('mobileStickyBar').classList.add('show');
 
-      sendToGoogleSheets('Checkout_Started');
-    }
+  setTimeout(() => instrEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 
-    function renderPaymentView() {
-      const config = paymentConfig[selectedPayment];
-      if (!config) return;
+  sendToGoogleSheets('Checkout_Started');
+}
 
-      const iconEl = document.getElementById('piIcon');
-      iconEl.className = `ck-pay-icon ck-pi-icon ${config.iconClass}`;
-      iconEl.innerHTML = `<img src="${config.img}" alt="${config.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="fallback" style="display:none;"><i class="${config.fallbackIcon}"></i></div>`;
+/* =============================================
+   RENDER PAYMENT INSTRUCTIONS
+   ============================================= */
+function renderPaymentView() {
+  const config = paymentConfig[selectedPayment];
+  if (!config) return;
 
-      document.getElementById('piTitle').textContent = config.name + ' Payment';
-      document.getElementById('piMethodLabel').textContent = config.name;
-      document.getElementById('piInvoice').textContent = orderData.orderId || 'IS' + Date.now();
-      document.getElementById('piAmount').textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
-      document.getElementById('piAccountNum').textContent = config.accountNumber;
+  const iconEl = document.getElementById('piIcon');
+  iconEl.className = 'ck-pay-icon ck-pi-icon ' + config.iconClass;
+  iconEl.innerHTML = '<img src="' + config.img + '" alt="' + config.name + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div class="fallback" style="display:none;"><i class="' + config.fallbackIcon + '"></i></div>';
 
-      const noticeAmountEl = document.getElementById('noticeAmount');
-      if (noticeAmountEl) noticeAmountEl.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+  document.getElementById('piTitle').textContent = config.name + ' Payment';
+  document.getElementById('piMethodLabel').textContent = config.name;
+  document.getElementById('piInvoice').textContent = orderData.orderId || 'IS' + Date.now();
+  document.getElementById('piAmount').textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+  document.getElementById('piAccountNum').textContent = config.accountNumber;
 
-      const stepsHtml = config.steps.map((step, i) => `
-        <div class="ck-pi-step">
-          <div class="ck-pi-step-num">${i + 1}</div>
-          <div class="ck-pi-step-text">${step.text}</div>
-        </div>
-      `).join('');
-      document.getElementById('piSteps').innerHTML = stepsHtml;
+  const noticeAmountEl = document.getElementById('noticeAmount');
+  if (noticeAmountEl) noticeAmountEl.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
 
-      const amountEl = document.getElementById('stepAmount');
-      if (amountEl) amountEl.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+  const stepsHtml = config.steps.map(function(step, i) {
+    return '<div class="ck-pi-step"><div class="ck-pi-step-num">' + (i + 1) + '</div><div class="ck-pi-step-text">' + step.text + '</div></div>';
+  }).join('');
+  document.getElementById('piSteps').innerHTML = stepsHtml;
 
-      document.getElementById('ckPayAccount').value = '';
-      document.getElementById('ckPayAccount').placeholder = `যেমন: আপনার ${config.name} নম্বর (${config.accountLength} ডিজিট)`;
-      document.getElementById('ckTxnId').value = '';
-    }
+  const amountEl = document.getElementById('stepAmount');
+  if (amountEl) amountEl.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
 
-    function copyAccount() {
-      const num = document.getElementById('piAccountNum').textContent;
-      const btn = document.getElementById('copyAccountBtn');
-      navigator.clipboard.writeText(num).then(() => {
-        btn.classList.add('copied');
-        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        toast('অ্যাকাউন্ট নম্বর কপি হয়েছে!', 'success');
-        setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
-      }).catch(() => {
-        const ta = document.createElement('textarea'); ta.value = num;
-        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-        btn.classList.add('copied');
-        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        toast('অ্যাকাউন্ট নম্বর কপি হয়েছে!', 'success');
-        setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
-      });
-    }
+  document.getElementById('ckPayAccount').value = '';
+  document.getElementById('ckPayAccount').placeholder = 'যেমন: আপনার ' + config.name + ' নম্বর (' + config.accountLength + ' ডিজিট)';
+  document.getElementById('ckTxnId').value = '';
+}
 
-    function resetVerifyUI() {
-      const verifyBtn = document.getElementById('verifyBtn');
-      if (verifyBtn) verifyBtn.style.display = 'flex';
-      const mobileBtn = document.getElementById('verifyBtnMobile');
-      if (mobileBtn) { mobileBtn.disabled = false; mobileBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Payment'; }
-      document.getElementById('ckSending').classList.remove('show');
-      document.getElementById('ckBlocked').classList.remove('show');
-      isVerifying = false;
-    }
+/* =============================================
+   COPY ACCOUNT NUMBER
+   ============================================= */
+function copyAccount() {
+  const num = document.getElementById('piAccountNum').textContent;
+  const btn = document.getElementById('copyAccountBtn');
+  navigator.clipboard.writeText(num).then(function() {
+    btn.classList.add('copied');
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    toast('অ্যাকাউন্ট নম্বর কপি হয়েছে!', 'success');
+    setTimeout(function() { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
+  }).catch(function() {
+    const ta = document.createElement('textarea');
+    ta.value = num;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.classList.add('copied');
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    toast('অ্যাকাউন্ট নম্বর কপি হয়েছে!', 'success');
+    setTimeout(function() { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
+  });
+}
 
-    async function sendToGoogleSheets(status) {
-      if (!GOOGLE_SHEET_URL) return null;
+/* =============================================
+   RESET VERIFY UI
+   ============================================= */
+function resetVerifyUI() {
+  const verifyBtn = document.getElementById('verifyBtn');
+  if (verifyBtn) verifyBtn.style.display = 'flex';
+  const mobileBtn = document.getElementById('verifyBtnMobile');
+  if (mobileBtn) {
+    mobileBtn.disabled = false;
+    mobileBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Payment';
+  }
+  document.getElementById('ckSending').classList.remove('show');
+  document.getElementById('ckBlocked').classList.remove('show');
+  isVerifying = false;
+}
 
-      const config = selectedPayment ? paymentConfig[selectedPayment] : {};
+/* =============================================
+   SECURE SERVER SEND (NO FALLBACK — Safe)
+   ============================================= */
+async function sendToGoogleSheets(status) {
+  if (!GOOGLE_SHEET_URL) return null;
 
-      const payload = {
-        secret: API_SECRET,
-        timestamp: orderData.timestamp || new Date().toISOString(),
-        orderId: orderData.orderId || '',
-        product: orderData.product || '',
-        package: orderData.package || '',
-        userId: orderData.userId || '',
-        quantity: orderData.quantity || '',
-        unitPrice: orderData.unitPrice || '',
-        totalPrice: orderData.totalPrice || '',
-        currency: orderData.currency || '',
-        category: orderData.cat || '',
-        billingName: orderData.billingName || '',
-        billingPhone: orderData.billingPhone || '',
-        billingEmail: orderData.billingEmail || '',
-        paymentMethod: config.name || orderData.paymentMethod || '',
-        paymentAccount: document.getElementById('ckPayAccount')?.value?.trim() || '',
-        transactionId: document.getElementById('ckTxnId')?.value?.trim() || '',
-        receiverAccount: config.accountNumber || '',
-        status: status
-      };
+  const config = selectedPayment ? paymentConfig[selectedPayment] : {};
 
-      try {
-        const response = await fetch(GOOGLE_SHEET_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
+  const payload = {
+    secret: API_SECRET,
+    timestamp: orderData.timestamp || new Date().toISOString(),
+    orderId: orderData.orderId || '',
+    product: orderData.product || '',
+    package: orderData.package || '',
+    userId: orderData.userId || '',
+    quantity: orderData.quantity || '',
+    unitPrice: orderData.unitPrice || '',
+    totalPrice: orderData.totalPrice || '',
+    currency: orderData.currency || '',
+    category: orderData.cat || '',
+    billingName: orderData.billingName || '',
+    billingPhone: orderData.billingPhone || '',
+    billingEmail: orderData.billingEmail || '',
+    paymentMethod: config.name || orderData.paymentMethod || '',
+    paymentAccount: document.getElementById('ckPayAccount')?.value?.trim() || '',
+    transactionId: document.getElementById('ckTxnId')?.value?.trim() || '',
+    receiverAccount: config.accountNumber || '',
+    status: status
+  };
 
-        const result = await response.json();
+  try {
+    const response = await fetch(GOOGLE_SHEET_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
 
-        if (result.result === 'success') {
-          console.log('✅ Data saved securely via POST');
-          if (result.verifyHash) {
-            orderData.serverVerifyHash = result.verifyHash;
-            sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
-            console.log('🛡️ Server verify hash saved:', result.verifyHash);
-          }
-          return result;
-        } else {
-          console.error('❌ Server rejected:', result.message);
-          return result;
-        }
-      } catch (err) {
-        console.error('❌ Secure POST failed, using fallback:', err);
-        sendToGoogleSheetsFallback(status);
-        return null;
-      }
-    }
+    const result = await response.json();
 
-    function sendToGoogleSheetsFallback(status) {
-      try {
-        const config = selectedPayment ? paymentConfig[selectedPayment] : {};
-        const params = new URLSearchParams({
-          timestamp: orderData.timestamp || new Date().toISOString(),
-          orderId: orderData.orderId || '',
-          product: orderData.product || '',
-          package: orderData.package || '',
-          userId: orderData.userId || '',
-          quantity: orderData.quantity || '',
-          unitPrice: orderData.unitPrice || '',
-          totalPrice: orderData.totalPrice || '',
-          currency: orderData.currency || '',
-          category: orderData.cat || '',
-          billingName: orderData.billingName || '',
-          billingPhone: orderData.billingPhone || '',
-          billingEmail: orderData.billingEmail || '',
-          paymentMethod: config.name || orderData.paymentMethod || '',
-          paymentAccount: document.getElementById('ckPayAccount')?.value?.trim() || '',
-          transactionId: document.getElementById('ckTxnId')?.value?.trim() || '',
-          receiverAccount: config.accountNumber || '',
-          status: status
-        });
-        const img = new Image();
-        img.src = GOOGLE_SHEET_URL + '?' + params.toString();
-        console.log('✅ Fallback sent via GET pixel');
-      } catch (e) {
-        console.error('❌ Fallback error:', e);
-      }
-    }
-
-    async function verifyPayment() {
-      if (isVerifying) return;
-
-      const name = document.getElementById('ckName').value.trim();
-      const phone = document.getElementById('ckPhone').value.trim();
-      const email = document.getElementById('ckEmail').value.trim();
-
-      if (!name) { toast('Please enter your name','error'); document.getElementById('ckName').focus(); return; }
-      if (!phone) { toast('Please enter your phone number','error'); document.getElementById('ckPhone').focus(); return; }
-      if (!email) { toast('Please enter your email address','error'); document.getElementById('ckEmail').focus(); return; }
-      if (!isValidEmail(email)) { toast('Please use a genuine email (Gmail, Yahoo, Outlook, etc.)','error'); document.getElementById('ckEmail').focus(); return; }
-
-      const payAccount = document.getElementById('ckPayAccount').value.trim();
-      const txnId = document.getElementById('ckTxnId').value.trim().toUpperCase();
-
-      if (!payAccount) {
-        toast('আপনার ' + (paymentConfig[selectedPayment]?.name || 'payment') + ' নম্বর লিখুন', 'error');
-        document.getElementById('ckPayAccount').focus();
-        return;
-      }
-
-      const numRule = paymentConfig[selectedPayment];
-      if (!/^\d+$/.test(payAccount)) {
-        toast(numRule.name + ' নম্বর শুধুমাত্র সংখ্যা হতে হবে!', 'error');
-        document.getElementById('ckPayAccount').focus();
-        return;
-      }
-      if (payAccount.length !== numRule.accountLength) {
-        toast(numRule.name + ' নম্বর ঠিক ' + numRule.accountLength + ' ডিজিটের হতে হবে! আপনি ' + payAccount.length + ' ডিজিট দিয়েছেন।', 'error');
-        document.getElementById('ckPayAccount').focus();
-        return;
-      }
-
-      if (!txnId) {
-        toast('Transaction ID লিখুন', 'error');
-        document.getElementById('ckTxnId').focus();
-        return;
-      }
-      if (txnId.length < 8 || !/^[a-zA-Z0-9]+$/.test(txnId)) {
-        toast('Transaction ID সঠিক নয়। আপনার মেসেজ থেকে সঠিক ID লিখুন।', 'error');
-        document.getElementById('ckTxnId').focus();
-        return;
-      }
-
-      isVerifying = true;
-
-      const sendEl = document.getElementById('ckSending');
-      const btnEl = document.getElementById('verifyBtn');
-      const mobileBtn = document.getElementById('verifyBtnMobile');
-      const blockedEl = document.getElementById('ckBlocked');
-      const blockedMsg = document.getElementById('ckBlockedMsg');
-
-      blockedEl.classList.remove('show');
-
-      sendEl.classList.add('show');
-      btnEl.style.display = 'none';
-      if (mobileBtn) {
-        mobileBtn.disabled = true;
-        mobileBtn.innerHTML = '<div class="spinner-sm"></div> যাচাই হচ্ছে...';
-      }
-
-      orderData.billingName = name;
-      orderData.billingPhone = phone;
-      orderData.billingEmail = email;
-      orderData.paymentAccount = payAccount;
-      orderData.transactionId = txnId;
-      orderData.paymentStatus = 'Verifying';
-      orderData.verifiedAt = new Date().toISOString();
-      orderData.paymentMethodName = paymentConfig[selectedPayment]?.name || selectedPayment;
-      orderData.receiverAccount = paymentConfig[selectedPayment]?.accountNumber || '';
-
-      sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
-
-      const serverResult = await sendToGoogleSheets('Verifying');
-
-      if (serverResult && serverResult.result !== 'success') {
-        const errMsg = serverResult.message || 'Server rejected the request';
-
-        if (errMsg.toLowerCase().includes('duplicate') || errMsg.toLowerCase().includes('already')) {
-          blockedMsg.textContent = '⚠️ এই Transaction ID আগেই ব্যবহৃত হয়েছে! একই TrxID দুইবার ব্যবহার করা যাবে না।';
-          blockedEl.classList.add('show');
-          toast('⚠️ এই Transaction ID আগেই ব্যবহৃত হয়েছে!', 'error');
-        } else {
-          toast('❌ ' + errMsg, 'error');
-        }
-
-        resetVerifyUI();
-        return;
-      }
-
-      if (!serverResult) {
-        console.warn('⚠️ Server did not return a result (fallback used). No verifyHash available.');
-      }
-
-      setTimeout(() => {
+    if (result.result === 'success') {
+      console.log('✅ Data saved securely via POST');
+      if (result.verifyHash) {
+        orderData.serverVerifyHash = result.verifyHash;
         sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
-        window.location.replace('confirmation.html');
-      }, 800);
-    }
-
-    function openLegal(id) {
-      const modal = document.getElementById(id);
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      modal.querySelector('.legal-modal-box').scrollTop = 0;
-      modal.querySelector('.legal-close').focus();
-    }
-    function closeLegal(id) {
-      document.getElementById(id).classList.remove('active');
-      document.body.style.overflow = '';
-    }
-    document.querySelectorAll('.legal-modal').forEach(m => {
-      m.addEventListener('click', function(e) {
-        if (e.target === this) closeLegal(this.id);
-      });
-    });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.legal-modal.active').forEach(m => closeLegal(m.id));
       }
-    });
-
-    const sInput = document.getElementById('searchInput');
-    const mInput = document.getElementById('mSearchInput');
-    const sDrop = document.getElementById('searchDropdown');
-
-    function runSearch(query) {
-      const q = query.trim().toLowerCase();
-      if (q.length < 2) { sDrop.classList.remove('open'); return; }
-      sDrop.innerHTML = '<div class="search-empty"><a href="index.html" style="color:var(--ck-accent);">Go to homepage to search</a></div>';
-      sDrop.classList.add('open');
-      if (window.innerWidth > 768) {
-        const wrapper = document.getElementById('searchWrapper');
-        if (wrapper && window.getComputedStyle(wrapper).display !== 'none') {
-            const rect = wrapper.getBoundingClientRect();
-            sDrop.style.position = 'fixed';
-            sDrop.style.top = (rect.bottom + 6) + 'px';
-            sDrop.style.left = rect.left + 'px';
-            sDrop.style.width = rect.width + 'px';
-            sDrop.style.right = 'auto';
-        }
-      } else {
-        const mRect = mInput.getBoundingClientRect();
-        sDrop.style.position = 'fixed';
-        sDrop.style.top = (mRect.bottom + 6) + 'px';
-        sDrop.style.left = '12px';
-        sDrop.style.right = '12px';
-        sDrop.style.width = 'auto';
-      }
+      return result;
+    } else {
+      console.error('❌ Server rejected:', result.message);
+      return result;
     }
-    sInput.addEventListener('input', function() { runSearch(this.value); });
-    mInput.addEventListener('input', function() { runSearch(this.value); });
-    
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.search-wrapper') && !e.target.closest('.m-search') && !e.target.closest('.search-dropdown')) sDrop.classList.remove('open');
-    });
-    function doSearch() { runSearch(sInput.value); sInput.focus(); }
+  } catch (err) {
+    console.error('❌ Network error:', err);
+    // Return error instead of silent fallback — prevents duplicate bypass
+    return { result: 'error', message: 'NETWORK_ERROR: Could not connect to server. Check your internet and try again.' };
+  }
+}
 
-    const mobToggle = document.getElementById('mobToggle');
-    const navBar = document.getElementById('navBar');
-    mobToggle.addEventListener('click', () => {
-      navBar.classList.toggle('open');
-      mobToggle.querySelector('i').className = navBar.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
-    });
-    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
-      navBar.classList.remove('open');
-      mobToggle.querySelector('i').className = 'fas fa-bars';
-    }));
-    document.addEventListener('click', function(e) {
-      if(navBar.classList.contains('open') && !e.target.closest('.nav-bar') && !e.target.closest('.mobile-toggle')){
-        navBar.classList.remove('open');
-        mobToggle.querySelector('i').className='fas fa-bars';
-      }
-    });
+/* =============================================
+   VERIFY PAYMENT (Bulletproof)
+   ============================================= */
+async function verifyPayment() {
+  if (isVerifying) return;
 
-    function toggleChat() {
-      document.getElementById('chatToggle').classList.toggle('open');
-      document.getElementById('chatOptions').classList.toggle('show');
+  // Pre-check: already submitted?
+  const currentOrder = JSON.parse(sessionStorage.getItem('cartStoreOrder') || '{}');
+  if (currentOrder.paymentStatus === 'Verifying' || currentOrder.paymentStatus === 'Confirmed') {
+    toast('⚠️ এই অর্ডারটি ইতিমধ্যে জমা হয়েছে!', 'error');
+    return;
+  }
+
+  // Validate name
+  const name = document.getElementById('ckName').value.trim();
+  if (!name) { toast('Please enter your name', 'error'); document.getElementById('ckName').focus(); return; }
+
+  // Validate phone
+  const phone = document.getElementById('ckPhone').value.trim();
+  if (!phone) { toast('Please enter your phone number', 'error'); document.getElementById('ckPhone').focus(); return; }
+
+  // Validate email
+  const email = document.getElementById('ckEmail').value.trim();
+  if (!email) { toast('Please enter your email address', 'error'); document.getElementById('ckEmail').focus(); return; }
+  if (!isValidEmail(email)) { toast('Please use a genuine email (Gmail, Yahoo, Outlook, etc.)', 'error'); document.getElementById('ckEmail').focus(); return; }
+
+  // Validate payment account number
+  const payAccount = document.getElementById('ckPayAccount').value.trim();
+  if (!payAccount) {
+    toast('আপনার ' + (paymentConfig[selectedPayment]?.name || 'payment') + ' নম্বর লিখুন', 'error');
+    document.getElementById('ckPayAccount').focus();
+    return;
+  }
+
+  const numRule = paymentConfig[selectedPayment];
+  if (!/^\d+$/.test(payAccount)) {
+    toast(numRule.name + ' নম্বর শুধুমাত্র সংখ্যা হতে হবে!', 'error');
+    document.getElementById('ckPayAccount').focus();
+    return;
+  }
+  if (payAccount.length !== numRule.accountLength) {
+    toast(numRule.name + ' নম্বর ঠিক ' + numRule.accountLength + ' ডিজিটের হতে হবে! আপনি ' + payAccount.length + ' ডিজিট দিয়েছেন।', 'error');
+    document.getElementById('ckPayAccount').focus();
+    return;
+  }
+
+  // 🚨 FRAUD CHECK: Did user enter the SHOP's account number as their own?
+  const receiverNumber = numRule.accountNumber;
+  if (payAccount === receiverNumber) {
+    toast('⚠️ আপনি দোকানের অ্যাকাউন্ট নম্বর দিয়েছেন! আপনার নিজের ' + numRule.name + ' নম্বর দিন।', 'error');
+    document.getElementById('ckPayAccount').value = '';
+    document.getElementById('ckPayAccount').focus();
+    return;
+  }
+
+  // Validate Transaction ID
+  const txnId = document.getElementById('ckTxnId').value.trim().toUpperCase();
+  if (!txnId) {
+    toast('Transaction ID লিখুন', 'error');
+    document.getElementById('ckTxnId').focus();
+    return;
+  }
+  if (txnId.length < 8 || !/^[a-zA-Z0-9]+$/.test(txnId)) {
+    toast('Transaction ID সঠিক নয়। আপনার মেসেজ থেকে সঠিক ID লিখুন।', 'error');
+    document.getElementById('ckTxnId').focus();
+    return;
+  }
+
+  // 🚨 FRAUD CHECK: Did user enter shop's number as TrxID? (just in case)
+  if (txnId === receiverNumber) {
+    toast('⚠️ Transaction ID সঠিক নয়। আপনার পেমেন্ট মেসেজ থেকে TrxID কপি করুন।', 'error');
+    document.getElementById('ckTxnId').value = '';
+    document.getElementById('ckTxnId').focus();
+    return;
+  }
+
+  // All validations passed — lock UI
+  isVerifying = true;
+
+  const sendEl = document.getElementById('ckSending');
+  const btnEl = document.getElementById('verifyBtn');
+  const mobileBtn = document.getElementById('verifyBtnMobile');
+  const blockedEl = document.getElementById('ckBlocked');
+  const blockedMsg = document.getElementById('ckBlockedMsg');
+
+  blockedEl.classList.remove('show');
+  sendEl.classList.add('show');
+  btnEl.style.display = 'none';
+  if (mobileBtn) {
+    mobileBtn.disabled = true;
+    mobileBtn.innerHTML = '<div class="spinner-sm"></div> যাচাই হচ্ছে...';
+  }
+
+  // Update order data
+  orderData.billingName = name;
+  orderData.billingPhone = phone;
+  orderData.billingEmail = email;
+  orderData.paymentAccount = payAccount;
+  orderData.transactionId = txnId;
+  orderData.paymentStatus = 'Verifying';
+  orderData.verifiedAt = new Date().toISOString();
+  orderData.paymentMethodName = paymentConfig[selectedPayment]?.name || selectedPayment;
+  orderData.receiverAccount = paymentConfig[selectedPayment]?.accountNumber || '';
+
+  // Save to session BEFORE sending (prevents double-click resubmission)
+  sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+
+  // Send to server
+  const serverResult = await sendToGoogleSheets('Verifying');
+
+  // ============================================
+  // HANDLE SERVER RESPONSE
+  // ============================================
+
+  // CASE 1: Server returned an error
+  if (serverResult && serverResult.result !== 'success') {
+    const errMsg = (serverResult.message || '').toLowerCase();
+
+    // Reset order status so user can retry with different info
+    orderData.paymentStatus = 'Pending';
+    delete orderData.verifiedAt;
+    sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+
+    if (errMsg.includes('duplicate_trxid') || errMsg.includes('duplicate')) {
+      blockedMsg.textContent = '⚠️ এই Transaction ID আগেই ব্যবহৃত হয়েছে! একই TrxID দুইবার ব্যবহার করা যাবে না। অনুগ্রহ করে সঠিক Transaction ID দিন।';
+      blockedEl.classList.add('show');
+      toast('⚠️ এই Transaction ID আগেই ব্যবহৃত হয়েছে!', 'error');
+      document.getElementById('ckTxnId').value = '';
+    } else if (errMsg.includes('fraud_sender_receiver') || errMsg.includes('sender') && errMsg.includes('receiver')) {
+      blockedMsg.textContent = '⚠️ আপনি দোকানের অ্যাকাউন্ট নম্বর দিয়েছেন! আপনার নিজের নম্বর দিন।';
+      blockedEl.classList.add('show');
+      toast('⚠️ সন্দেজজনক তথ্য পাওয়া গেছে!', 'error');
+      document.getElementById('ckPayAccount').value = '';
+    } else if (errMsg.includes('server_busy') || errMsg.includes('busy')) {
+      toast('⏳ সার্ভার ব্যস্ত আছে। কিছু সেকেন্ড পর আবার চেষ্টা করুন।', 'error');
+    } else if (errMsg.includes('rate')) {
+      toast('⚠️ অনেকবার চেষ্টা করেছেন। ১ মিনিট পর আবার চেষ্টা করুন।', 'error');
+    } else if (errMsg.includes('network_error') || errMsg.includes('could not connect')) {
+      toast('❌ ইন্টারনেট সংযোগে সমস্যা। আবার চেষ্টা করুন।', 'error');
+    } else {
+      toast('❌ ' + (serverResult.message || 'Server error'), 'error');
     }
 
-    window.addEventListener('scroll', () => {
-      document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
-    });
+    resetVerifyUI();
+    return;
+  }
 
-    function toast(msg, type = '') {
-      const w = document.getElementById('toastWrap');
-      const t = document.createElement('div');
-      t.className = 'toast ' + type;
-      t.innerHTML = `<i class="fas ${type==='error'?'fa-exclamation-circle':type==='success'?'fa-check-circle':'fa-info-circle'}"></i> ${msg}`;
-      w.appendChild(t);
-      setTimeout(() => {
-        t.style.opacity = '0';
-        t.style.transform = 'translateX(100%)';
-        t.style.transition = 'all 0.3s';
-        setTimeout(() => t.remove(), 300);
-      }, 3000);
+  // CASE 2: Server returned null (shouldn't happen now, but just in case)
+  if (!serverResult) {
+    orderData.paymentStatus = 'Pending';
+    delete orderData.verifiedAt;
+    sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+    toast('❌ সার্ভার থেকে কোনো রেসপন্স পাওয়া যায়নি। আবার চেষ্টা করুন।', 'error');
+    resetVerifyUI();
+    return;
+  }
+
+  // CASE 3: Success — proceed to confirmation
+  setTimeout(function() {
+    sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
+    window.location.replace('confirmation.html');
+  }, 800);
+}
+
+/* =============================================
+   LEGAL MODALS
+   ============================================= */
+function openLegal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  modal.querySelector('.legal-modal-box').scrollTop = 0;
+  modal.querySelector('.legal-close').focus();
+}
+function closeLegal(id) {
+  document.getElementById(id).classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.legal-modal').forEach(function(m) {
+  m.addEventListener('click', function(e) {
+    if (e.target === this) closeLegal(this.id);
+  });
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.legal-modal.active').forEach(function(m) { closeLegal(m.id); });
+  }
+});
+
+/* =============================================
+   SEARCH
+   ============================================= */
+const sInput = document.getElementById('searchInput');
+const mInput = document.getElementById('mSearchInput');
+const sDrop = document.getElementById('searchDropdown');
+
+function runSearch(query) {
+  const q = query.trim().toLowerCase();
+  if (q.length < 2) { sDrop.classList.remove('open'); return; }
+  sDrop.innerHTML = '<div class="search-empty"><a href="index.html" style="color:var(--ck-accent);">Go to homepage to search</a></div>';
+  sDrop.classList.add('open');
+  if (window.innerWidth > 768) {
+    const wrapper = document.getElementById('searchWrapper');
+    if (wrapper && window.getComputedStyle(wrapper).display !== 'none') {
+      const rect = wrapper.getBoundingClientRect();
+      sDrop.style.position = 'fixed';
+      sDrop.style.top = (rect.bottom + 6) + 'px';
+      sDrop.style.left = rect.left + 'px';
+      sDrop.style.width = rect.width + 'px';
+      sDrop.style.right = 'auto';
     }
+  } else {
+    const mRect = mInput.getBoundingClientRect();
+    sDrop.style.position = 'fixed';
+    sDrop.style.top = (mRect.bottom + 6) + 'px';
+    sDrop.style.left = '12px';
+    sDrop.style.right = '12px';
+    sDrop.style.width = 'auto';
+  }
+}
+sInput.addEventListener('input', function() { runSearch(this.value); });
+mInput.addEventListener('input', function() { runSearch(this.value); });
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.search-wrapper') && !e.target.closest('.m-search') && !e.target.closest('.search-dropdown')) sDrop.classList.remove('open');
+});
+function doSearch() { runSearch(sInput.value); sInput.focus(); }
 
-    document.addEventListener('DOMContentLoaded', loadOrder);
+/* =============================================
+   MOBILE NAV TOGGLE
+   ============================================= */
+const mobToggle = document.getElementById('mobToggle');
+const navBar = document.getElementById('navBar');
+mobToggle.addEventListener('click', function() {
+  navBar.classList.toggle('open');
+  mobToggle.querySelector('i').className = navBar.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+});
+document.querySelectorAll('.nav-link').forEach(function(l) {
+  l.addEventListener('click', function() {
+    navBar.classList.remove('open');
+    mobToggle.querySelector('i').className = 'fas fa-bars';
+  });
+});
+document.addEventListener('click', function(e) {
+  if (navBar.classList.contains('open') && !e.target.closest('.nav-bar') && !e.target.closest('.mobile-toggle')) {
+    navBar.classList.remove('open');
+    mobToggle.querySelector('i').className = 'fas fa-bars';
+  }
+});
+
+/* =============================================
+   CHAT TOGGLE
+   ============================================= */
+function toggleChat() {
+  document.getElementById('chatToggle').classList.toggle('open');
+  document.getElementById('chatOptions').classList.toggle('show');
+}
+
+/* =============================================
+   SCROLL TO TOP
+   ============================================= */
+window.addEventListener('scroll', function() {
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+});
+
+/* =============================================
+   TOAST NOTIFICATION
+   ============================================= */
+function toast(msg, type) {
+  type = type || '';
+  const w = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  const icon = type === 'error' ? 'fa-exclamation-circle' : type === 'success' ? 'fa-check-circle' : 'fa-info-circle';
+  t.innerHTML = '<i class="fas ' + icon + '"></i> ' + msg;
+  w.appendChild(t);
+  setTimeout(function() {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(100%)';
+    t.style.transition = 'all 0.3s';
+    setTimeout(function() { t.remove(); }, 300);
+  }, 3000);
+}
+
+/* =============================================
+   INIT
+   ============================================= */
+document.addEventListener('DOMContentLoaded', loadOrder);
   </script>
 
   <!-- ===== SAFE ANTI-COPY & PROTECTION ===== -->
