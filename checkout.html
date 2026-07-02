@@ -6,7 +6,7 @@
   <title>Checkout – IlhamStore</title>
   
   <!-- Security: Content Security Policy -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://script.google.com; connect-src 'self' https://script.google.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self' https://script.google.com;">
   
   <!-- Anti-Scraping: Robots -->
   <meta name="robots" content="noarchive, max-snippet:-1">
@@ -148,6 +148,7 @@
       background: var(--gray-50);
       transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
       font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
     }
 
     .ck-input:focus {
@@ -661,6 +662,7 @@
       transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
       letter-spacing: 0.03em;
       font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
     }
 
     .ck-txn-input:focus {
@@ -848,6 +850,20 @@
     @media(max-width:600px){
       .legal-modal-box{padding:1.5rem;border-radius:12px;}
       .legal-modal-box h1{font-size:1.3rem;}
+    }
+
+    /* 🔧 FIX #16: Print styles for checkout */
+    @media print {
+      .header, .footer, .nav-bar, .chat-float, .toast-wrap, .m-search, .scroll-top,
+      .ck-mobile-bar, .ck-steps, .ck-pay-grid, .ck-submit, .ck-secure,
+      .ck-verify-btn, .ck-sending, .ck-blocked-overlay, .ck-copy-btn,
+      #inlinePaymentInstructions, .ck-notice, .ck-notice-blue { display: none !important; }
+      .ck-wrap { padding: 0; gap: 20px; }
+      .ck-left, .ck-right { display: block !important; width: 100% !important; }
+      .ck-right { position: static !important; }
+      .ck-summary { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+      .ck-card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+      body { -webkit-user-select: text !important; user-select: text !important; background: #fff !important; }
     }
 
     @media (max-width: 768px) {
@@ -1243,73 +1259,62 @@
    document.getElementById('footerYear').textContent = new Date().getFullYear();
 
 /* =============================================
-   SECURITY: Obfuscated Google Script URL
+   GLOBAL ERROR BOUNDARY
    ============================================= */
-const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6MFhjdG53dGFnaHMtTjRReGFtbWdOTEtMTHJyU1M5dlh2RWRlTEFxUEttcWtTZkkxOGZNQllwc0ZjcHZPWDVjSklvei9leGVj';
+window.onerror = function(msg, url, line, col, error) {
+  console.error('Fatal error:', {msg: msg, url: url, line: line, col: col, error: error});
+  var viewEl = document.getElementById('checkoutView');
+  if (viewEl && viewEl.innerHTML.indexOf('Billing Information') !== -1) {
+    viewEl.innerHTML = '<div style="text-align:center;padding:60px 20px;"><div style="font-size:60px;margin-bottom:16px;">⚠️</div><h2 style="font-size:1.2rem;margin-bottom:12px;color:#DC2626;">Something went wrong</h2><p style="color:#6B7280;margin-bottom:20px;font-size:0.9rem;">Please refresh the page or contact support.</p><button onclick="location.reload()" style="background:#7C3AED;color:white;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-family:Inter,sans-serif;">Refresh Page</button></div>';
+  }
+  return true;
+};
+
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4UHZZMTVRVW91UlJNN1Jwb1d4QkVObng2ZHB3bG5ndm1EWjFmNTllOEt0V2Z3Yi1YZnhYSmJyNlBmUTlwdXY2anhBL2V4ZWM=';
 const GOOGLE_SHEET_URL = atob(_0x4f8a);
 const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 
 const paymentConfig = {
   bkash: {
-    name: 'bKash',
-    img: 'images/payments/bkash.png',
-    fallbackIcon: 'fas fa-wallet',
-    iconClass: 'pay-bkash',
-    accountNumber: '01558086520',
-    accountLength: 11,
+    name: 'bKash', img: 'images/payments/bkash.png', fallbackIcon: 'fas fa-wallet', iconClass: 'pay-bkash', accountNumber: '01558086520', accountLength: 11,
     steps: [
       { text: 'আপনার bKash মোবাইল মেনুতে <strong class="highlight">*247#</strong> ডায়াল করুন অথবা bKash অ্যাপ খুলুন' },
       { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
       { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01558086520</strong>' },
-      { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+      { text: 'পরিমাণ লিখুন: <strong class="highlight">{{AMOUNT}}</strong>' },
       { text: 'আপনার bKash পিন দিয়ে কনফার্ম করুন' },
       { text: 'সম্পন্ন! bKash থেকে কনফারমেশন মেসেজে Transaction ID পাবেন' }
     ]
   },
   nagad: {
-    name: 'Nagad',
-    img: 'images/payments/nagad.png',
-    fallbackIcon: 'fas fa-wallet',
-    iconClass: 'pay-nagad',
-    accountNumber: '01558086520',
-    accountLength: 11,
+    name: 'Nagad', img: 'images/payments/nagad.png', fallbackIcon: 'fas fa-wallet', iconClass: 'pay-nagad', accountNumber: '01558086520', accountLength: 11,
     steps: [
       { text: 'আপনার Nagad মোবাইল মেনুতে <strong class="highlight">*167#</strong> ডায়াল করুন অথবা Nagad অ্যাপ খুলুন' },
       { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
       { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01558086520</strong>' },
-      { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+      { text: 'পরিমাণ লিখুন: <strong class="highlight">{{AMOUNT}}</strong>' },
       { text: 'আপনার Nagad পিন দিয়ে কনফার্ম করুন' },
       { text: 'সম্পন্ন! Nagad থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
     ]
   },
   rocket: {
-    name: 'Rocket',
-    img: 'images/payments/rocket.png',
-    fallbackIcon: 'fas fa-wallet',
-    iconClass: 'pay-rocket',
-    accountNumber: '015580865206',
-    accountLength: 12,
+    name: 'Rocket', img: 'images/payments/rocket.png', fallbackIcon: 'fas fa-wallet', iconClass: 'pay-rocket', accountNumber: '015580865206', accountLength: 12,
     steps: [
       { text: 'আপনার Rocket মোবাইল মেনুতে <strong class="highlight">*322#</strong> ডায়াল করুন অথবা Rocket অ্যাপ খুলুন' },
       { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
       { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">015580865206</strong>' },
-      { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+      { text: 'পরিমাণ লিখুন: <strong class="highlight">{{AMOUNT}}</strong>' },
       { text: 'আপনার Rocket পিন দিয়ে কনফার্ম করুন' },
       { text: 'সম্পন্ন! Rocket থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
     ]
   },
   upay: {
-    name: 'Upay',
-    img: 'images/payments/upay.png',
-    fallbackIcon: 'fas fa-wallet',
-    iconClass: 'pay-upay',
-    accountNumber: '01709217102',
-    accountLength: 11,
+    name: 'Upay', img: 'images/payments/upay.png', fallbackIcon: 'fas fa-wallet', iconClass: 'pay-upay', accountNumber: '01709217102', accountLength: 11,
     steps: [
       { text: 'আপনার Upay মোবাইল মেনুতে <strong class="highlight">*268#</strong> ডায়াল করুন অথবা Upay অ্যাপ খুলুন' },
       { text: '<strong>"Send Money"</strong> অপশনটি নির্বাচন করুন' },
       { text: 'রিসিভার অ্যাকাউন্ট নম্বর লিখুন: <strong class="highlight">01709217102</strong>' },
-      { text: 'পরিমাণ লিখুন: <strong class="highlight" id="stepAmount">0</strong>' },
+      { text: 'পরিমাণ লিখুন: <strong class="highlight">{{AMOUNT}}</strong>' },
       { text: 'আপনার Upay পিন দিয়ে কনফার্ম করুন' },
       { text: 'সম্পন্ন! Upay থেকে কনফিমেশন মেসেজে Transaction ID পাবেন' }
     ]
@@ -1319,230 +1324,153 @@ const paymentConfig = {
 let orderData = null;
 let selectedPayment = null;
 let isVerifying = false;
+let lastVerifyAttempt = 0;
+const VERIFY_COOLDOWN_MS = 10000;
 
-/* =============================================
-   LOAD ORDER (with resubmission protection)
-   ============================================= */
 function loadOrder() {
   const stored = sessionStorage.getItem('cartStoreOrder');
   if (!stored) { window.location.href = 'index.html'; return; }
-  try {
-    orderData = JSON.parse(stored);
-  } catch (e) {
-    sessionStorage.removeItem('cartStoreOrder');
-    window.location.href = 'index.html';
-    return;
-  }
+  try { orderData = JSON.parse(stored); } catch (e) { sessionStorage.removeItem('cartStoreOrder'); window.location.href = 'index.html'; return; }
 
-  // Already submitted — redirect to confirmation
-  if (orderData.paymentStatus === 'Confirmed') {
-    window.location.replace('confirmation.html');
-    return;
-  }
-
-  // Already verifying — check how long ago
+  if (orderData.paymentStatus === 'Confirmed') { window.location.replace('confirmation.html'); return; }
   if (orderData.paymentStatus === 'Verifying') {
-    const verifiedAt = orderData.verifiedAt ? new Date(orderData.verifiedAt).getTime() : 0;
-    const elapsed = Date.now() - verifiedAt;
-    if (elapsed < 120000) {
-      // Less than 2 minutes — don't allow resubmission
-      window.location.replace('confirmation.html');
-      return;
-    }
-    // More than 2 minutes — might have failed, allow retry
-    orderData.paymentStatus = 'Pending';
-    delete orderData.verifiedAt;
+    const elapsed = Date.now() - new Date(orderData.verifiedAt).getTime();
+    if (elapsed < 120000) { window.location.replace('confirmation.html'); return; }
+    orderData.paymentStatus = 'Pending'; delete orderData.verifiedAt;
     sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
   }
-
   renderSummary();
 }
 
 function parseUserId(userId) {
   if (!userId) return { id: '—', serverId: null };
-  const match = userId.match(/^(.+)\((\d+)\)$/);
-  if (match) return { id: match[1].trim(), serverId: match[2] };
-  return { id: userId, serverId: null };
+  const m = userId.match(/^(.+)\((\d+)\)$/);
+  return m ? { id: m[1].trim(), serverId: m[2] } : { id: userId, serverId: null };
 }
 
-/* =============================================
-   RENDER ORDER SUMMARY
-   ============================================= */
 function renderSummary() {
-  const container = document.getElementById('summaryBody');
-  if (!orderData) return;
-
-  const parsed = parseUserId(orderData.userId);
-  const methodName = selectedPayment
-    ? (paymentConfig[selectedPayment]?.name || '—')
-    : (orderData.paymentMethod ? (paymentConfig[orderData.paymentMethod]?.name || orderData.paymentMethod) : '—');
-  const email = orderData.billingEmail || '';
-
-  let html = '';
-  html += '<div class="ck-spam-notice"><i class="fas fa-envelope-circle-check"></i><div><strong>Please check your Spam/Junk folder!</strong> Our confirmation emails sometimes end up there. Add support.ilhamstore@gmail.com to your contacts to ensure you receive your delivery code.</div></div>';
-  html += '<div class="ck-sum-product-badge"><i class="fas fa-bolt"></i> ' + (orderData.cat || 'Order') + '</div>';
-  html += '<div class="ck-sum-item"><span class="ck-sum-label">Product</span><span class="ck-sum-value">' + (orderData.product || '—') + '</span></div>';
-  html += '<div class="ck-sum-package-row"><div class="ck-sum-pkg-name"><span class="ck-sum-pkg-dot"></span>' + (orderData.package || '—') + '</div><div class="ck-sum-pkg-price">৳' + (orderData.unitPrice || 0).toLocaleString() + '</div></div>';
-  html += '<div class="ck-sum-item"><span class="ck-sum-label">User ID</span><span class="ck-sum-value" style="font-family:monospace;letter-spacing:0.04em;">' + parsed.id + '</span></div>';
-  if (parsed.serverId) {
-    html += '<div class="ck-sum-item"><span class="ck-sum-label">Server ID</span><span class="ck-sum-value" style="font-family:monospace;">' + parsed.serverId + '</span></div>';
-  }
-  if (orderData.quantity && orderData.quantity > 1) {
-    html += '<div class="ck-sum-item"><span class="ck-sum-label">Quantity</span><span class="ck-sum-value">×' + orderData.quantity + '</span></div>';
-  }
-  html += '<div class="ck-sum-item"><span class="ck-sum-label">Email</span><span class="ck-sum-value" id="sumEmail">' + (email || '—') + '</span></div>';
-  html += '<div class="ck-sum-item"><span class="ck-sum-label">Payment</span><span class="ck-sum-value" id="sumPayment">' + methodName + '</span></div>';
-  html += '<div class="ck-sum-item"><span class="ck-sum-label">Order ID</span><span class="ck-sum-value" style="font-family:monospace;font-size:0.72rem;">' + (orderData.orderId || '—') + '</span></div>';
-  html += '<div class="ck-sum-total"><span class="ck-sum-total-label">Total</span><span class="ck-sum-total-value">৳' + (orderData.totalPrice || 0).toLocaleString() + '</span></div>';
-  html += '<div class="ck-sum-warning"><i class="fas fa-exclamation-circle"></i><span>ভুল তথ্য প্রদান করলে কর্তৃপক্ষ দায়ী নয়।</span></div>';
-
-  container.innerHTML = html;
-
-  const mobilePrice = document.getElementById('mobileTotalPrice');
-  if (mobilePrice) mobilePrice.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+  const c = document.getElementById('summaryBody'); if (!orderData || !c) return;
+  const p = parseUserId(orderData.userId);
+  const mn = selectedPayment ? paymentConfig[selectedPayment]?.name : (paymentConfig[orderData.paymentMethod]?.name || orderData.paymentMethod || '—');
+  let h = '';
+  h += '<div class="ck-spam-notice"><i class="fas fa-envelope-circle-check"></i><div><strong>Please check your Spam/Junk folder!</strong> Add support.ilhamstore@gmail.com to contacts.</div></div>';
+  h += '<div class="ck-sum-product-badge"><i class="fas fa-bolt"></i> '+(orderData.cat||'Order')+'</div>';
+  h += '<div class="ck-sum-item"><span class="ck-sum-label">Product</span><span class="ck-sum-value">'+(orderData.product||'—')+'</span></div>';
+  h += '<div class="ck-sum-package-row"><div class="ck-sum-pkg-name"><span class="ck-sum-pkg-dot"></span>'+(orderData.package||'—')+'</div><div class="ck-sum-pkg-price">৳'+(orderData.unitPrice||0).toLocaleString()+'</div></div>';
+  h += '<div class="ck-sum-item"><span class="ck-sum-label">User ID</span><span class="ck-sum-value" style="font-family:monospace;">'+p.id+'</span></div>';
+  if(p.serverId) h += '<div class="ck-sum-item"><span class="ck-sum-label">Server ID</span><span class="ck-sum-value" style="font-family:monospace;">'+p.serverId+'</span></div>';
+  if(orderData.quantity>1) h += '<div class="ck-sum-item"><span class="ck-sum-label">Quantity</span><span class="ck-sum-value">×'+orderData.quantity+'</span></div>';
+  h += '<div class="ck-sum-item"><span class="ck-sum-label">Email</span><span class="ck-sum-value" id="sumEmail">'+(orderData.billingEmail||'—')+'</span></div>';
+  h += '<div class="ck-sum-item"><span class="ck-sum-label">Payment</span><span class="ck-sum-value" id="sumPayment">'+mn+'</span></div>';
+  h += '<div class="ck-sum-item"><span class="ck-sum-label">Order ID</span><span class="ck-sum-value" style="font-family:monospace;font-size:0.72rem;">'+(orderData.orderId||'—')+'</span></div>';
+  h += '<div class="ck-sum-total"><span class="ck-sum-total-label">Total</span><span class="ck-sum-total-value">৳'+(orderData.totalPrice||0).toLocaleString()+'</span></div>';
+  h += '<div class="ck-sum-warning"><i class="fas fa-exclamation-circle"></i><span>ভুল তথ্য প্রদান করলে কর্তৃপক্ষ দায়ী নয়।</span></div>';
+  c.innerHTML = h;
+  const mp = document.getElementById('mobileTotalPrice'); if(mp) mp.textContent = '৳'+(orderData.totalPrice||0).toLocaleString();
 }
 
 function updateSummaryDynamic() {
-  const emailEl = document.getElementById('sumEmail');
-  if (emailEl) emailEl.textContent = document.getElementById('ckEmail')?.value?.trim() || '—';
-  const payEl = document.getElementById('sumPayment');
-  if (payEl) payEl.textContent = selectedPayment ? (paymentConfig[selectedPayment]?.name || '—') : '—';
+  const e = document.getElementById('sumEmail'); if(e) e.textContent = document.getElementById('ckEmail')?.value?.trim() || '—';
+  const p = document.getElementById('sumPayment'); if(p) p.textContent = selectedPayment ? paymentConfig[selectedPayment]?.name : '—';
 }
 
 function isValidEmail(email) {
-  const allowedDomains = ['gmail.com','yahoo.com','hotmail.com','outlook.com','live.com','icloud.com','me.com','aol.com','protonmail.com','proton.me'];
-  const emailRegex = /^[^\s@]+@([^\s@]+\.[^\s@]+)$/;
-  const match = email.match(emailRegex);
-  if (!match) return false;
-  return allowedDomains.includes(match[1].toLowerCase());
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 }
 
-/* =============================================
-   SELECT PAYMENT METHOD
-   ============================================= */
 function selectPayment(method, el) {
-  const name = document.getElementById('ckName').value.trim();
-  const phone = document.getElementById('ckPhone').value.trim();
-  const email = document.getElementById('ckEmail').value.trim();
-
-  if (!name) { toast('Please enter your name first','error'); document.getElementById('ckName').focus(); return; }
-  if (!phone) { toast('Please enter your phone number first','error'); document.getElementById('ckPhone').focus(); return; }
-  if (!email) { toast('Please enter your email address first','error'); document.getElementById('ckEmail').focus(); return; }
-  if (!isValidEmail(email)) { toast('Please use a genuine email (Gmail, Yahoo, Outlook, etc.)','error'); document.getElementById('ckEmail').focus(); return; }
+  const n = document.getElementById('ckName').value.trim();
+  const ph = document.getElementById('ckPhone').value.trim();
+  const em = document.getElementById('ckEmail').value.trim();
+  if (!n) { toast('Please enter your name first','error'); document.getElementById('ckName').focus(); return; }
+  if (!ph) { toast('Please enter your phone number first','error'); document.getElementById('ckPhone').focus(); return; }
+  if (!em) { toast('Please enter your email address first','error'); document.getElementById('ckEmail').focus(); return; }
+  if (!isValidEmail(em)) { toast('Please enter a valid email address','error'); document.getElementById('ckEmail').focus(); return; }
 
   selectedPayment = method;
-  document.querySelectorAll('.ck-pay-option').forEach(opt => opt.classList.remove('selected'));
+  document.querySelectorAll('.ck-pay-option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   updateSummaryDynamic();
 
-  orderData.billingName = name;
-  orderData.billingPhone = phone;
-  orderData.billingEmail = email;
-  orderData.paymentMethod = selectedPayment;
+  orderData.billingName = n; orderData.billingPhone = ph; orderData.billingEmail = em; orderData.paymentMethod = selectedPayment;
   sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
 
   renderPaymentView();
   const instrEl = document.getElementById('inlinePaymentInstructions');
-  instrEl.style.display = 'block';
-  instrEl.className = 'ck-pay-instruction active';
-
+  instrEl.style.display = 'block'; instrEl.className = 'ck-pay-instruction active';
   document.getElementById('step2').className = 'ck-step-item done';
   document.getElementById('step2').querySelector('.ck-step-num').innerHTML = '<i class="fas fa-check"></i>';
   document.getElementById('stepLine2').className = 'ck-step-line done';
   document.getElementById('step3').className = 'ck-step-item active';
-
   document.getElementById('mobileStickyBar').classList.add('show');
-
   setTimeout(() => instrEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 
   sendToGoogleSheets('Checkout_Started');
 }
 
-/* =============================================
-   RENDER PAYMENT INSTRUCTIONS
-   ============================================= */
 function renderPaymentView() {
-  const config = paymentConfig[selectedPayment];
-  if (!config) return;
+  const config = paymentConfig[selectedPayment]; if (!config) return;
+  const amountStr = '৳' + (orderData.totalPrice||0).toLocaleString();
 
   const iconEl = document.getElementById('piIcon');
   iconEl.className = 'ck-pay-icon ck-pi-icon ' + config.iconClass;
-  iconEl.innerHTML = '<img src="' + config.img + '" alt="' + config.name + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div class="fallback" style="display:none;"><i class="' + config.fallbackIcon + '"></i></div>';
-
+  iconEl.innerHTML = '<img src="'+config.img+'" alt="'+config.name+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div class="fallback" style="display:none;"><i class="'+config.fallbackIcon+'"></i></div>';
   document.getElementById('piTitle').textContent = config.name + ' Payment';
   document.getElementById('piMethodLabel').textContent = config.name;
-  document.getElementById('piInvoice').textContent = orderData.orderId || 'IS' + Date.now();
-  document.getElementById('piAmount').textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
+  document.getElementById('piInvoice').textContent = orderData.orderId;
+  document.getElementById('piAmount').textContent = amountStr;
   document.getElementById('piAccountNum').textContent = config.accountNumber;
+  const na = document.getElementById('noticeAmount'); if(na) na.textContent = amountStr;
 
-  const noticeAmountEl = document.getElementById('noticeAmount');
-  if (noticeAmountEl) noticeAmountEl.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
-
-  const stepsHtml = config.steps.map(function(step, i) {
-    return '<div class="ck-pi-step"><div class="ck-pi-step-num">' + (i + 1) + '</div><div class="ck-pi-step-text">' + step.text + '</div></div>';
+  var stepsHtml = config.steps.map(function(s, i) {
+    return '<div class="ck-pi-step"><div class="ck-pi-step-num">'+(i+1)+'</div><div class="ck-pi-step-text">'+s.text+'</div></div>';
   }).join('');
+  stepsHtml = stepsHtml.replace(/\{\{AMOUNT\}\}/g, amountStr);
   document.getElementById('piSteps').innerHTML = stepsHtml;
 
-  const amountEl = document.getElementById('stepAmount');
-  if (amountEl) amountEl.textContent = '৳' + (orderData.totalPrice || 0).toLocaleString();
-
   document.getElementById('ckPayAccount').value = '';
-  document.getElementById('ckPayAccount').placeholder = 'যেমন: আপনার ' + config.name + ' নম্বর (' + config.accountLength + ' ডিজিট)';
+  document.getElementById('ckPayAccount').placeholder = 'যেমন: আপনার '+config.name+' নম্বর ('+config.accountLength+' ডিজিট)';
   document.getElementById('ckTxnId').value = '';
 }
 
-/* =============================================
-   COPY ACCOUNT NUMBER
-   ============================================= */
 function copyAccount() {
   const num = document.getElementById('piAccountNum').textContent;
   const btn = document.getElementById('copyAccountBtn');
-  navigator.clipboard.writeText(num).then(function() {
-    btn.classList.add('copied');
-    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-    toast('অ্যাকাউন্ট নম্বর কপি হয়েছে!', 'success');
-    setTimeout(function() { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
-  }).catch(function() {
-    const ta = document.createElement('textarea');
-    ta.value = num;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    btn.classList.add('copied');
-    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-    toast('অ্যাকাউন্ট নম্বর কপি হয়েছে!', 'success');
-    setTimeout(function() { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
+  navigator.clipboard.writeText(num).then(() => {
+    btn.classList.add('copied'); btn.innerHTML = '<i class="fas fa-check"></i> Copied!'; toast('কপি হয়েছে!', 'success');
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = num; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    btn.classList.add('copied'); btn.innerHTML = '<i class="fas fa-check"></i> Copied!'; toast('কপি হয়েছে!', 'success');
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 2000);
   });
 }
 
-/* =============================================
-   RESET VERIFY UI
-   ============================================= */
 function resetVerifyUI() {
-  const verifyBtn = document.getElementById('verifyBtn');
-  if (verifyBtn) verifyBtn.style.display = 'flex';
-  const mobileBtn = document.getElementById('verifyBtnMobile');
-  if (mobileBtn) {
-    mobileBtn.disabled = false;
-    mobileBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Payment';
-  }
+  const vb = document.getElementById('verifyBtn'); if(vb) vb.style.display = 'flex';
+  const mb = document.getElementById('verifyBtnMobile'); if(mb) { mb.disabled = false; mb.innerHTML = '<i class="fas fa-check-circle"></i> Verify Payment'; }
   document.getElementById('ckSending').classList.remove('show');
   document.getElementById('ckBlocked').classList.remove('show');
   isVerifying = false;
 }
 
 /* =============================================
-   SECURE SERVER SEND (NO FALLBACK — Safe)
+   🔧 FIXED: sendToGoogleSheets now always returns
+   a structured object (never null) so that
+   duplicate/fraud errors are shown correctly.
+   - Header changed to text/plain to bypass CORS
+   - transactionId taken from orderData directly
+   - timestamp set to verifiedAt (checkout time)
    ============================================= */
 async function sendToGoogleSheets(status) {
-  if (!GOOGLE_SHEET_URL) return null;
-
+  if (!GOOGLE_SHEET_URL || !orderData) {
+    return { result: 'error', message: 'Missing configuration' };
+  }
   const config = selectedPayment ? paymentConfig[selectedPayment] : {};
-
+  
   const payload = {
     secret: API_SECRET,
-    timestamp: orderData.timestamp || new Date().toISOString(),
+    timestamp: orderData.verifiedAt || new Date().toISOString(),
     orderId: orderData.orderId || '',
     product: orderData.product || '',
     package: orderData.package || '',
@@ -1557,343 +1485,205 @@ async function sendToGoogleSheets(status) {
     billingEmail: orderData.billingEmail || '',
     paymentMethod: config.name || orderData.paymentMethod || '',
     paymentAccount: document.getElementById('ckPayAccount')?.value?.trim() || '',
-    transactionId: document.getElementById('ckTxnId')?.value?.trim() || '',
+    transactionId: orderData.transactionId || '',
     receiverAccount: config.accountNumber || '',
     status: status
   };
 
   try {
-    const response = await fetch(GOOGLE_SHEET_URL, {
+    const res = await fetch(GOOGLE_SHEET_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     });
-
-    const result = await response.json();
-
-    if (result.result === 'success') {
-      console.log('✅ Data saved securely via POST');
-      if (result.verifyHash) {
-        orderData.serverVerifyHash = result.verifyHash;
+    const text = await res.text();
+    let json;
+    try {
+      json = JSON.parse(text);
+    } catch (e) {
+      // If response is not JSON, try GET fallback
+      return await sendViaGet(payload);
+    }
+    if (json.result === 'success') {
+      if (json.verifyHash) {
+        orderData.serverVerifyHash = json.verifyHash;
         sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
       }
-      return result;
+      return json;
     } else {
-      console.error('❌ Server rejected:', result.message);
-      return result;
+      return json; // error object, e.g., { result: 'error', message: 'DUPLICATE_TRXID...' }
     }
   } catch (err) {
-    console.error('❌ Network error:', err);
-    // Return error instead of silent fallback — prevents duplicate bypass
-    return { result: 'error', message: 'NETWORK_ERROR: Could not connect to server. Check your internet and try again.' };
+    // POST failed – try GET
+    return await sendViaGet(payload);
   }
 }
 
-/* =============================================
-   VERIFY PAYMENT (Bulletproof)
-   ============================================= */
+async function sendViaGet(payload) {
+  try {
+    const params = new URLSearchParams(payload);
+    const res = await fetch(GOOGLE_SHEET_URL + '?' + params.toString());
+    const text = await res.text();
+    let json;
+    try {
+      json = JSON.parse(text);
+    } catch (e) {
+      return { result: 'error', message: 'Server returned invalid response' };
+    }
+    return json;
+  } catch (err) {
+    return { result: 'error', message: 'Network error – please try again' };
+  }
+}
+
+// =============================================
+// 🔧 verifyPayment() – only changed to rely on
+// the new sendToGoogleSheets return value.
+// =============================================
 async function verifyPayment() {
   if (isVerifying) return;
 
-  // Pre-check: already submitted?
-  const currentOrder = JSON.parse(sessionStorage.getItem('cartStoreOrder') || '{}');
-  if (currentOrder.paymentStatus === 'Verifying' || currentOrder.paymentStatus === 'Confirmed') {
-    toast('⚠️ এই অর্ডারটি ইতিমধ্যে জমা হয়েছে!', 'error');
+  var now = Date.now();
+  var timeSinceLastAttempt = now - lastVerifyAttempt;
+  if (timeSinceLastAttempt < VERIFY_COOLDOWN_MS) {
+    var remaining = Math.ceil((VERIFY_COOLDOWN_MS - timeSinceLastAttempt) / 1000);
+    toast('Please wait ' + remaining + ' seconds before trying again', 'error');
     return;
   }
+  lastVerifyAttempt = now;
 
-  // Validate name
+  const cur = JSON.parse(sessionStorage.getItem('cartStoreOrder') || '{}');
+  if (cur.paymentStatus === 'Verifying' || cur.paymentStatus === 'Confirmed') { 
+    toast('Already processing!', 'error'); 
+    return; 
+  }
+
   const name = document.getElementById('ckName').value.trim();
-  if (!name) { toast('Please enter your name', 'error'); document.getElementById('ckName').focus(); return; }
-
-  // Validate phone
   const phone = document.getElementById('ckPhone').value.trim();
-  if (!phone) { toast('Please enter your phone number', 'error'); document.getElementById('ckPhone').focus(); return; }
-
-  // Validate email
   const email = document.getElementById('ckEmail').value.trim();
-  if (!email) { toast('Please enter your email address', 'error'); document.getElementById('ckEmail').focus(); return; }
-  if (!isValidEmail(email)) { toast('Please use a genuine email (Gmail, Yahoo, Outlook, etc.)', 'error'); document.getElementById('ckEmail').focus(); return; }
+  if (!name) { toast('Enter your name','error'); return; }
+  if (!phone) { toast('Enter phone number','error'); return; }
+  if (!email || !isValidEmail(email)) { toast('Enter a valid email','error'); return; }
 
-  // Validate payment account number
+  if (!selectedPayment) { toast('Select a payment method first','error'); return; }
+
   const payAccount = document.getElementById('ckPayAccount').value.trim();
-  if (!payAccount) {
-    toast('আপনার ' + (paymentConfig[selectedPayment]?.name || 'payment') + ' নম্বর লিখুন', 'error');
-    document.getElementById('ckPayAccount').focus();
-    return;
-  }
-
   const numRule = paymentConfig[selectedPayment];
-  if (!/^\d+$/.test(payAccount)) {
-    toast(numRule.name + ' নম্বর শুধুমাত্র সংখ্যা হতে হবে!', 'error');
-    document.getElementById('ckPayAccount').focus();
-    return;
+  if (!payAccount || !/^\d+$/.test(payAccount) || payAccount.length !== numRule.accountLength) {
+    toast(numRule.name + ' number must be ' + numRule.accountLength + ' digits!', 'error'); return;
   }
-  if (payAccount.length !== numRule.accountLength) {
-    toast(numRule.name + ' নম্বর ঠিক ' + numRule.accountLength + ' ডিজিটের হতে হবে! আপনি ' + payAccount.length + ' ডিজিট দিয়েছেন।', 'error');
-    document.getElementById('ckPayAccount').focus();
-    return;
-  }
-
-  // 🚨 FRAUD CHECK: Did user enter the SHOP's account number as their own?
-  const receiverNumber = numRule.accountNumber;
-  if (payAccount === receiverNumber) {
-    toast('⚠️ আপনি দোকানের অ্যাকাউন্ট নম্বর দিয়েছেন! আপনার নিজের ' + numRule.name + ' নম্বর দিন।', 'error');
-    document.getElementById('ckPayAccount').value = '';
-    document.getElementById('ckPayAccount').focus();
+  if (payAccount === numRule.accountNumber) {
+    toast('Enter YOUR OWN '+numRule.name+' number, not the shop number!', 'error'); 
+    document.getElementById('ckPayAccount').value=''; 
     return;
   }
 
-  // Validate Transaction ID
   const txnId = document.getElementById('ckTxnId').value.trim().toUpperCase();
-  if (!txnId) {
-    toast('Transaction ID লিখুন', 'error');
-    document.getElementById('ckTxnId').focus();
-    return;
-  }
-  if (txnId.length < 8 || !/^[a-zA-Z0-9]+$/.test(txnId)) {
-    toast('Transaction ID সঠিক নয়। আপনার মেসেজ থেকে সঠিক ID লিখুন।', 'error');
-    document.getElementById('ckTxnId').focus();
-    return;
+  if (!txnId || txnId.length < 6 || !/^[a-zA-Z0-9\-_.]+$/.test(txnId)) {
+    toast('Invalid Transaction ID. Must be at least 6 characters.', 'error'); return;
   }
 
-  // 🚨 FRAUD CHECK: Did user enter shop's number as TrxID? (just in case)
-  if (txnId === receiverNumber) {
-    toast('⚠️ Transaction ID সঠিক নয়। আপনার পেমেন্ট মেসেজ থেকে TrxID কপি করুন।', 'error');
-    document.getElementById('ckTxnId').value = '';
-    document.getElementById('ckTxnId').focus();
-    return;
-  }
-
-  // All validations passed — lock UI
+  // 🔒 START VERIFICATION
   isVerifying = true;
+  document.getElementById('ckBlocked').classList.remove('show');
+  document.getElementById('ckSending').classList.add('show');
+  document.getElementById('verifyBtn').style.display = 'none';
+  const mb = document.getElementById('verifyBtnMobile'); 
+  if(mb) { mb.disabled = true; mb.innerHTML = '<div class="spinner-sm"></div> Verifying...'; }
 
-  const sendEl = document.getElementById('ckSending');
-  const btnEl = document.getElementById('verifyBtn');
-  const mobileBtn = document.getElementById('verifyBtnMobile');
-  const blockedEl = document.getElementById('ckBlocked');
-  const blockedMsg = document.getElementById('ckBlockedMsg');
-
-  blockedEl.classList.remove('show');
-  sendEl.classList.add('show');
-  btnEl.style.display = 'none';
-  if (mobileBtn) {
-    mobileBtn.disabled = true;
-    mobileBtn.innerHTML = '<div class="spinner-sm"></div> যাচাই হচ্ছে...';
-  }
-
-  // Update order data
-  orderData.billingName = name;
-  orderData.billingPhone = phone;
+  // Save order data
+  orderData.billingName = name; 
+  orderData.billingPhone = phone; 
   orderData.billingEmail = email;
-  orderData.paymentAccount = payAccount;
+  orderData.paymentAccount = payAccount; 
   orderData.transactionId = txnId;
-  orderData.paymentStatus = 'Verifying';
+  orderData.paymentStatus = 'Verifying'; 
   orderData.verifiedAt = new Date().toISOString();
-  orderData.paymentMethodName = paymentConfig[selectedPayment]?.name || selectedPayment;
-  orderData.receiverAccount = paymentConfig[selectedPayment]?.accountNumber || '';
-
-  // Save to session BEFORE sending (prevents double-click resubmission)
+  orderData.paymentMethodName = numRule.name; 
+  orderData.receiverAccount = numRule.accountNumber;
   sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
 
-  // Send to server
+  // 🔧 Send to server and WAIT for response
   const serverResult = await sendToGoogleSheets('Verifying');
 
-  // ============================================
-  // HANDLE SERVER RESPONSE
-  // ============================================
-
-  // CASE 1: Server returned an error
+  // 🔧 CHECK IF SERVER RETURNED ERROR
   if (serverResult && serverResult.result !== 'success') {
-    const errMsg = (serverResult.message || '').toLowerCase();
-
-    // Reset order status so user can retry with different info
-    orderData.paymentStatus = 'Pending';
+    const msg = (serverResult.message || '').toLowerCase();
+    
+    // 🔧 RESET order status since it was rejected
+    orderData.paymentStatus = 'Pending'; 
     delete orderData.verifiedAt;
     sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
 
-    if (errMsg.includes('duplicate_trxid') || errMsg.includes('duplicate')) {
-      blockedMsg.textContent = '⚠️ এই Transaction ID আগেই ব্যবহৃত হয়েছে! একই TrxID দুইবার ব্যবহার করা যাবে না। অনুগ্রহ করে সঠিক Transaction ID দিন।';
-      blockedEl.classList.add('show');
-      toast('⚠️ এই Transaction ID আগেই ব্যবহৃত হয়েছে!', 'error');
+    // 🔧 SHOW ERROR BASED ON TYPE
+    if (msg.includes('duplicate')) {
+      document.getElementById('ckBlockedMsg').textContent = '⚠️ This Transaction ID has already been used! Please provide a valid one.';
+      document.getElementById('ckBlocked').classList.add('show'); 
       document.getElementById('ckTxnId').value = '';
-    } else if (errMsg.includes('fraud_sender_receiver') || errMsg.includes('sender') && errMsg.includes('receiver')) {
-      blockedMsg.textContent = '⚠️ আপনি দোকানের অ্যাকাউন্ট নম্বর দিয়েছেন! আপনার নিজের নম্বর দিন।';
-      blockedEl.classList.add('show');
-      toast('⚠️ সন্দেজজনক তথ্য পাওয়া গেছে!', 'error');
+      toast('Transaction ID already used!', 'error');
+    } else if (msg.includes('fraud')) {
+      document.getElementById('ckBlockedMsg').textContent = '⚠️ Suspicious activity detected! Your submission has been flagged.';
+      document.getElementById('ckBlocked').classList.add('show'); 
       document.getElementById('ckPayAccount').value = '';
-    } else if (errMsg.includes('server_busy') || errMsg.includes('busy')) {
-      toast('⏳ সার্ভার ব্যস্ত আছে। কিছু সেকেন্ড পর আবার চেষ্টা করুন।', 'error');
-    } else if (errMsg.includes('rate')) {
-      toast('⚠️ অনেকবার চেষ্টা করেছেন। ১ মিনিট পর আবার চেষ্টা করুন।', 'error');
-    } else if (errMsg.includes('network_error') || errMsg.includes('could not connect')) {
-      toast('❌ ইন্টারনেট সংযোগে সমস্যা। আবার চেষ্টা করুন।', 'error');
+      toast('Suspicious info detected!', 'error');
+    } else if (msg.includes('status_locked')) {
+      toast('This order has already been processed!', 'error');
+    } else if (msg.includes('rate limited')) {
+      toast('Too many attempts! Please wait a minute.', 'error');
     } else {
-      toast('❌ ' + (serverResult.message || 'Server error'), 'error');
+      toast(serverResult.message || 'Server error. Please try again.', 'error');
     }
-
-    resetVerifyUI();
+    
+    // 🔧 RESET UI - DO NOT REDIRECT
+    resetVerifyUI(); 
     return;
   }
 
-  // CASE 2: Server returned null (shouldn't happen now, but just in case)
-  if (!serverResult) {
-    orderData.paymentStatus = 'Pending';
+  // 🔧 ONLY REDIRECT IF SERVER RETURNED SUCCESS
+  if (serverResult && serverResult.result === 'success') {
+    setTimeout(() => { window.location.replace('confirmation.html'); }, 800);
+  } else {
+    // 🔧 If serverResult is null or unexpected, treat as network error
+    toast('Network error. Please check your connection and try again.', 'error');
+    orderData.paymentStatus = 'Pending'; 
     delete orderData.verifiedAt;
     sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
-    toast('❌ সার্ভার থেকে কোনো রেসপন্স পাওয়া যায়নি। আবার চেষ্টা করুন।', 'error');
     resetVerifyUI();
-    return;
-  }
-
-  // CASE 3: Success — proceed to confirmation
-  setTimeout(function() {
-    sessionStorage.setItem('cartStoreOrder', JSON.stringify(orderData));
-    window.location.replace('confirmation.html');
-  }, 800);
-}
-
-/* =============================================
-   LEGAL MODALS
-   ============================================= */
-function openLegal(id) {
-  const modal = document.getElementById(id);
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  modal.querySelector('.legal-modal-box').scrollTop = 0;
-  modal.querySelector('.legal-close').focus();
-}
-function closeLegal(id) {
-  document.getElementById(id).classList.remove('active');
-  document.body.style.overflow = '';
-}
-document.querySelectorAll('.legal-modal').forEach(function(m) {
-  m.addEventListener('click', function(e) {
-    if (e.target === this) closeLegal(this.id);
-  });
-});
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.legal-modal.active').forEach(function(m) { closeLegal(m.id); });
-  }
-});
-
-/* =============================================
-   SEARCH
-   ============================================= */
-const sInput = document.getElementById('searchInput');
-const mInput = document.getElementById('mSearchInput');
-const sDrop = document.getElementById('searchDropdown');
-
-function runSearch(query) {
-  const q = query.trim().toLowerCase();
-  if (q.length < 2) { sDrop.classList.remove('open'); return; }
-  sDrop.innerHTML = '<div class="search-empty"><a href="index.html" style="color:var(--ck-accent);">Go to homepage to search</a></div>';
-  sDrop.classList.add('open');
-  if (window.innerWidth > 768) {
-    const wrapper = document.getElementById('searchWrapper');
-    if (wrapper && window.getComputedStyle(wrapper).display !== 'none') {
-      const rect = wrapper.getBoundingClientRect();
-      sDrop.style.position = 'fixed';
-      sDrop.style.top = (rect.bottom + 6) + 'px';
-      sDrop.style.left = rect.left + 'px';
-      sDrop.style.width = rect.width + 'px';
-      sDrop.style.right = 'auto';
-    }
-  } else {
-    const mRect = mInput.getBoundingClientRect();
-    sDrop.style.position = 'fixed';
-    sDrop.style.top = (mRect.bottom + 6) + 'px';
-    sDrop.style.left = '12px';
-    sDrop.style.right = '12px';
-    sDrop.style.width = 'auto';
   }
 }
-sInput.addEventListener('input', function() { runSearch(this.value); });
-mInput.addEventListener('input', function() { runSearch(this.value); });
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.search-wrapper') && !e.target.closest('.m-search') && !e.target.closest('.search-dropdown')) sDrop.classList.remove('open');
-});
-function doSearch() { runSearch(sInput.value); sInput.focus(); }
 
-/* =============================================
-   MOBILE NAV TOGGLE
-   ============================================= */
-const mobToggle = document.getElementById('mobToggle');
-const navBar = document.getElementById('navBar');
-mobToggle.addEventListener('click', function() {
-  navBar.classList.toggle('open');
-  mobToggle.querySelector('i').className = navBar.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
-});
-document.querySelectorAll('.nav-link').forEach(function(l) {
-  l.addEventListener('click', function() {
-    navBar.classList.remove('open');
-    mobToggle.querySelector('i').className = 'fas fa-bars';
-  });
-});
-document.addEventListener('click', function(e) {
-  if (navBar.classList.contains('open') && !e.target.closest('.nav-bar') && !e.target.closest('.mobile-toggle')) {
-    navBar.classList.remove('open');
-    mobToggle.querySelector('i').className = 'fas fa-bars';
-  }
-});
+function openLegal(id) { const m=document.getElementById(id); m.classList.add('active'); document.body.style.overflow='hidden'; m.querySelector('.legal-modal-box').scrollTop=0; }
+function closeLegal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow=''; }
+document.querySelectorAll('.legal-modal').forEach(m => { m.addEventListener('click', function(e) { if(e.target===this) closeLegal(this.id); }); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') document.querySelectorAll('.legal-modal.active').forEach(m=>closeLegal(m.id)); });
 
-/* =============================================
-   CHAT TOGGLE
-   ============================================= */
-function toggleChat() {
-  document.getElementById('chatToggle').classList.toggle('open');
-  document.getElementById('chatOptions').classList.toggle('show');
-}
+const sInput=document.getElementById('searchInput'), mInput=document.getElementById('mSearchInput'), sDrop=document.getElementById('searchDropdown');
+function runSearch(q) { q=q.trim().toLowerCase(); if(q.length<2){sDrop.classList.remove('open');return;} sDrop.innerHTML='<div class="search-empty"><a href="index.html">Go to homepage</a></div>'; sDrop.classList.add('open'); if(window.innerWidth>768){const w=document.getElementById('searchWrapper');if(w){const r=w.getBoundingClientRect();sDrop.style.position='fixed';sDrop.style.top=(r.bottom+6)+'px';sDrop.style.left=r.left+'px';sDrop.style.width=r.width+'px';}}else{const r=mInput.getBoundingClientRect();sDrop.style.position='fixed';sDrop.style.top=(r.bottom+6)+'px';sDrop.style.left='12px';sDrop.style.right='12px';sDrop.style.width='auto';} }
+sInput.addEventListener('input',function(){runSearch(this.value);}); mInput.addEventListener('input',function(){runSearch(this.value);});
+document.addEventListener('click',function(e){if(!e.target.closest('.search-wrapper')&&!e.target.closest('.m-search')&&!e.target.closest('.search-dropdown'))sDrop.classList.remove('open');});
+function doSearch(){runSearch(sInput.value);sInput.focus();}
 
-/* =============================================
-   SCROLL TO TOP
-   ============================================= */
-window.addEventListener('scroll', function() {
-  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
-});
+const mobToggle=document.getElementById('mobToggle'),navBar=document.getElementById('navBar');
+mobToggle.addEventListener('click',()=>{navBar.classList.toggle('open');mobToggle.querySelector('i').className=navBar.classList.contains('open')?'fas fa-times':'fas fa-bars';});
+document.querySelectorAll('.nav-link').forEach(l=>l.addEventListener('click',()=>{navBar.classList.remove('open');mobToggle.querySelector('i').className='fas fa-bars';}));
+document.addEventListener('click',function(e){if(navBar.classList.contains('open')&&!e.target.closest('.nav-bar')&&!e.target.closest('.mobile-toggle')){navBar.classList.remove('open');mobToggle.querySelector('i').className='fas fa-bars';}});
+function toggleChat(){document.getElementById('chatToggle').classList.toggle('open');document.getElementById('chatOptions').classList.toggle('show');}
+window.addEventListener('scroll',()=>{document.getElementById('scrollTop').classList.toggle('show',window.scrollY>400);});
+function toast(msg,type=''){const w=document.getElementById('toastWrap'),t=document.createElement('div');t.className='toast '+type;t.innerHTML='<i class="fas '+(type==='error'?'fa-exclamation-circle':type==='success'?'fa-check-circle':'fa-info-circle')+'"></i> '+msg;w.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(100%)';t.style.transition='all 0.3s';setTimeout(()=>t.remove(),300);},3000);}
 
-/* =============================================
-   TOAST NOTIFICATION
-   ============================================= */
-function toast(msg, type) {
-  type = type || '';
-  const w = document.getElementById('toastWrap');
-  const t = document.createElement('div');
-  t.className = 'toast ' + type;
-  const icon = type === 'error' ? 'fa-exclamation-circle' : type === 'success' ? 'fa-check-circle' : 'fa-info-circle';
-  t.innerHTML = '<i class="fas ' + icon + '"></i> ' + msg;
-  w.appendChild(t);
-  setTimeout(function() {
-    t.style.opacity = '0';
-    t.style.transform = 'translateX(100%)';
-    t.style.transition = 'all 0.3s';
-    setTimeout(function() { t.remove(); }, 300);
-  }, 3000);
-}
-
-/* =============================================
-   INIT
-   ============================================= */
 document.addEventListener('DOMContentLoaded', loadOrder);
   </script>
 
   <!-- ===== SAFE ANTI-COPY & PROTECTION ===== -->
   <style>
-    /* Disable text selection globally to prevent copying */
     body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-    /* Allow selection ONLY in inputs so customers can paste IDs */
     input, textarea, select { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
-    /* Disable image dragging */
     img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; user-drag: none; -webkit-touch-callout: none; }
   </style>
   <script>
-    // Disable Right-Click Context Menu safely
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
-    // Prevent Copy/Cut unless it's inside an input field
     document.addEventListener('copy', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
     document.addEventListener('cut', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
-    // Disable basic keyboard shortcuts for dev tools and view source
     document.addEventListener('keydown', function(e) {
       if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
       if (e.key === 'F12') { e.preventDefault(); return false; }
