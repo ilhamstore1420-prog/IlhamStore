@@ -599,3 +599,13 @@ button { cursor:pointer; }
   .footer-main { grid-template-columns:repeat(2,1fr); gap:16px; }
   .footer-brand { grid-column:span 2; }
 }
+/* ===== RESPONSIVE HEADER FIX ===== */
+.header-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.hdr-btn{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap}
+@media(max-width:768px){
+  .header-actions{display:flex!important}
+  .hdr-btn{display:inline-flex!important}
+  .hdr-btn .acc-av{display:inline-flex!important;width:26px;height:26px;font-size:.68rem;margin-right:0}
+  .hdr-btn .acc-nm{display:none!important}
+  .hdr-btn > span:not(.acc-av):not(.acc-nm){display:none!important}
+}

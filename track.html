@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order – IlhamStore</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#065F46">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://drive.google.com https://*.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/ilhamstore.png">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',system-ui,sans-serif;background:linear-gradient(180deg,#ECFDF5 0%,#F1F5F9 45%);min-height:100vh;display:flex;flex-direction:column;color:#1E293B;-webkit-user-select:none;user-select:none}
+    input{-webkit-user-select:text;user-select:text}
+    .header{background:#065F46;padding:14px 0;box-shadow:0 2px 12px rgba(6,95,70,.35)}
+    .container{max-width:820px;margin:0 auto;padding:0 16px;width:100%}
+    .header-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+    .logo img{width:36px;height:36px;border-radius:8px}
+    .logo-text{font-weight:800;font-size:1.2rem}.logo-text span{color:#6EE7B7}
+    .back-home{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-weight:600;font-size:.88rem;background:rgba(255,255,255,.12);padding:9px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.25)}
+    main{flex:1;padding:36px 16px}
+    .track-card{background:#fff;width:100%;max-width:600px;margin:0 auto 22px;border-radius:20px;box-shadow:0 10px 40px rgba(15,23,42,.10);padding:30px 26px}
+    .tc-head{text-align:center;margin-bottom:22px}
+    .tc-icon{width:60px;height:60px;border-radius:18px;background:#ECFDF5;color:#065F46;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 14px}
+    .tc-head h1{font-size:1.4rem;font-weight:800;margin-bottom:6px}
+    .tc-head p{font-size:.9rem;color:#64748B}
+    .field{margin-bottom:14px}
+    .field label{display:block;font-size:.82rem;font-weight:600;color:#475569;margin-bottom:6px}
+    .iw{position:relative}
+    .iw>i.lead{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94A3B8;font-size:.95rem}
+    .iw input{width:100%;padding:13px 14px 13px 42px;border:1.5px solid #E2E8F0;border-radius:12px;font-size:.95rem;font-family:inherit;outline:none;background:#F8FAFC}
+    .iw input:focus{border-color:#065F46;background:#fff;box-shadow:0 0 0 3px rgba(6,95,70,.12)}
+    .btn-main{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#059669,#065F46);color:#fff;font-weight:800;font-size:1rem;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+    .btn-main:disabled{opacity:.6}
+    .res{max-width:600px;margin:0 auto}
+    .od-card{background:#fff;border-radius:18px;box-shadow:0 8px 30px rgba(15,23,42,.08);padding:22px;margin-bottom:18px;overflow:hidden}
+    .od-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .od-id{font-weight:800;font-size:1rem;color:#111827}
+    .badge{padding:6px 14px;border-radius:30px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+    .badge.verifying{background:#FEF3C7;color:#92400E}.badge.pending{background:#E2E8F0;color:#475569}
+    .badge.confirmed,.badge.completed,.badge.delivered{background:#D1FAE5;color:#065F46}
+    .badge.rejected,.badge.cancelled,.badge.fraud{background:#FEE2E2;color:#B91C1C}
+    .badge.refunded{background:#DBEAFE;color:#1E40AF}
+    .od-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:14px;padding:14px;margin-bottom:16px}
+    .od-item small{display:block;font-size:.68rem;color:#64748B;font-weight:700;text-transform:uppercase;margin-bottom:2px}
+    .od-item b{font-size:.86rem;word-break:break-all}
+    .timeline{display:flex;flex-direction:column}
+    .step{display:flex;gap:14px;position:relative;padding-bottom:20px}
+    .step::before{content:'';position:absolute;left:15px;top:34px;bottom:2px;width:2px;background:#E2E8F0}
+    .step.done::before{background:#059669}
+    .step:last-child{padding-bottom:0}.step:last-child::before{display:none}
+    .step-icon{width:32px;height:32px;border-radius:50%;background:#F1F5F9;color:#94A3B8;display:flex;align-items:center;justify-content:center;font-size:.78rem;border:2px solid #E2E8F0;flex-shrink:0;z-index:1}
+    .step.done .step-icon{background:#065F46;color:#fff;border-color:#065F46}
+    .step-info b{font-size:.88rem;color:#94A3B8;display:block}
+    .step.done .step-info b{color:#1E293B}
+    .step-info span{font-size:.74rem;color:#94A3B8}
+    .step.done .step-info span{color:#059669;font-weight:600}
+    .code-box{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border:2px dashed #10B981;border-radius:14px;padding:16px;text-align:center;margin-top:14px}
+    .code-box small{display:block;font-size:.68rem;color:#065F46;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+    .code-box b{font-size:1.25rem;font-weight:900;color:#059669;letter-spacing:3px;word-break:break-all;font-family:monospace}
+    .warn-box{background:#FEF2F2;border:1.5px solid #FCA5A5;color:#B91C1C;padding:12px 14px;border-radius:12px;font-size:.86rem;font-weight:600;display:flex;gap:10px;margin-top:14px}
+    .nf{text-align:center;padding:26px 10px 6px}
+    .nf-icon{width:60px;height:60px;border-radius:50%;background:#FEF2F2;color:#B91C1C;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 14px}
+    .nf h3{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+    .nf p{font-size:.88rem;color:#64748B;line-height:1.6;margin-bottom:18px}
+    .nf-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .nf-btns a{text-decoration:none;font-weight:700;font-size:.85rem;padding:11px 16px;border-radius:11px;display:inline-flex;align-items:center;gap:8px}
+    .nf-btns .tg{background:#E6F4FB;color:#0284C7}.nf-btns .ms{background:#EEF2FF;color:#4F46E5}.nf-btns .em{background:#ECFDF5;color:#065F46}
+    .loader{display:none;text-align:center;padding:20px;color:#065F46;font-weight:700}
+    .loader .sp{width:26px;height:26px;border:3px solid #D1FAE5;border-top-color:#059669;border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 10px}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    .footer{background:#065F46;color:#D1FAE5;text-align:center;padding:15px;font-size:.84rem}
+    .footer a{color:#6EE7B7;text-decoration:none;font-weight:600}
+    .toast-wrap{position:fixed;top:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:10px}
+    .toast{background:#1E293B;color:#fff;padding:12px 16px;border-radius:12px;font-size:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+    .toast.error{background:#B91C1C}.toast.success{background:#065F46}
+  </style>
+</head>
+<body>
+  <header class="header"><div class="container"><div class="header-top">
+    <a href="index.html" class="logo"><img src="images/ilhamstore.png" alt="" onerror="this.style.display='none'"><span class="logo-text">Ilham<span>Store</span></span></a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="login.html" class="hdr-btn" aria-label="Account" id="hdrAccount"><i class="fas fa-user"></i></a>
+      <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Store</a>
+    </div>
+  </div></div></header>
+
+  <main>
+    <div class="track-card">
+      <div class="tc-head">
+        <div class="tc-icon"><i class="fas fa-truck-fast"></i></div>
+        <h1>Track Your Order</h1>
+        <p>Enter your Order ID or the phone number you ordered with.</p>
+      </div>
+      <form onsubmit="doTrack(event)">
+        <div class="field"><label>Order ID or Phone Number</label>
+          <div class="iw"><i class="fas fa-receipt lead"></i><input type="text" id="trackQ" placeholder="e.g. ILH-123456 or 01XXXXXXXXX" required></div>
+        </div>
+        <button type="submit" class="btn-main" id="trackBtn"><i class="fas fa-magnifying-glass"></i> Track Order</button>
+      </form>
+    </div>
+    <div class="loader" id="loader"><div class="sp"></div>Searching...</div>
+    <div class="res" id="result"></div>
+  </main>
+
+  <footer class="footer">&copy; <span id="yr"></span> <a href="index.html">IlhamStore.com</a> — All rights reserved.</footer>
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <script>
+    document.getElementById('yr').textContent=new Date().getFullYear();
+    const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6Yi1KYXNrREZxMWt3THNqcWdoNTNZMlZmOS1qUWFoR3VzMTdjNDJwYlhMUE9ubVpUTjhSaERmX3ZfRUttNklUYkQvZXhlYw==';
+    const GAS=atob(_0x4f8a), SECRET='ILHS_SECRET_2025_X9K2M';
+
+    function toast(m,t=''){const w=document.getElementById('toastWrap'),x=document.createElement('div');x.className='toast '+t;x.textContent=m;w.appendChild(x);setTimeout(()=>x.remove(),3000);}
+    function esc(s){return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+    const STEPS=[{l:'Order Placed',i:'fa-clipboard-check',d:'We received your order'},{l:'Payment Verified',i:'fa-wallet',d:'Payment confirmed'},{l:'Processing',i:'fa-gears',d:'Top-up in progress'},{l:'Delivered',i:'fa-box-open',d:'Order completed'}];
+    const MAP={pending:0,placed:0,verifying:1,confirmed:3,completed:3,delivered:3,processing:2};
+    function badgeClass(s){s=(s||'').toLowerCase();if(s.includes('confirm')||s.includes('complet')||s.includes('deliver'))return 'confirmed';if(s.includes('verify'))return 'verifying';if(s.includes('reject')||s.includes('cancel')||s.includes('fraud'))return 'rejected';if(s.includes('refund'))return 'refunded';return 'pending';}
+    function stepIndex(s){s=(s||'').toLowerCase();for(const k in MAP){if(s.includes(k))return MAP[k];}return 0;}
+
+    function orderCard(o){
+      const s=(o.status||'Pending');
+      const bad=s.toLowerCase().match(/reject|cancel|fraud/);
+      const ref=s.toLowerCase().includes('refund');
+      const idx=stepIndex(s);
+      return `<div class="od-card">
+        <div class="od-top"><div class="od-id">#${esc(o.orderId)}</div><span class="badge ${badgeClass(s)}">${esc(s)}</span></div>
+        <div class="od-grid">
+          <div class="od-item"><small>Product</small><b>${esc(o.product)}</b></div>
+          <div class="od-item"><small>Package</small><b>${esc(o.pkg)}</b></div>
+          <div class="od-item"><small>User ID</small><b>${esc(o.userId)}</b></div>
+          <div class="od-item"><small>Amount</small><b>৳${esc(o.total)}</b></div>
+          <div class="od-item"><small>Payment</small><b>${esc(o.method)}</b></div>
+          <div class="od-item"><small>Date</small><b>${esc(o.date)}</b></div>
+        </div>
+        ${bad?`<div class="warn-box"><i class="fas fa-triangle-exclamation"></i> This order was not completed. Contact support for help.</div>`
+        :ref?`<div class="warn-box" style="background:#DBEAFE;border-color:#93C5FD;color:#1E40AF;"><i class="fas fa-rotate-left"></i> This order has been refunded.</div>`
+        :`<div class="timeline">${STEPS.map((st,i)=>`<div class="step ${i<=idx?'done':''}"><div class="step-icon"><i class="fas ${st.i}"></i></div><div class="step-info"><b>${st.l}</b><span>${i<=idx?st.d:'Waiting'}</span></div></div>`).join('')}</div>`}
+      </div>`;
+    }
+
+    async function doTrack(e){
+      e.preventDefault();
+      const q=document.getElementById('trackQ').value.trim();
+      if(q.length<4){toast('Enter a valid Order ID or phone number','error');return;}
+      const btn=document.getElementById('trackBtn');btn.disabled=true;
+      document.getElementById('loader').style.display='block';
+      document.getElementById('result').innerHTML='';
+      try{
+        const isPhone=/^0?\d{9,13}$/.test(q.replace(/[\s-]/g,''));
+        const url=GAS+'?secret='+encodeURIComponent(SECRET)+'&action=track_order&'+(isPhone?'phone='+encodeURIComponent(q):'orderId='+encodeURIComponent(q));
+        const r=await(await fetch(url)).json();
+        if(r.result==='success'&&r.orders&&r.orders.length){
+          document.getElementById('result').innerHTML=r.orders.map(orderCard).join('');
+          toast(r.orders.length+' order(s) found','success');
+        } else {
+          document.getElementById('result').innerHTML=`<div class="od-card"><div class="nf"><div class="nf-icon"><i class="fas fa-magnifying-glass"></i></div><h3>Order Not Found</h3><p>Double-check your Order ID or phone number.<br>Still stuck? Contact support — we reply fast.</p><div class="nf-btns"><a class="tg" href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener"><i class="fab fa-telegram-plane"></i> Telegram</a><a class="ms" href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener"><i class="fab fa-facebook-messenger"></i> Messenger</a><a class="em" href="mailto:support.ilhamstore@gmail.com"><i class="fas fa-envelope"></i> Email</a></div></div></div>`;
+        }
+      }catch(err){toast('Server error. Please try again.','error');}
+      document.getElementById('loader').style.display='none';
+      btn.disabled=false;
+    }
+  </script>
+
+  <!-- ===== ACCOUNT ICON (login = name/avatar, logout = user icon) ===== -->
+  <style>
+  .acc-av{display:inline-flex;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#10B981,#059669);color:#fff;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;margin-right:6px;overflow:hidden;flex-shrink:0}
+  .acc-av img{width:100%;height:100%;object-fit:cover}
+  .hdr-btn .acc-nm{font-size:.78rem;font-weight:700}
+  @media(max-width:768px){
+    .hdr-btn{display:inline-flex!important}
+    .hdr-btn .acc-av{display:inline-flex!important;width:26px;height:26px;font-size:.68rem;margin-right:0}
+    .hdr-btn .acc-nm{display:none!important}
+  }
+  </style>
+  <script>
+  (function(){
+    function updAcc(){
+      var s=null;
+      try{ s=JSON.parse(localStorage.getItem('ilham_session')||'null'); }catch(e){}
+      var acc=document.getElementById('hdrAccount')||document.querySelector('.hdr-btn[aria-label="Account"]');
+      if(!acc) return;
+      function esc(x){ return (x||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      if(s && s.token){
+        acc.href='profile.html';
+        var first=esc((s.name||'Account').split(' ')[0]);
+        if(s.avatar){
+          acc.innerHTML='<span class="acc-av"><img src="'+s.avatar+'" alt=""></span><span class="acc-nm">'+first+'</span>';
+        }else{
+          acc.innerHTML='<span class="acc-av">'+esc((s.name||'U').charAt(0).toUpperCase())+'</span><span class="acc-nm">'+first+'</span>';
+        }
+      }else{
+        acc.href='login.html';
+        acc.innerHTML='<i class="fas fa-user"></i>';
+      }
+    }
+    updAcc();
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',updAcc); }
+  })();
+  </script>
+  <!-- ===== /ACCOUNT ICON ===== -->
+</body>
+</html>

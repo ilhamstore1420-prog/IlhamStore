@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Register – IlhamStore</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#065F46">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/ilhamstore.png">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',system-ui,sans-serif;background:linear-gradient(160deg,#064E3B 0%,#065F46 35%,#0F172A 100%);min-height:100vh;display:flex;flex-direction:column;color:#1E293B}
+    input{-webkit-user-select:text;user-select:text}
+    .top{padding:18px 16px;display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;width:100%}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+    .logo img{width:38px;height:38px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+    .logo b{font-weight:800;font-size:1.15rem}.logo b span{color:#6EE7B7}
+    .back{color:#fff;text-decoration:none;font-weight:600;font-size:.82rem;background:rgba(255,255,255,.12);padding:9px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.2)}
+    .back:hover{background:rgba(255,255,255,.22)}
+    main{flex:1;display:flex;align-items:center;justify-content:center;padding:20px 16px 44px}
+    .shell{width:100%;max-width:430px}
+    .hero{text-align:center;margin-bottom:22px}
+    .hero .hi{width:58px;height:58px;margin:0 auto 12px;border-radius:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#6EE7B7}
+    .hero h1{color:#fff;font-size:1.35rem;font-weight:800}
+    .hero p{color:rgba(255,255,255,.65);font-size:.82rem;margin-top:4px}
+    .card{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+    .tabs{display:flex;background:#F1F5F9;padding:6px;gap:6px}
+    .tab{flex:1;padding:12px;border:none;border-radius:14px;background:transparent;color:#64748B;font-weight:800;font-size:.88rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:.25s}
+    .tab.active{background:#065F46;color:#fff;box-shadow:0 4px 12px rgba(6,95,70,.35)}
+    .body{padding:24px 24px 26px}
+    .form{display:none}.form.active{display:block;animation:fin .3s ease}
+    @keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .bn{display:none;align-items:flex-start;gap:10px;border-radius:12px;padding:12px 14px;font-size:.78rem;line-height:1.55;margin-bottom:16px}
+    .bn.show{display:flex}
+    .bn.ok{background:#ECFDF5;border:1px solid #6EE7B7;color:#065F46}
+    .bn.err{background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C}
+    .bn i{margin-top:2px;flex-shrink:0}
+    .fld{margin-bottom:15px}
+    .fld label{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:#475569;margin-bottom:6px}
+    .fld label i{color:#059669;font-size:.72rem}
+    .iw{position:relative}
+    .iw>i.lead{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#94A3B8;font-size:.92rem}
+    .iw input{width:100%;padding:13px 44px;border:1.5px solid #E2E8F0;border-radius:13px;font-size:.93rem;font-family:inherit;outline:none;background:#F8FAFC;transition:.2s;color:#1E293B}
+    .iw input:focus{border-color:#059669;background:#fff;box-shadow:0 0 0 4px rgba(5,150,105,.12)}
+    .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;color:#94A3B8;cursor:pointer;padding:9px}
+    .fp-row{display:flex;justify-content:flex-end;margin:-6px 0 14px}
+    .fp-link{font-size:.76rem;font-weight:700;color:#059669;background:none;border:none;cursor:pointer;font-family:inherit}
+    .fp-link:hover{text-decoration:underline}
+    .req-tag{display:none;align-items:center;gap:6px;font-size:.7rem;font-weight:800;color:#059669;background:#ECFDF5;border:1px dashed #6EE7B7;border-radius:10px;padding:7px 12px;margin-bottom:12px}
+    .req-tag.show{display:inline-flex}
+    .btn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(135deg,#059669,#065F46);color:#fff;font-weight:800;font-size:.98rem;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 6px 18px rgba(6,95,70,.35);transition:.2s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .btn.red{background:linear-gradient(135deg,#DC2626,#B91C1C);box-shadow:0 6px 18px rgba(185,28,28,.3)}
+    .alt{display:flex;align-items:center;gap:12px;margin:18px 0 14px;color:#CBD5E1;font-size:.68rem;font-weight:700}
+    .alt::before,.alt::after{content:'';flex:1;height:1px;background:#E2E8F0}
+    .hint{text-align:center;font-size:.82rem;color:#64748B}
+    .hint a{color:#065F46;font-weight:800;cursor:pointer}
+    .code-chip{display:inline-flex;align-items:center;gap:8px;background:#ECFDF5;border:1px dashed #6EE7B7;border-radius:10px;padding:7px 14px;font-size:.76rem;font-weight:700;color:#065F46;margin-bottom:14px;word-break:break-all}
+    .foot{text-align:center;color:rgba(255,255,255,.5);font-size:.72rem;padding:16px}
+    .foot a{color:#6EE7B7;text-decoration:none;font-weight:700}
+    .tw{position:fixed;top:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:10px}
+    .toast{background:#1E293B;color:#fff;padding:12px 16px;border-radius:12px;font-size:.88rem;display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,.3);animation:fin .25s ease}
+    .toast.error{background:#B91C1C}.toast.success{background:#065F46}
+  </style>
+</head>
+<body>
+
+  <div class="top">
+    <a href="index.html" class="logo"><img src="images/ilhamstore.png" alt="" onerror="this.style.display='none'"><b>Ilham<span>Store</span></b></a>
+    <a href="index.html" class="back"><i class="fas fa-arrow-left"></i> Back to Store</a>
+  </div>
+
+  <main>
+    <div class="shell">
+      <div class="hero">
+        <div class="hi"><i class="fas fa-user-shield"></i></div>
+        <h1 id="heroTitle">Welcome Back!</h1>
+        <p id="heroSub">Login to your IlhamStore account</p>
+      </div>
+
+      <div class="card">
+        <div class="tabs" id="tabBar">
+          <button class="tab active" id="tabL" onclick="showView('login')"><i class="fas fa-right-to-bracket"></i> Login</button>
+          <button class="tab" id="tabR" onclick="showView('register')"><i class="fas fa-user-plus"></i> Register</button>
+        </div>
+        <div class="body">
+
+          <!-- LOGIN -->
+          <form class="form active" id="fLogin" onsubmit="doLogin(event)">
+            <div class="bn ok" id="bnLoginOk"><i class="fas fa-circle-check"></i><div id="bnLoginOkText"></div></div>
+            <div class="bn err" id="bnLoginErr"><i class="fas fa-circle-exclamation"></i><div id="bnLoginErrText"></div></div>
+            <div class="fld">
+              <label><i class="fas fa-user"></i> Email </label>
+              <div class="iw"><i class="fas fa-user lead"></i><input type="email" id="logId" required placeholder="you@email.com"></div>
+            </div>
+            <div class="fld">
+              <label><i class="fas fa-lock"></i> Password</label>
+              <div class="iw"><i class="fas fa-lock lead"></i><input type="password" id="logPass" required placeholder="Your password">
+                <button type="button" class="eye" onclick="eye('logPass',this)" aria-label="Show password"><i class="fas fa-eye"></i></button></div>
+            </div>
+            <div class="fp-row"><button type="button" class="fp-link" onclick="showView('forgot')"><i class="fas fa-key" style="margin-right:4px;"></i> Forgot Password?</button></div>
+            <button class="btn" id="btnL" type="submit"><i class="fas fa-right-to-bracket"></i> Login</button>
+            <div class="alt">New to IlhamStore?</div>
+            <p class="hint"><a onclick="showView('register')"><i class="fas fa-user-plus" style="margin-right:4px;"></i> Create a free account</a></p>
+          </form>
+
+          <!-- REGISTER -->
+          <form class="form" id="fReg" onsubmit="doReg(event)">
+            <div class="bn err" id="bnRegErr"><i class="fas fa-circle-exclamation"></i><div id="bnRegErrText"></div></div>
+            <div class="fld"><label><i class="fas fa-id-badge"></i> Full Name</label>
+              <div class="iw"><i class="fas fa-id-badge lead"></i><input type="text" id="rName" required placeholder="Your full name"></div></div>
+            <div class="fld"><label><i class="fas fa-envelope"></i> Email</label>
+              <div class="iw"><i class="fas fa-envelope lead"></i><input type="email" id="rEmail" required placeholder="you@email.com"></div></div>
+            <div class="fld"><label><i class="fas fa-phone"></i> Phone (optional)</label>
+              <div class="iw"><i class="fas fa-phone lead"></i><input type="tel" id="rPhone" placeholder="01XXXXXXXXX"></div></div>
+            <div class="fld"><label><i class="fas fa-lock"></i> Password</label>
+              <div class="iw"><i class="fas fa-lock lead"></i><input type="password" id="rPass" required placeholder="Min 6 characters">
+                <button type="button" class="eye" onclick="eye('rPass',this)"><i class="fas fa-eye"></i></button></div></div>
+            <div class="fld"><label><i class="fas fa-lock"></i> Confirm Password</label>
+              <div class="iw"><i class="fas fa-lock lead"></i><input type="password" id="rPass2" required placeholder="Re-enter password">
+                <button type="button" class="eye" onclick="eye('rPass2',this)"><i class="fas fa-eye"></i></button></div></div>
+            <button class="btn" id="btnR" type="submit"><i class="fas fa-user-plus"></i> Create Account</button>
+            <div class="alt">Already registered?</div>
+            <p class="hint"><a onclick="showView('login')">Login here</a></p>
+          </form>
+
+          <!-- FORGOT: STEP 1 -->
+          <form class="form" id="fForgot1" onsubmit="doForgot(event)">
+            <div class="bn err" id="bnFpErr"><i class="fas fa-circle-exclamation"></i><div id="bnFpErrText"></div></div>
+            <div class="bn ok"><i class="fas fa-circle-info"></i><div>আপনার account এর email দিন — আমরা একটি <b>reset code</b> পাঠাবো আপনার email এ (inbox / spam চেক করুন)।</div></div>
+            <div class="fld"><label><i class="fas fa-envelope"></i> Account Email</label>
+              <div class="iw"><i class="fas fa-envelope lead"></i><input type="email" id="fpEmail" required placeholder="you@email.com"></div></div>
+            <button class="btn red" id="btnFp" type="submit"><i class="fas fa-paper-plane"></i> Request New Password</button>
+            <div class="alt"></div>
+            <p class="hint"><a onclick="showView('login')"><i class="fas fa-arrow-left" style="margin-right:4px;"></i> Back to Login</a></p>
+          </form>
+
+          <!-- FORGOT: STEP 2 -->
+          <form class="form" id="fForgot2" onsubmit="doReset(event)">
+            <div class="bn err" id="bnRpErr"><i class="fas fa-circle-exclamation"></i><div id="bnRpErrText"></div></div>
+            <div class="bn ok"><i class="fas fa-envelope-circle-check"></i><div><b>Reset code sent!</b> আপনার email চেক করুন (15 মিনিট valid)।</div></div>
+            <div class="req-tag show" id="fpReqTag"><i class="fas fa-key"></i> <span id="fpReqEmail"></span> — Request for new password</div>
+            <div class="fld"><label><i class="fas fa-hashtag"></i> Reset Code (from email)</label>
+              <div class="iw"><i class="fas fa-hashtag lead"></i><input type="text" id="rpCode" required placeholder="e.g. Ih14526" style="text-transform:none;"></div></div>
+            <div class="fld"><label><i class="fas fa-lock"></i> New Password</label>
+              <div class="iw"><i class="fas fa-lock lead"></i><input type="password" id="rpPass" required placeholder="Min 6 characters">
+                <button type="button" class="eye" onclick="eye('rpPass',this)"><i class="fas fa-eye"></i></button></div></div>
+            <div class="fld"><label><i class="fas fa-lock"></i> Confirm New Password</label>
+              <div class="iw"><i class="fas fa-lock lead"></i><input type="password" id="rpPass2" required placeholder="Re-enter new password">
+                <button type="button" class="eye" onclick="eye('rpPass2',this)"><i class="fas fa-eye"></i></button></div></div>
+            <button class="btn" id="btnRp" type="submit"><i class="fas fa-check"></i> Update Password</button>
+            <div class="alt"></div>
+            <p class="hint"><a onclick="showView('forgot')"><i class="fas fa-rotate-left" style="margin-right:4px;"></i> Resend code</a></p>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="foot">&copy; <span id="yr"></span> <a href="index.html">IlhamStore.com</a> — All rights reserved.</div>
+  <div class="tw" id="tw"></div>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6Yi1KYXNrREZxMWt3THNqcWdoNTNZMlZmOS1qUWFoR3VzMTdjNDJwYlhMUE9ubVpUTjhSaERmX3ZfRUttNklUYkQvZXhlYw==';    const GAS=atob(_0x4f8a), SECRET='ILHS_SECRET_2025_X9K2M';
+
+    if(JSON.parse(localStorage.getItem('ilham_session')||'null')){ window.location.href='profile.html'; }
+
+    function toast(m,t=''){const w=document.getElementById('tw'),x=document.createElement('div');x.className='toast '+t;x.innerHTML=`<i class="fas ${t==='error'?'fa-circle-exclamation':'fa-circle-check'}"></i> ${m}`;w.appendChild(x);setTimeout(()=>x.remove(),3200);}
+    function eye(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.innerHTML=i.type==='password'?'<i class="fas fa-eye"></i>':'<i class="fas fa-eye-slash"></i>';}
+    function bn(id,txt,on){const b=document.getElementById(id);if(on){b.classList.add('show');document.getElementById(id+'Text').textContent=txt;}else{b.classList.remove('show');}}
+    function showView(v){
+      const map = { login:'fLogin', register:'fReg', forgot:'fForgot1' };
+  const active = map[v] || 'fLogin';
+  ['fLogin','fReg','fForgot1','fForgot2'].forEach(f=>document.getElementById(f).classList.toggle('active', f===active));
+  document.getElementById('tabBar').style.display=(v==='login'||v==='register')?'flex':'none';
+  document.getElementById('tabL').classList.toggle('active',v==='login');
+  document.getElementById('tabR').classList.toggle('active',v==='register');
+  const T={login:['Welcome Back!','Login to your IlhamStore account'],register:['Create Account','Sign up in less than a minute'],forgot:['Reset Password','We will email you a reset code']};
+  document.getElementById('heroTitle').textContent=T[v]?T[v][0]:'Welcome Back!';
+  document.getElementById('heroSub').textContent=T[v]?T[v][1]:'Login to your IlhamStore account';
+  ['bnLoginOk','bnLoginErr','bnRegErr','bnFpErr','bnRpErr'].forEach(x=>document.getElementById(x).classList.remove('show'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+    async function doReg(e){
+      e.preventDefault();
+      const p1=rPass.value,p2=rPass2.value;
+      if(p1.length<6){bn('bnRegErr','Password must be at least 6 characters.',1);return;}
+      if(p1!==p2){bn('bnRegErr','Passwords do not match.',1);return;}
+      const b=document.getElementById('btnR');b.disabled=true;b.innerHTML='<i class="fas fa-spinner fa-spin"></i> Creating...';
+      try{
+        const r=await(await fetch(GAS,{method:'POST',body:JSON.stringify({secret:SECRET,action:'register',name:rName.value.trim(),email:rEmail.value.trim(),phone:rPhone.value.trim(),password:p1})})).json();
+        if(r.result==='success'){toast('Account created! Please login.','success');showView('login');document.getElementById('logId').value=rEmail.value.trim();document.getElementById('fReg').reset();}
+        else bn('bnRegErr',r.message||'Registration failed.',1);
+      }catch(err){bn('bnRegErr','Server error. Please try again.',1);}
+      b.disabled=false;b.innerHTML='<i class="fas fa-user-plus"></i> Create Account';
+    }
+
+    async function doLogin(e){
+      e.preventDefault();
+      const b=document.getElementById('btnL');b.disabled=true;b.innerHTML='<i class="fas fa-spinner fa-spin"></i> Logging in...';
+      try{
+        const r=await(await fetch(GAS,{method:'POST',body:JSON.stringify({secret:SECRET,action:'login',email:document.getElementById('logId').value.trim(),password:document.getElementById('logPass').value})})).json();
+        if(r.result==='success'){
+          localStorage.setItem('ilham_session',JSON.stringify({token:r.token,name:r.name,email:r.email,...(r.avatar?{avatar:r.avatar}:{})}));
+          toast('Welcome back, '+r.name+'!','success');
+          setTimeout(()=>{window.location.href='profile.html';},800);return;
+        } else bn('bnLoginErr',r.message||'Login failed.',1);
+      }catch(err){bn('bnLoginErr','Server error. Please try again.',1);}
+      b.disabled=false;b.innerHTML='<i class="fas fa-right-to-bracket"></i> Login';
+    }
+
+    async function doForgot(e){
+      e.preventDefault();
+      const email=fpEmail.value.trim();
+      const b=document.getElementById('btnFp');b.disabled=true;b.innerHTML='<i class="fas fa-spinner fa-spin"></i> Sending code...';
+      try{
+        const r=await(await fetch(GAS,{method:'POST',body:JSON.stringify({secret:SECRET,action:'forgot_password',email:email})})).json();
+        if(r.result==='success'){
+          document.getElementById('fpReqEmail').textContent=email;
+          showView2();
+          toast('Reset code sent to your email','success');
+        } else bn('bnFpErr',r.message||'Failed to send code.',1);
+      }catch(err){bn('bnFpErr','Server error. Please try again.',1);}
+      b.disabled=false;b.innerHTML='<i class="fas fa-paper-plane"></i> Request New Password';
+    }
+    function showView2(){
+      ['fLogin','fReg','fForgot1','fForgot2'].forEach(f=>document.getElementById(f).classList.toggle('active',f==='fForgot2'));
+      document.getElementById('tabBar').style.display='none';
+      document.getElementById('heroTitle').textContent='Check Your Email';
+      document.getElementById('heroSub').textContent='Enter the reset code we sent you';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    async function doReset(e){
+      e.preventDefault();
+      const code=rpCode.value.trim(),p1=rpPass.value,p2=rpPass2.value;
+      if(p1.length<6){bn('bnRpErr','New password must be at least 6 characters.',1);return;}
+      if(p1!==p2){bn('bnRpErr','Passwords do not match.',1);return;}
+      const b=document.getElementById('btnRp');b.disabled=true;b.innerHTML='<i class="fas fa-spinner fa-spin"></i> Updating...';
+      try{
+        const r=await(await fetch(GAS,{method:'POST',body:JSON.stringify({secret:SECRET,action:'reset_password',email:fpEmail.value.trim(),code:code,newPassword:p1})})).json();
+        if(r.result==='success'){
+          toast('Password updated! Please login.','success');
+          showView('login');
+          document.getElementById('logId').value=fpEmail.value.trim();
+          const ok=document.getElementById('bnLoginOk');ok.classList.add('show');document.getElementById('bnLoginOkText').textContent='Password updated successfully. Login with your new password.';
+          document.getElementById('fForgot2').reset();
+        } else bn('bnRpErr',r.message||'Reset failed.',1);
+      }catch(err){bn('bnRpErr','Server error. Please try again.',1);}
+      b.disabled=false;b.innerHTML='<i class="fas fa-check"></i> Update Password';
+    }
+  </script>
+</body>
+</html>

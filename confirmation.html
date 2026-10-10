@@ -4,407 +4,174 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order Confirmed – IlhamStore</title>
-  
-  <!-- Security: Content Security Policy -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://script.google.com; connect-src 'self' https://script.google.com;">
-  
-  <!-- Anti-Scraping -->
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://script.google.com https://drive.google.com https://*.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
   <meta name="robots" content="noarchive, max-snippet:-1">
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/ilhamstore.png">
-  
-  <!-- Fixed html2canvas script -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  
+
   <style>
     :root {
       --cf-accent: #10B981;
-      --cf-accent-light: #6EE7B7;
       --cf-accent-bg: #ECFDF5;
-      --cf-accent-dark: #059669;
-      --cf-gradient: linear-gradient(135deg, #059669 0%, #047857 50%, #065F46 100%);
-      --cf-success: #059669;
-      --cf-success-bg: #D1FAE5;
-      --cf-warn: #D97706;
-      --cf-warn-bg: #FEF3C7;
-      --cf-danger: #DC2626;
+      --cf-dark: #065F46;
+      --cf-gradient: linear-gradient(135deg, #059669, #10B981);
       --cf-mono: 'Space Mono', 'Courier New', monospace;
     }
 
-    .cf-wrap { max-width: 560px; margin: 0 auto; padding: 20px 16px 48px; animation: cfWrapFade 0.6s ease; }
-    @keyframes cfWrapFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .cf-wrap { max-width: 520px; margin: 0 auto; padding: 20px 16px 48px; animation: cfFade .5s ease; }
+    @keyframes cfFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
-    .ck-steps { display: flex; align-items: center; justify-content: center; gap: 0; padding: 16px 0 4px; }
-    .ck-step-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 600; color: var(--gray-400); }
-    .ck-step-item.done { color: var(--cf-success); }
-    .ck-step-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; flex-shrink: 0; }
-    .ck-step-item.done .ck-step-num { border: 2px solid var(--cf-success); background: var(--cf-success); color: var(--white); box-shadow: 0 2px 6px rgba(5,150,105,0.25); }
-    .ck-step-line { width: 28px; height: 2px; background: var(--cf-success); margin: 0 4px; flex-shrink: 0; border-radius: 2px; }
-    @media(max-width:768px) { .ck-step-item span { display: none; } }
+    /* Steps */
+    .ck-steps { display: flex; align-items: center; justify-content: center; padding: 14px 0 4px; }
+    .ck-step-item { display: flex; align-items: center; gap: 6px; font-size: .72rem; font-weight: 600; color: #059669; }
+    .ck-step-num { width: 24px; height: 24px; border-radius: 50%; background: #059669; color: #fff; display: flex; align-items: center; justify-content: center; font-size: .6rem; font-weight: 700; }
+    .ck-step-line { width: 26px; height: 2px; background: #059669; margin: 0 4px; border-radius: 2px; }
+    @media(max-width:768px){ .ck-step-item span { display: none; } }
 
-    .cf-success-icon { width: 64px; height: 64px; background: var(--cf-success-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; animation: cfPopIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275); position: relative; }
-    .cf-success-icon::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid rgba(5,150,105,0.15); animation: cfPulse 2s ease-in-out infinite; }
-    .cf-success-icon i { font-size: 1.6rem; color: var(--cf-success); }
-    @keyframes cfPopIn { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
-    @keyframes cfPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.15); opacity: 0.4; } }
+    .cf-success-icon { width: 58px; height: 58px; background: #D1FAE5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; animation: cfPop .45s cubic-bezier(.175,.885,.32,1.275); }
+    .cf-success-icon i { font-size: 1.4rem; color: #059669; }
+    @keyframes cfPop { 0% { transform: scale(0); } 70% { transform: scale(1.12); } 100% { transform: scale(1); } }
+    .cf-success-title { text-align: center; font-size: 1.15rem; font-weight: 800; color: var(--gray-900); margin-bottom: 4px; }
+    .cf-success-sub { text-align: center; font-size: .76rem; color: var(--gray-500); margin-bottom: 16px; }
 
-    .cf-success-title { text-align: center; font-size: 1.25rem; font-weight: 800; color: var(--gray-900); margin-bottom: 4px; }
-    .cf-success-sub { text-align: center; font-size: 0.78rem; color: var(--gray-500); margin-bottom: 20px; line-height: 1.5; max-width: 380px; margin-left: auto; margin-right: auto; }
+    /* ================= COMPACT RECEIPT ================= */
+    .cf-receipt {
+      background: #fff;
+      border: 1px solid #CBF0DF;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 6px 24px rgba(16,185,129,.10);
+    }
+    /* ✓ একটাই watermark — clean & subtle */
+    .cf-logo-wm {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotate(-12deg);
+      width: 160px; max-width: 60%;
+      opacity: .05; z-index: 0; pointer-events: none;
+    }
+    .cf-receipt > *:not(.cf-logo-wm) { position: relative; z-index: 1; }
 
-    /* ===== PROFESSIONAL RECEIPT STYLE ===== */
-    .cf-receipt { 
-      background: var(--white); 
-      border-radius: 12px; 
-      overflow: hidden; 
-      position: relative; 
-      box-shadow: 0 4px 24px rgba(16, 185, 129, 0.1); 
-      border: 1px solid rgba(16, 185, 129, 0.15);
-    }
+    .cf-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px 12px; border-bottom: 1px dashed #E2E8F0; }
+    .cf-brand { display: flex; align-items: center; gap: 9px; }
+    .cf-brand img { width: 32px; height: 32px; object-fit: contain; }
+    .cf-brand b { font-size: 1.05rem; font-weight: 900; color: var(--gray-900); letter-spacing: -.02em; }
+    .cf-brand b span { color: var(--cf-accent); }
+    .cf-head-right { text-align: right; }
+    .cf-badge { display: inline-block; font-size: .55rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--cf-accent); background: var(--cf-accent-bg); padding: 3px 10px; border-radius: 20px; margin-bottom: 3px; }
+    .cf-dt { font-size: .62rem; color: var(--gray-400); font-family: var(--cf-mono); }
 
-    /* Header - Clean Professional Style */
-    .cf-receipt-head { 
-      background: var(--white); 
-      color: var(--gray-900); 
-      padding: 24px 24px 20px; 
-      border-bottom: 2px solid var(--gray-200);
-      display: flex; 
-      align-items: flex-start; 
-      justify-content: space-between;
-    }
-    .cf-receipt-brand { display: flex; flex-direction: column; gap: 6px; }
-    .cf-receipt-logo-row { display: flex; align-items: center; gap: 10px; }
-    .cf-receipt-logo-img { height: 36px; width: 36px; object-fit: contain; }
-    .cf-receipt-sitename { font-size: 1.2rem; font-weight: 900; letter-spacing: -0.02em; color: var(--gray-900); }
-    .cf-receipt-sitename span { color: var(--cf-accent); }
-    .cf-receipt-tagline { font-size: 0.68rem; color: var(--gray-500); font-weight: 500; }
-    .cf-receipt-title { 
-      font-size: 2rem; 
-      font-weight: 900; 
-      color: var(--gray-200); 
-      letter-spacing: 0.15em; 
-      text-transform: uppercase;
-      line-height: 1;
-    }
-    .cf-receipt-meta {
-      display: flex;
-      justify-content: flex-end;
-      gap: 24px;
-      margin-top: 8px;
-    }
-    .cf-receipt-meta-item { text-align: right; }
-    .cf-receipt-meta-label { font-size: 0.6rem; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
-    .cf-receipt-meta-value { font-size: 0.78rem; color: var(--gray-800); font-weight: 700; font-family: var(--cf-mono); }
+    .cf-orderbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 18px; background: var(--cf-accent-bg); border-bottom: 1px dashed #C7F0DD; flex-wrap: wrap; }
+    .cf-oid { display: inline-flex; align-items: center; gap: 7px; font-family: var(--cf-mono); font-size: .82rem; font-weight: 700; color: var(--cf-dark); cursor: pointer; transition: opacity .2s; }
+    .cf-oid:hover { opacity: .75; }
+    .cf-oid i { font-size: .62rem; opacity: .5; }
+    .cf-oid.copied i { opacity: 1; color: #059669; }
+    .cf-status { padding: 5px 13px; border-radius: 20px; font-size: .58rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; display: inline-flex; align-items: center; gap: 5px; }
+    .cf-status.verifying { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
+    .cf-status.confirmed { background: #D1FAE5; color: #065F46; border: 1px solid #6EE7B7; }
+    .cf-status.bad { background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; }
+    .cf-status.refunded { background: #DBEAFE; color: #1E40AF; border: 1px solid #93C5FD; }
 
-    .cf-receipt-body { padding: 0; }
+    .cf-info { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; padding: 13px 18px; }
+    .cf-col label { display: block; font-size: .55rem; font-weight: 800; color: var(--cf-accent); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px; }
+    .cf-col b { display: block; font-size: .82rem; font-weight: 700; color: var(--gray-900); margin-bottom: 3px; word-break: break-word; }
+    .cf-col span { display: flex; align-items: center; gap: 5px; font-size: .68rem; color: var(--gray-500); line-height: 1.6; word-break: break-all; }
+    .cf-col span i { width: 12px; font-size: .58rem; color: var(--gray-400); flex-shrink: 0; }
 
-    /* Customer Info Section */
-    .cf-customer-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      padding: 20px 24px;
-      background: var(--gray-50);
-      border-bottom: 1px solid var(--gray-200);
-    }
-    .cf-customer-block {}
-    .cf-customer-label { 
-      font-size: 0.6rem; 
-      color: var(--cf-accent); 
-      font-weight: 700; 
-      text-transform: uppercase; 
-      letter-spacing: 0.1em; 
-      margin-bottom: 6px;
-    }
-    .cf-customer-name { font-size: 0.9rem; font-weight: 700; color: var(--gray-900); margin-bottom: 2px; }
-    .cf-customer-detail { font-size: 0.75rem; color: var(--gray-500); line-height: 1.5; }
+    .cf-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 11px 18px; background: #F8FAFC; border-top: 1px dashed #E2E8F0; border-bottom: 1px dashed #E2E8F0; }
+    .cf-item-name { font-size: .8rem; font-weight: 700; color: var(--gray-800); }
+    .cf-item-sub { font-size: .64rem; color: var(--gray-400); margin-top: 2px; }
+    .cf-item-amt { font-size: .88rem; font-weight: 800; color: var(--gray-900); font-family: var(--cf-mono); white-space: nowrap; }
 
-    /* Order Info Bar */
-    .cf-order-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 24px;
-      background: var(--cf-accent-bg);
-      border-bottom: 1px solid rgba(16,185,129,0.15);
-    }
-    .cf-order-id-row { display: flex; align-items: center; gap: 8px; }
-    .cf-order-id-label { font-size: 0.65rem; color: var(--gray-500); font-weight: 600; }
-    .cf-order-id { 
-      font-size: 0.85rem; 
-      font-weight: 700; 
-      color: var(--cf-accent-dark); 
-      font-family: var(--cf-mono); 
-      cursor: pointer; 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 6px; 
-      transition: opacity 0.2s; 
-    }
-    .cf-order-id:hover { opacity: 0.8; }
-    .cf-order-id .copy-icon { font-size: 0.6rem; opacity: 0.4; transition: opacity 0.2s, color 0.2s; }
-    .cf-order-id:hover .copy-icon { opacity: 0.7; color: var(--cf-accent); }
-    .cf-order-id.copied .copy-icon { opacity: 1 !important; color: var(--cf-success) !important; }
-    .cf-receipt-status { 
-      padding: 4px 12px; 
-      border-radius: 20px; 
-      font-size: 0.6rem; 
-      font-weight: 700; 
-      background: #FEF3C7; 
-      color: #92400E; 
-      display: flex; 
-      align-items: center; 
-      gap: 4px; 
-      text-transform: uppercase; 
-      letter-spacing: 0.05em;
-      border: 1px solid #FDE68A;
-    }
+    .cf-total { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; }
+    .cf-total span { font-size: .82rem; font-weight: 800; color: var(--gray-900); }
+    .cf-total b { font-size: 1.3rem; font-weight: 900; color: var(--cf-accent); font-family: var(--cf-mono); }
 
-    /* Table Style */
-    .cf-table-section { padding: 0; }
-    .cf-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .cf-table thead { background: var(--gray-100); }
-    .cf-table th {
-      padding: 10px 24px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: var(--gray-500);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      text-align: left;
-      border-bottom: 2px solid var(--gray-200);
-    }
-    .cf-table th:last-child { text-align: right; }
-    .cf-table td {
-      padding: 12px 24px;
-      font-size: 0.78rem;
-      color: var(--gray-700);
-      border-bottom: 1px solid var(--gray-100);
-      vertical-align: middle;
-    }
-    .cf-table td:last-child { text-align: right; font-weight: 600; font-family: var(--cf-mono); }
-    .cf-table td:nth-child(2) { color: var(--gray-500); font-size: 0.72rem; }
-    .cf-table td:nth-child(3) { text-align: center; }
-    .cf-table tr:last-child td { border-bottom: none; }
-    .cf-table .item-name { font-weight: 600; color: var(--gray-800); }
-    .cf-table .item-detail { font-size: 0.68rem; color: var(--gray-400); margin-top: 2px; }
+    .cf-delcode { display: none; margin: 0 18px 14px; background: linear-gradient(135deg,#ECFDF5,#D1FAE5); border: 2px dashed #10B981; border-radius: 12px; padding: 14px; text-align: center; }
+    .cf-delcode small { display: block; font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #065F46; margin-bottom: 5px; }
+    .cf-delcode b { font-size: 1.15rem; font-weight: 900; color: #059669; letter-spacing: 3px; font-family: var(--cf-mono); word-break: break-all; }
 
-    /* Totals Section */
-    .cf-totals-section {
-      padding: 16px 24px 20px;
-      display: flex;
-      justify-content: flex-end;
-    }
-    .cf-totals-table {
-      width: 220px;
-    }
-    .cf-totals-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 4px 0;
-    }
-    .cf-totals-label { font-size: 0.75rem; color: var(--gray-500); font-weight: 500; }
-    .cf-totals-value { font-size: 0.78rem; color: var(--gray-700); font-weight: 600; font-family: var(--cf-mono); }
-    .cf-totals-row.total {
-      border-top: 2px solid var(--gray-900);
-      margin-top: 8px;
-      padding-top: 10px;
-    }
-    .cf-totals-row.total .cf-totals-label { 
-      font-size: 0.85rem; 
-      color: var(--gray-900); 
-      font-weight: 800; 
-    }
-    .cf-totals-row.total .cf-totals-value { 
-      font-size: 1.3rem; 
-      color: var(--cf-accent); 
-      font-weight: 900; 
-    }
+    .cf-pay { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 12px 18px; background: #F8FAFC; border-top: 1px dashed #E2E8F0; }
+    .cf-pay div label { display: block; font-size: .55rem; font-weight: 800; color: var(--gray-400); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 3px; }
+    .cf-pay div b { font-size: .74rem; font-weight: 700; color: var(--gray-800); word-break: break-all; }
+    .cf-pay .txn b { font-family: var(--cf-mono); color: var(--cf-dark); background: var(--cf-accent-bg); padding: 2px 8px; border-radius: 5px; }
 
-    /* Payment Method Badge */
-    .cf-payment-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      background: var(--gray-100);
-      border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--gray-700);
-    }
-    .cf-payment-badge i { color: var(--cf-accent); }
+    .cf-rfoot { text-align: center; padding: 10px 18px 13px; font-size: .6rem; color: #94A3B8; line-height: 1.7; border-top: 1px dashed #E2E8F0; }
+    .cf-rfoot b { color: var(--gray-500); }
 
-    /* Transaction ID Highlight */
-    .cf-txn-highlight {
-      display: inline-block;
-      padding: 2px 8px;
-      background: var(--cf-accent-bg);
-      border: 1px solid rgba(16,185,129,0.15);
-      border-radius: 4px;
-      font-family: var(--cf-mono);
-      font-weight: 700;
-      font-size: 0.75rem;
-      color: var(--cf-accent-dark);
-    }
+    /* Notes below receipt (receipt image থেকে বাদ — তাই ছোট দেখাবে) */
+    .cf-note { display: flex; gap: 9px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 10px; padding: 10px 12px; margin-top: 12px; font-size: .68rem; color: #92400E; line-height: 1.55; }
+    .cf-note i { color: #D97706; flex-shrink: 0; margin-top: 1px; }
+    .cf-note.green { background: #ECFDF5; border-color: #6EE7B7; color: #065F46; }
+    .cf-note.green i { color: #059669; }
 
-    /* Footer Section */
-    .cf-receipt-foot { 
-      background: var(--gray-50); 
-      padding: 16px 24px; 
-      border-top: 2px solid var(--gray-200); 
-    }
-    .cf-foot-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .cf-foot-block {}
-    .cf-foot-title {
-      font-size: 0.6rem;
-      font-weight: 700;
-      color: var(--gray-400);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 6px;
-    }
-    .cf-foot-text {
-      font-size: 0.7rem;
-      color: var(--gray-600);
-      line-height: 1.5;
-    }
-    .cf-foot-text strong { color: var(--gray-800); }
-
-    /* Warning Box */
-    .cf-warning-box {
-      background: #FEF2F2;
-      border: 1px solid #FECACA;
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin: 16px 24px;
-      font-size: 0.72rem;
-      color: #991B1B;
-      line-height: 1.5;
-      display: flex;
-      gap: 10px;
-    }
-    .cf-warning-box i { font-size: 0.95rem; color: #DC2626; flex-shrink: 0; margin-top: 1px; }
-
-    /* Watermark Layers */
-    .cf-grid-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; background-image: repeating-linear-gradient(0deg, rgba(16,185,129,0.04) 0px, transparent 1px, transparent 12px), repeating-linear-gradient(90deg, rgba(16,185,129,0.04) 0px, transparent 1px, transparent 12px); }
-    .cf-dots-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; background-image: radial-gradient(circle, rgba(16,185,129,0.06) 0.5px, transparent 0.5px); background-size: 6px 6px; }
-    .cf-watermark { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 10; }
-    .cf-watermark-pattern { position: absolute; inset: -50%; width: 200%; height: 200%; opacity: 0.06; transform: rotate(-25deg); pointer-events: none; }
-    .cf-watermark-row { display: flex; gap: 40px; white-space: nowrap; margin-bottom: 20px; font-size: 0.6rem; font-weight: 800; color: var(--cf-accent); letter-spacing: 0.12em; text-transform: uppercase; user-select: none; }
-    .cf-watermark-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); font-size: 2rem; font-weight: 900; color: var(--cf-accent); opacity: 0.07; white-space: nowrap; letter-spacing: 0.15em; text-transform: uppercase; user-select: none; pointer-events: none; }
-    .cf-stripe-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; background: repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(16,185,129,0.02) 35px, rgba(16,185,129,0.02) 36px); }
-
-    .cf-logo-watermark {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg);
-      width: 140px; height: auto; opacity: 0.06; z-index: 0; pointer-events: none;
-    }
-
-    .cf-side-watermark-left, .cf-side-watermark-right {
-      position: absolute; top: 0; bottom: 0; width: 24px; z-index: 10; pointer-events: none; overflow: hidden;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px;
-    }
-    .cf-side-watermark-left { left: 4px; }
-    .cf-side-watermark-right { right: 4px; }
-    .cf-side-wm-text {
-      writing-mode: vertical-rl; transform: rotate(180deg);
-      font-size: 6px; font-weight: 800; color: var(--cf-accent); opacity: 0.1;
-      letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;
-    }
-
-    .cf-actions { display: flex; gap: 8px; margin-top: 16px; }
-    .cf-btn { flex: 1; padding: 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; font-family: 'Inter', sans-serif; cursor: pointer; text-decoration: none; border: none; }
-    .cf-btn-primary { background: var(--cf-gradient); color: var(--white); }
-    .cf-btn-primary:hover { opacity: 0.9; }
-    .cf-btn-primary:active { transform: scale(0.98); }
-    .cf-btn-secondary { background: var(--white); color: var(--gray-600); border: 2px solid var(--gray-200); }
-    .cf-btn-secondary:hover { border-color: var(--cf-accent-light); color: var(--cf-accent); }
-    .cf-btn-whatsapp { background: #059669; color: var(--white); flex: 0.7; }
-    .cf-btn-whatsapp:hover { background: #047857; }
-
-    .cf-saving { display: none; align-items: center; justify-content: center; gap: 8px; padding: 11px; background: var(--cf-accent-bg); color: var(--cf-accent); font-size: 0.82rem; font-weight: 600; border-radius: 8px; margin-top: 16px; }
+    .cf-actions { display: flex; gap: 8px; margin-top: 14px; }
+    .cf-btn { flex: 1; padding: 11px; border-radius: 10px; font-size: .8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-decoration: none; border: none; font-family: 'Inter', sans-serif; transition: .2s; }
+    .cf-btn-primary { background: var(--cf-gradient); color: #fff; }
+    .cf-btn-primary:active { transform: scale(.98); }
+    .cf-btn-secondary { background: #fff; color: var(--gray-600); border: 2px solid var(--gray-200); }
+    .cf-btn-secondary:hover { border-color: #6EE7B7; color: #059669; }
+    .cf-saving { display: none; align-items: center; justify-content: center; gap: 8px; padding: 10px; background: var(--cf-accent-bg); color: #059669; font-size: .8rem; font-weight: 600; border-radius: 10px; margin-top: 12px; }
     .cf-saving.show { display: flex; }
-    .cf-saving .spinner { width: 16px; height: 16px; border: 2px solid var(--cf-accent-light); border-top-color: var(--cf-accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
+    .cf-saving .spinner { width: 15px; height: 15px; border: 2px solid #A7F3D0; border-top-color: #059669; border-radius: 50%; animation: spin .6s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .cf-note { background: var(--cf-warn-bg); border: 1px solid #FDE68A; border-radius: 8px; padding: 10px 12px; margin-top: 14px; font-size: 0.68rem; color: #92400E; line-height: 1.5; display: flex; gap: 8px; }
-    .cf-note i { font-size: 0.85rem; color: var(--cf-warn); flex-shrink: 0; margin-top: 1px; }
+    .cf-support { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 13px; flex-wrap: wrap; }
+    .cf-support a { display: flex; align-items: center; gap: 4px; font-size: .7rem; font-weight: 600; color: var(--gray-500); text-decoration: none; }
+    .cf-support a:hover { color: #059669; }
+    .cf-support a.wa i { color: #059669; } .cf-support a.ms i { color: #1877F2; } .cf-support a.tg i { color: #26A5E4; }
 
-    .cf-support { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 14px; flex-wrap: wrap; }
-    .cf-support-link { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; font-weight: 600; color: var(--gray-500); transition: color 0.2s; text-decoration: none; }
-    .cf-support-link:hover { color: var(--cf-accent); }
-    .cf-support-link i { font-size: 0.82rem; }
-    .cf-support-link.wa i { color: #059669; }
-    .cf-support-link.ms i { color: #1877F2; }
-    .cf-support-link.tg i { color: #26A5E4; }
-
-    /* Error State */
-    .cf-error-icon { width: 64px; height: 64px; background: #FEE2E2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; animation: cfPopIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275); }
-    .cf-error-icon i { font-size: 1.6rem; color: #DC2626; }
-    .cf-error-box { background: #FEE2E2; border: 2px solid #FECACA; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
-    .cf-error-box h3 { font-size: 1.1rem; font-weight: 800; color: #991B1B; margin-bottom: 8px; }
-    .cf-error-box p { font-size: 0.82rem; color: #7F1D1D; line-height: 1.6; margin-bottom: 4px; }
-    .cf-error-box .error-txn { font-family: var(--cf-mono); font-weight: 700; color: #DC2626; background: #FEE2E2; padding: 4px 10px; border-radius: 6px; display: inline-block; margin-top: 10px; font-size: 0.85rem; }
-
-    /* Checking State */
-    .cf-checking { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; }
-    .cf-checking .spinner-lg { width: 48px; height: 48px; border: 4px solid var(--cf-accent-light); border-top-color: var(--cf-accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
-    .cf-checking p { font-size: 0.9rem; font-weight: 600; color: var(--gray-600); }
-    .cf-checking .sub { font-size: 0.78rem; color: var(--gray-400); margin-top: 6px; }
+    /* Error / Empty / Loading states */
+    .cf-center { text-align: center; padding: 30px 6px; }
+    .cf-error-icon { width: 58px; height: 58px; background: #FEE2E2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+    .cf-error-icon i { font-size: 1.4rem; color: #DC2626; }
+    .cf-error-box { background: #FEF2F2; border: 1.5px solid #FECACA; border-radius: 12px; padding: 16px; margin: 14px 0; }
+    .cf-error-box h3 { font-size: .95rem; font-weight: 800; color: #991B1B; margin-bottom: 6px; }
+    .cf-error-box p { font-size: .78rem; color: #7F1D1D; line-height: 1.6; }
+    .error-txn { font-family: var(--cf-mono); font-weight: 700; color: #DC2626; background: #FEE2E2; padding: 4px 12px; border-radius: 6px; display: inline-block; margin-top: 8px; font-size: .82rem; }
+    .cf-checking { display: flex; flex-direction: column; align-items: center; padding: 55px 20px; text-align: center; }
+    .cf-checking .spinner-lg { width: 42px; height: 42px; border: 4px solid #A7F3D0; border-top-color: #10B981; border-radius: 50%; animation: spin .8s linear infinite; margin-bottom: 16px; }
+    .cf-checking p { font-size: .88rem; font-weight: 600; color: var(--gray-600); }
+    .cf-checking .sub { font-size: .75rem; color: var(--gray-400); margin-top: 4px; }
 
     .search-dropdown{position:fixed;top:0;left:0;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);box-shadow:var(--shadow-lg);max-height:380px;overflow-y:auto;display:none;z-index:10001;}
     .search-dropdown.open{display:block;}
-    .search-item{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:var(--transition);}
+    .search-item{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:var(--transition);text-decoration:none;}
     .search-item:hover{background:var(--accent-bg);}
-    .search-item-img{width:40px;height:40px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--gray-100);display:flex;align-items:center;justify-content:center;position:relative;}
-    .search-item-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-    .search-item-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:8px;}
+    .search-item-img{width:40px;height:40px;border-radius:8px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     .search-item-info{flex:1;min-width:0;}
-    .search-item-name{font-size:.875rem;font-weight:600;color:var(--gray-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .search-item-cat{font-size:.7rem;color:var(--gray-400);}
-    .search-empty{padding:24px;text-align:center;color:var(--gray-400);font-size:.85rem;}
+    .search-item-name{font-size:.85rem;font-weight:600;color:var(--gray-800);}
+    .search-item-cat{font-size:.68rem;color:var(--gray-400);}
+    .search-empty{padding:22px;text-align:center;color:var(--gray-400);font-size:.85rem;}
 
     .legal-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.55);overflow-y:auto;}
     .legal-modal.active{display:flex;justify-content:center;align-items:flex-start;padding:1.5rem;}
     .legal-modal-box{background:#fff;max-width:800px;width:100%;border-radius:16px;padding:2.5rem;position:relative;animation:legalIn .3s ease;}
     @keyframes legalIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-    .legal-close{position:absolute;top:1rem;right:1rem;background:#F1F5F9;border:none;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748B;transition:.2s;}
+    .legal-close{position:absolute;top:1rem;right:1rem;background:#F1F5F9;border:none;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748B;}
     .legal-close:hover{background:#E2E8F0;color:#1E293B;}
     .legal-modal-box h1{font-size:1.6rem;font-weight:800;margin-bottom:1.5rem;color:#1E293B;padding-right:2rem;}
     .legal-modal-box h2{font-size:1.1rem;font-weight:700;margin:1.5rem 0 .5rem;color:#334155;}
     .legal-modal-box p,.legal-modal-box li{font-size:.92rem;color:#475569;line-height:1.7;margin-bottom:.5rem;}
     .legal-modal-box ul{padding-left:1.5rem;margin-bottom:.75rem;}
-    .legal-modal-box ul li{margin-bottom:.3rem;}
     .legal-updated{font-size:.78rem;color:#94A3B8;margin-bottom:1.5rem;}
     @media(max-width:600px){.legal-modal-box{padding:1.5rem;border-radius:12px;}.legal-modal-box h1{font-size:1.3rem;}}
 
     @media (max-width: 480px) {
-      .cf-wrap { padding: 10px 10px 32px; }
-      .cf-success-title { font-size: 1.1rem; }
-      .cf-receipt-head { padding: 16px; flex-direction: column; gap: 12px; }
-      .cf-receipt-title { font-size: 1.5rem; }
-      .cf-receipt-meta { justify-content: flex-start; gap: 16px; }
-      .cf-customer-section { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
-      .cf-order-bar { flex-direction: column; gap: 8px; align-items: flex-start; padding: 12px 16px; }
-      .cf-table th, .cf-table td { padding: 10px 16px; font-size: 0.7rem; }
-      .cf-totals-section { padding: 12px 16px 16px; }
-      .cf-totals-table { width: 100%; }
-      .cf-foot-grid { grid-template-columns: 1fr; gap: 12px; }
-      .cf-receipt-foot { padding: 12px 16px; }
-      .cf-warning-box { margin: 12px 16px; }
-      .cf-actions { flex-direction: column; gap: 6px; }
-      .cf-watermark-center { font-size: 1.2rem; }
-      .cf-side-watermark-left, .cf-side-watermark-right { display: none; }
+      .cf-wrap { padding: 10px 10px 36px; }
+      .cf-head { padding: 12px 14px 10px; }
+      .cf-orderbar, .cf-info, .cf-item, .cf-total, .cf-pay { padding-left: 14px; padding-right: 14px; }
+      .cf-delcode { margin: 0 14px 12px; }
+      .cf-info { gap: 10px; }
+      .cf-actions { flex-direction: column; }
+      .cf-brand b { font-size: .95rem; }
+      .cf-total b { font-size: 1.15rem; }
     }
   </style>
 </head>
@@ -420,12 +187,12 @@
         <div class="search-wrapper" id="searchWrapper">
           <div class="search-box">
             <input type="text" id="searchInput" placeholder="Search apps, games, or gift cards..." autocomplete="off" aria-label="Search products">
-            <button onclick="doSearch()" aria-label="Submit search"><i class="fas fa-search"></i></button>
+            <button onclick="doSearch()" aria-label="Search"><i class="fas fa-search"></i></button>
           </div>
         </div>
         <div class="header-actions">
-          <a href="#" class="hdr-btn"><i class="fas fa-truck"></i><span>Track</span></a>
-          <a href="#" class="hdr-btn" aria-label="Account"><i class="fas fa-user"></i></a>
+          <a href="track.html" class="hdr-btn"><i class="fas fa-truck"></i><span>Track</span></a>
+          <a href="login.html" class="hdr-btn" aria-label="Account" id="hdrAccount"><i class="fas fa-user"></i></a>
           <button class="mobile-toggle" id="mobToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
         </div>
       </div>
@@ -435,9 +202,9 @@
     </div>
   </header>
 
-  <div class="search-dropdown" id="searchDropdown" role="listbox" aria-live="polite" aria-label="Search results"></div>
+  <div class="search-dropdown" id="searchDropdown" role="listbox" aria-live="polite"></div>
 
-  <nav class="nav-bar" id="navBar" aria-label="Main navigation">
+  <nav class="nav-bar" id="navBar">
     <div class="container">
       <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
       <a href="index.html#live-apps" class="nav-link"><i class="fas fa-mobile-screen"></i> Live Apps</a>
@@ -448,268 +215,161 @@
 
   <div class="container">
     <div class="ck-steps">
-      <div class="ck-step-item done"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Select</span></div>
+      <div class="ck-step-item"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Select</span></div>
       <div class="ck-step-line"></div>
-      <div class="ck-step-item done"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Checkout</span></div>
+      <div class="ck-step-item"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Checkout</span></div>
       <div class="ck-step-line"></div>
-      <div class="ck-step-item done"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Payment</span></div>
+      <div class="ck-step-item"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Payment</span></div>
       <div class="ck-step-line"></div>
-      <div class="ck-step-item done"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Submitted</span></div>
+      <div class="ck-step-item"><div class="ck-step-num"><i class="fas fa-check"></i></div><span>Submitted</span></div>
     </div>
   </div>
 
   <div class="cf-wrap" id="cfContent">
 
-    <!-- LOADING STATE -->
+    <!-- LOADING -->
     <div class="cf-checking" id="cfChecking">
       <div class="spinner-lg"></div>
-      <p>Verifying your payment...</p>
-      <div class="sub">Please wait while we check your transaction</div>
+      <p>Preparing your receipt...</p>
+      <div class="sub">Please wait a moment</div>
     </div>
 
-    <!-- ERROR STATE (Duplicate Transaction) -->
+    <!-- DUPLICATE ERROR -->
     <div id="cfError" style="display:none;">
-      <div class="cf-error-icon"><i class="fas fa-exclamation-triangle"></i></div>
-      <div class="cf-success-title">Transaction Already Used!</div>
-      <div class="cf-success-sub">This transaction ID has already been submitted for another order.</div>
-      
-      <div class="cf-error-box">
-        <h3><i class="fas fa-ban"></i> Duplicate Transaction Detected</h3>
-        <p>The transaction ID you provided has already been used to process a previous order. Each transaction ID can only be used once.</p>
-        <p><strong>Transaction ID:</strong></p>
-        <div class="error-txn" id="errorTxnId">—</div>
-        <p style="margin-top:16px;font-size:0.75rem;">If you believe this is an error, please contact our support team with your transaction details.</p>
-      </div>
-
-      <div class="cf-actions">
-        <a href="checkout.html" class="cf-btn cf-btn-primary">
-          <i class="fas fa-redo"></i> Try Again
-        </a>
-        <a href="https://wa.me/8801558086520" target="_blank" rel="noopener noreferrer" class="cf-btn cf-btn-whatsapp">
-          <i class="fab fa-whatsapp"></i> Contact Support
-        </a>
-        <a href="index.html" class="cf-btn cf-btn-secondary" onclick="sessionStorage.removeItem('cartStoreOrder')">
-          <i class="fas fa-home"></i> Home
-        </a>
-      </div>
-
-      <div class="cf-note" style="background:#FEE2E2;border-color:#FECACA;color:#991B1B;">
-        <i class="fas fa-info-circle" style="color:#DC2626;"></i>
-        <div>
-          <strong>Important:</strong> Using the same transaction ID for multiple orders is not allowed. If you made a new payment, please use the new transaction ID from your payment confirmation.
+      <div class="cf-center">
+        <div class="cf-error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+        <div class="cf-success-title">Transaction Already Used!</div>
+        <div class="cf-success-sub">This transaction ID has already been submitted for another order.</div>
+        <div class="cf-error-box">
+          <h3><i class="fas fa-ban"></i> Duplicate Transaction Detected</h3>
+          <p>Each transaction ID can only be used once. If you made a new payment, please use the new Transaction ID from your payment confirmation.</p>
+          <div class="error-txn" id="errorTxnId">—</div>
+        </div>
+        <div class="cf-actions">
+          <a href="checkout.html" class="cf-btn cf-btn-primary"><i class="fas fa-redo"></i> Try Again</a>
+          <a href="index.html" class="cf-btn cf-btn-secondary"><i class="fas fa-house"></i> Home</a>
+        </div>
+        <div class="cf-support">
+          <a href="https://wa.me/8801558086520" target="_blank" rel="noopener noreferrer" class="wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+          <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="ms"><i class="fab fa-facebook-messenger"></i> Messenger</a>
+          <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="tg"><i class="fab fa-telegram-plane"></i> Telegram</a>
+          <a href="mailto:support.ilhamstore@gmail.com"><i class="fas fa-envelope"></i> Email</a>
         </div>
       </div>
+    </div>
 
-      <div class="cf-support">
-        <a href="https://wa.me/8801558086520" target="_blank" rel="noopener noreferrer" class="cf-support-link wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-        <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="cf-support-link ms"><i class="fab fa-facebook-messenger"></i> Messenger</a>
-        <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="cf-support-link tg"><i class="fab fa-telegram-plane"></i> Telegram</a>
-        <a href="mailto:support.ilhamstore@gmail.com" class="cf-support-link"><i class="fas fa-envelope"></i> Email</a>
+    <!-- EMPTY STATE -->
+    <div id="cfEmpty" style="display:none;">
+      <div class="cf-center">
+        <div class="cf-error-icon" style="background:#FEF3C7;"><i class="fas fa-receipt" style="color:#D97706;"></i></div>
+        <div class="cf-success-title">No Receipt Found</div>
+        <div class="cf-success-sub">We couldn't find your order details on this device.<br>Use Track Order with your Order ID to see live status.</div>
+        <div class="cf-actions">
+          <a href="track.html" class="cf-btn cf-btn-primary"><i class="fas fa-truck-fast"></i> Track Order</a>
+          <a href="index.html" class="cf-btn cf-btn-secondary"><i class="fas fa-house"></i> Home</a>
+        </div>
       </div>
     </div>
 
-    <!-- SUCCESS STATE -->
+    <!-- SUCCESS -->
     <div id="cfSuccess" style="display:none;">
-
       <div class="cf-success-icon"><i class="fas fa-check"></i></div>
       <div class="cf-success-title">Order Submitted!</div>
       <div class="cf-success-sub">Your payment is being verified. Top-up will be delivered after confirmation.</div>
 
+      <!-- ===== COMPACT RECEIPT ===== -->
       <div class="cf-receipt" id="receiptCard">
+        <img src="images/ilhamstore.png" alt="" class="cf-logo-wm" onerror="this.style.display='none'">
 
-        <div class="cf-grid-layer"></div>
-        <div class="cf-dots-layer"></div>
-        <div class="cf-stripe-layer"></div>
-        <div class="cf-watermark" id="watermarkContainer"></div>
-        
-        <div class="cf-side-watermark-left">
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-        </div>
-        <div class="cf-side-watermark-right">
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-          <span class="cf-side-wm-text">ILHAMSTORE</span>
-        </div>
-
-        <img src="images/ilhamstore.png" alt="IlhamStore" class="cf-logo-watermark" onerror="this.style.display='none'">
-
-        <!-- HEADER -->
-        <div class="cf-receipt-head">
-          <div class="cf-receipt-brand">
-            <div class="cf-receipt-logo-row">
-              <img src="images/ilhamstore.png" alt="IlhamStore" class="cf-receipt-logo-img" onerror="this.style.display='none'">
-              <div class="cf-receipt-sitename">Ilham<span>Store</span></div>
-            </div>
-            <div class="cf-receipt-tagline">Top Up Instantly – Trusted by Thousands</div>
-            <div class="cf-receipt-meta">
-              <div class="cf-receipt-meta-item">
-                <div class="cf-receipt-meta-label">Date</div>
-                <div class="cf-receipt-meta-value" id="rcptDate">—</div>
-              </div>
-              <div class="cf-receipt-meta-item">
-                <div class="cf-receipt-meta-label">Time</div>
-                <div class="cf-receipt-meta-value" id="rcptTime">—</div>
-              </div>
-            </div>
+        <div class="cf-head">
+          <div class="cf-brand">
+            <img src="images/ilhamstore.png" alt="IlhamStore" onerror="this.style.display='none'">
+            <b>Ilham<span>Store</span></b>
           </div>
-          <div class="cf-receipt-title">INVOICE</div>
+          <div class="cf-head-right">
+            <span class="cf-badge">Receipt</span>
+            <div class="cf-dt" id="rcptDate">—</div>
+          </div>
         </div>
 
-        <!-- WARNING -->
-        <div class="cf-warning-box">
-          <i class="fas fa-exclamation-triangle"></i>
+        <div class="cf-orderbar">
+          <div class="cf-oid" id="rcptOrderId" onclick="copyOrderId()" title="Tap to copy">
+            <span id="rcptOrderIdText">—</span><i class="fas fa-copy"></i>
+          </div>
+          <span class="cf-status verifying" id="rcptStatus"><i class="fas fa-clock"></i> VERIFYING</span>
+        </div>
+
+        <div class="cf-info">
+          <div class="cf-col">
+            <label>Bill To</label>
+            <b id="rcptName">—</b>
+            <span><i class="fas fa-phone"></i> <span id="rcptPhone">—</span></span>
+            <span id="rcptEmailRow"><i class="fas fa-envelope"></i> <span id="rcptEmail">—</span></span>
+          </div>
+          <div class="cf-col">
+            <label>Deliver To</label>
+            <b id="rcptProduct">—</b>
+            <span><i class="fas fa-user"></i> <span id="rcptUserId">—</span></span>
+            <span><i class="fas fa-wallet"></i> <span id="rcptPayMethod">—</span></span>
+          </div>
+        </div>
+
+        <div class="cf-item">
           <div>
-            <strong style="color:#DC2626;text-transform:uppercase;">Please check your Spam/Junk folder!</strong> Our confirmation emails sometimes end up there. Add <strong>support.ilhamstore@gmail.com</strong> to your contacts.
+            <div class="cf-item-name" id="rcptPackage">—</div>
+            <div class="cf-item-sub" id="rcptUnitLine">—</div>
           </div>
+          <div class="cf-item-amt" id="rcptLineTotal">—</div>
         </div>
 
-        <!-- CUSTOMER & ORDER INFO -->
-        <div class="cf-customer-section">
-          <div class="cf-customer-block">
-            <div class="cf-customer-label">Bill To</div>
-            <div class="cf-customer-name" id="rcptName">—</div>
-            <div class="cf-customer-detail">
-              <div><i class="fas fa-phone" style="width:14px;font-size:0.65rem;"></i> <span id="rcptPhone">—</span></div>
-              <div><i class="fas fa-envelope" style="width:14px;font-size:0.65rem;"></i> <span id="rcptEmail">—</span></div>
-            </div>
-          </div>
-          <div class="cf-customer-block">
-            <div class="cf-customer-label">Deliver To</div>
-            <div class="cf-customer-name" id="rcptProduct">—</div>
-            <div class="cf-customer-detail">
-              <div><i class="fas fa-user" style="width:14px;font-size:0.65rem;"></i> <span id="rcptUserId">—</span></div>
-              <div style="margin-top:4px;"><span class="cf-payment-badge" id="rcptPayMethodBadge"><i class="fas fa-wallet"></i> <span id="rcptPayMethod">—</span></span></div>
-            </div>
-          </div>
+        <div class="cf-total">
+          <span>Total Paid</span>
+          <b id="rcptTotal">৳0</b>
         </div>
 
-        <!-- ORDER ID BAR -->
-        <div class="cf-order-bar">
-          <div class="cf-order-id-row">
-            <span class="cf-order-id-label">Order #</span>
-            <div class="cf-order-id" id="rcptOrderId" onclick="copyOrderId()">
-              <span id="rcptOrderIdText">—</span>
-              <i class="fas fa-copy copy-icon"></i>
-            </div>
-          </div>
-          <div class="cf-receipt-status"><i class="fas fa-clock"></i> VERIFYING</div>
+        <div class="cf-delcode" id="cfDelCode">
+          <small>🎁 Delivery Code</small>
+          <b id="rcptDelCode">—</b>
         </div>
 
-        <!-- TABLE -->
-        <div class="cf-table-section">
-          <table class="cf-table">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Details</th>
-                <th>Qty</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="item-name" id="rcptPackage">—</div>
-                </td>
-                <td id="rcptUnitPrice">—</td>
-                <td id="rcptQty">—</td>
-                <td id="rcptLineTotal">—</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="cf-pay">
+          <div><label>Method</label><b id="rcptPayMethod2">—</b></div>
+          <div class="txn"><label>TrxID</label><b id="rcptTxnId">—</b></div>
+          <div><label>Paid From</label><b id="rcptPayAccount">—</b></div>
         </div>
 
-        <!-- TOTALS -->
-        <div class="cf-totals-section">
-          <div class="cf-totals-table">
-            <div class="cf-totals-row">
-              <span class="cf-totals-label">Subtotal</span>
-              <span class="cf-totals-value" id="rcptSubtotal">৳0</span>
-            </div>
-            <div class="cf-totals-row">
-              <span class="cf-totals-label">Tax</span>
-              <span class="cf-totals-value">৳0</span>
-            </div>
-            <div class="cf-totals-row total">
-              <span class="cf-totals-label">Total Paid</span>
-              <span class="cf-totals-value" id="rcptTotal">৳0</span>
-            </div>
-          </div>
+        <div class="cf-rfoot">
+          ⏳ Payment verification in progress — estimated delivery <b>5 min – 1 hour</b><br>
+          Support: <b>support.ilhamstore@gmail.com</b> · Facebook: <b>Official.Ilhamstore</b>
         </div>
+      </div>
 
-        <!-- FOOTER -->
-        <div class="cf-receipt-foot">
-          <div class="cf-foot-grid">
-            <div class="cf-foot-block">
-              <div class="cf-foot-title">Payment Method</div>
-              <div class="cf-foot-text">
-                <div style="margin-bottom:4px;"><strong id="rcptPayMethod2">—</strong></div>
-                <div>Account: <span id="rcptPayAccount">—</span></div>
-                <div style="margin-top:4px;">TrxID: <span class="cf-txn-highlight" id="rcptTxnId">—</span></div>
-              </div>
-            </div>
-            <div class="cf-foot-block">
-              <div class="cf-foot-title">Estimated Delivery</div>
-              <div class="cf-foot-text">
-                <strong style="color:var(--cf-success);">5 min – 1 hour</strong><br>
-                <span style="font-size:0.65rem;">After payment verification</span>
-              </div>
-            </div>
-          </div>
-          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--gray-200);text-align:center;">
-            <div class="cf-foot-text" style="font-size:0.65rem;color:var(--gray-400);">
-              ⏳ PAYMENT VERIFICATION IN PROGRESS — Top-up will be delivered after confirmation.<br>
-              Facebook: <strong>Official.Ilhamstore</strong> · Support: <strong>support.ilhamstore@gmail.com</strong>
-            </div>
-          </div>
-        </div>
-
+      <!-- notes এখন receipt এর বাইরে — receipt ছোট থাকবে -->
+      <div class="cf-note green">
+        <i class="fas fa-envelope-circle-check"></i>
+        <div><strong>Check Spam/Junk folder!</strong> Confirmation emails sometimes land there. Add <strong>support.ilhamstore@gmail.com</strong> to your contacts.</div>
+      </div>
+      <div class="cf-note">
+        <i class="fas fa-circle-info"></i>
+        <div><strong>What's next?</strong> Once payment is confirmed, your top-up will be delivered within minutes. Save this receipt as proof of purchase.</div>
       </div>
 
       <div class="cf-actions">
-        <button class="cf-btn cf-btn-primary" id="downloadBtn" onclick="downloadReceipt()">
-          <i class="fas fa-download"></i> Save Receipt
-        </button>
-        <a href="https://wa.me/8801558086520" target="_blank" rel="noopener noreferrer" class="cf-btn cf-btn-whatsapp">
-          <i class="fab fa-whatsapp"></i> Support
-        </a>
-        <a href="index.html" class="cf-btn cf-btn-secondary" onclick="sessionStorage.removeItem('cartStoreOrder')">
-          <i class="fas fa-home"></i> Home
-        </a>
+        <button class="cf-btn cf-btn-primary" onclick="downloadReceipt()"><i class="fas fa-download"></i> Save Receipt</button>
+        <a href="track.html" class="cf-btn cf-btn-secondary"><i class="fas fa-truck-fast"></i> Track</a>
+        <a href="index.html" class="cf-btn cf-btn-secondary"><i class="fas fa-house"></i> Home</a>
       </div>
 
-      <div class="cf-saving" id="cfSaving">
-        <div class="spinner"></div>
-        Generating receipt image...
-      </div>
-
-      <div class="cf-note">
-        <i class="fas fa-info-circle"></i>
-        <div>
-          <strong>What's next?</strong> Your payment is being verified. Once confirmed, your top-up will be delivered within minutes. Save this receipt as proof.
-        </div>
-      </div>
+      <div class="cf-saving" id="cfSaving"><div class="spinner"></div> Generating receipt image...</div>
 
       <div class="cf-support">
-        <a href="https://wa.me/8801558086520" target="_blank" rel="noopener noreferrer" class="cf-support-link wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-        <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="cf-support-link ms"><i class="fab fa-facebook-messenger"></i> Messenger</a>
-        <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="cf-support-link tg"><i class="fab fa-telegram-plane"></i> Telegram</a>
-        <a href="mailto:support.ilhamstore@gmail.com" class="cf-support-link"><i class="fas fa-envelope"></i> Email</a>
+        <a href="https://wa.me/8801558086520" target="_blank" rel="noopener noreferrer" class="wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="ms"><i class="fab fa-facebook-messenger"></i> Messenger</a>
+        <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="tg"><i class="fab fa-telegram-plane"></i> Telegram</a>
+        <a href="mailto:support.ilhamstore@gmail.com"><i class="fas fa-envelope"></i> Email</a>
       </div>
-
     </div>
+
   </div>
 
   <footer class="footer">
@@ -726,9 +386,10 @@
         </div>
         <div class="footer-col"><h4>Quick Links</h4><ul>
           <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
-          <li><a href="index.html#live-apps"><i class="fas fa-chevron-right"></i> Live Apps</a></li>
           <li><a href="index.html#games"><i class="fas fa-chevron-right"></i> Games</a></li>
           <li><a href="index.html#giftcards"><i class="fas fa-chevron-right"></i> Gift Cards</a></li>
+          <li><a href="track.html"><i class="fas fa-chevron-right"></i> Track Order</a></li>
+          <li><a href="login.html"><i class="fas fa-chevron-right"></i> Login / Register</a></li>
         </ul></div>
         <div class="footer-col"><h4>Legal</h4><ul>
           <li><a href="#" onclick="openLegal('termsModal');return false;"><i class="fas fa-chevron-right"></i> Terms of Use</a></li>
@@ -748,505 +409,304 @@
         <div class="fp-item"><i class="fas fa-wallet"></i> Nagad</div>
         <div class="fp-item"><i class="fas fa-wallet"></i> Rocket</div>
         <div class="fp-item"><i class="fas fa-wallet"></i> Upay</div>
-        <div class="fp-item"><i class="fas fa-wallet"></i> Tap</div>
+        <div class="fp-item"><i class="fas fa-shield-halved"></i> Tap</div>
       </div>
       <div class="footer-bottom">&copy; <span id="footerYear"></span> IlhamStore.com — All rights reserved.</div>
     </div>
-  </footer>  
-  
-<div class="legal-modal" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
-    <div class="legal-modal-box">
-      <button class="legal-close" onclick="closeLegal('termsModal')" aria-label="Close">&times;</button>
-      <h1 id="termsTitle">Terms of Use</h1>
-      <p class="legal-updated">Last updated: July 2025</p>
-      <h2>1. Acceptance of Terms</h2>
-      <p>By accessing and using IlhamStore ("the Service"), you agree to be bound by these Terms of Use. If you do not agree with any part of these terms, you must not use our Service.</p>
-      <h2>2. Service Description</h2>
-      <p>IlhamStore provides digital top-up services, game credits, gift cards. All products are delivered digitally. We do not sell physical goods.</p>
-      <h2>3. User Responsibilities</h2>
-      <ul>
-        <li>You must provide accurate account information when placing an order.</li>
-        <li>You are responsible for verifying the correct game ID, server, or account details before completing a purchase.</li>
-        <li>You must not use our services for any illegal or unauthorized purpose.</li>
-        <li>You must not attempt to resell our services without prior written consent.</li>
-      </ul>
-      <h2>4. Payment Terms</h2>
-      <p>All payments must be made through our supported payment methods (bKash, Nagad, Rocket, Upay). Prices are listed in Bangladeshi Taka (BDT) and are subject to change without prior notice. Payment must be received in full before delivery is processed.</p>
-      <h2>5. Delivery</h2>
-      <p>Most top-ups are delivered instantly or within a few minutes. Some orders may take up to 24 hours depending on server status or technical issues. IlhamStore is not responsible for delays caused by third-party server maintenance or downtime.</p>
-      <h2>6. Account & ID Accuracy</h2>
-      <p>IlhamStore is not liable for failed deliveries due to incorrect account IDs, wrong server selection, or any user-provided information that is inaccurate. No refund or redelivery will be provided in such cases.</p>
-      <h2>7. Prohibited Activities</h2>
-      <ul>
-        <li>Using the Service for fraudulent purposes.</li>
-        <li>Attempting to exploit glitches or errors for personal gain.</li>
-        <li>Harassing or abusing our support staff.</li>
-        <li>Creating multiple accounts to abuse promotions.</li>
-      </ul>
-      <h2>8. Service Availability</h2>
-      <p>We strive to provide uninterrupted service but do not guarantee 100% uptime. Maintenance, updates, or unforeseen technical issues may temporarily affect availability.</p>
-      <h2>9. Intellectual Property</h2>
-      <p>All content on IlhamStore, including logos, text, graphics, and software, is the property of IlhamStore or its licensors and is protected by copyright and intellectual property laws.</p>
-      <h2>10. Limitation of Liability</h2>
-      <p>IlhamStore shall not be liable for any indirect, incidental, or consequential damages arising from the use of our Service. Our total liability shall not exceed the amount paid by you for the specific transaction in question.</p>
-      <h2>11. Changes to Terms</h2>
-      <p>We reserve the right to update these Terms of Use at any time. Continued use of the Service after changes constitutes acceptance of the revised terms.</p>
-      <h2>12. Governing Law</h2>
-      <p>These terms shall be governed by and construed in accordance with the laws of Bangladesh.</p>
-      <h2>13. Contact</h2>
-      <p>For questions about these Terms, contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> or via <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
-    </div>
-  </div>
-
-  <div class="legal-modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
-    <div class="legal-modal-box">
-      <button class="legal-close" onclick="closeLegal('privacyModal')" aria-label="Close">&times;</button>
-      <h1 id="privacyTitle">Privacy Policy</h1>
-      <p class="legal-updated">Last updated: July 2025</p>
-      <h2>1. Information We Collect</h2>
-      <p>We collect the following types of information to provide and improve our Service:</p>
-      <ul>
-        <li><strong>Personal Information:</strong> Name, email address, phone number, and payment information when you place an order.</li>
-        <li><strong>Account Information:</strong> Game IDs, server details required for delivery.</li>
-        <li><strong>Technical Data:</strong> IP address, browser type, device information, and browsing patterns on our website.</li>
-        <li><strong>Communication Data:</strong> Messages sent through our support channels (Telegram, Messenger, Email).</li>
-      </ul>
-      <h2>2. How We Use Your Information</h2>
-      <ul>
-        <li>To process and deliver your orders.</li>
-        <li>To communicate order status and updates.</li>
-        <li>To provide customer support.</li>
-        <li>To prevent fraud and unauthorized transactions.</li>
-        <li>To improve our website and services.</li>
-        <li>To send promotional offers (only with your consent).</li>
-      </ul>
-      <h2>3. Information Sharing</h2>
-      <p>We do not sell, rent, or share your personal information with third parties for marketing purposes. We may share your information only in the following cases:</p>
-      <ul>
-        <li>With payment processors to complete your transactions.</li>
-        <li>With game/service providers for order fulfillment.</li>
-        <li>If required by law or legal process.</li>
-        <li>To protect the rights and safety of IlhamStore and its users.</li>
-      </ul>
-      <h2>4. Data Security</h2>
-      <p>We implement industry-standard security measures including SSL encryption, secure payment gateways, and access controls to protect your personal data. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
-      <h2>5. Cookies</h2>
-      <p>Our website uses cookies to enhance your browsing experience, remember your preferences, and analyze website traffic. You can disable cookies in your browser settings, but some features may not function properly.</p>
-      <h2>6. Third-Party Services</h2>
-      <p>Our website may contain links to third-party websites or services. We are not responsible for the privacy practices of these external sites. We encourage you to read their privacy policies before providing any personal information.</p>
-      <h2>7. Data Retention</h2>
-      <p>We retain your personal data only for as long as necessary to fulfill the purposes outlined in this policy, unless a longer retention period is required by law.</p>
-      <h2>8. Your Rights</h2>
-      <ul>
-        <li>Request access to your personal data we hold.</li>
-        <li>Request correction of inaccurate data.</li>
-        <li>Request deletion of your data (subject to legal obligations).</li>
-        <li>Opt out of promotional communications.</li>
-      </ul>
-      <h2>9. Children's Privacy</h2>
-      <p>Our Service is not intended for children under 13 years of age. We do not knowingly collect personal information from children. If we discover that we have collected data from a child under 13, we will take steps to delete it promptly.</p>
-      <h2>10. Changes to This Policy</h2>
-      <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
-      <h2>11. Contact</h2>
-      <p>For privacy-related inquiries, contact us at <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> or via <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
-    </div>
-  </div>
-
-  <div class="legal-modal" id="refundModal" role="dialog" aria-modal="true" aria-labelledby="refundTitle">
-    <div class="legal-modal-box">
-      <button class="legal-close" onclick="closeLegal('refundModal')" aria-label="Close">&times;</button>
-      <h1 id="refundTitle">Refund Policy</h1>
-      <p class="legal-updated">Last updated: July 2025</p>
-      <h2>1. Eligibility for Refund</h2>
-      <p>You may request a refund under the following conditions:</p>
-      <ul>
-        <li>The order was not delivered within 24 hours of payment.</li>
-        <li>The delivered product is incorrect or does not match the ordered item.</li>
-        <li>The order could not be fulfilled due to a technical error on our end.</li>
-        <li>Duplicate payment was made for the same order.</li>
-      </ul>
-      <h2>2. Non-Refundable Items</h2>
-      <p>Refunds will NOT be issued in the following cases:</p>
-      <ul>
-        <li>Incorrect account ID, game ID, or server details provided by the customer.</li>
-        <li>The account is banned, suspended, or restricted by the game/service provider.</li>
-        <li>Digital items that have already been delivered and used/consumed.</li>
-        <li>Gift cards or PIN codes that have been revealed or redeemed.</li>
-        <li>Change of mind after the order has been processed.</li>
-      </ul>
-      <h2>3. How to Request a Refund</h2>
-      <p>To request a refund, please contact us through one of the following channels:</p>
-      <ul>
-        <li>Email: <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></li>
-        <li>Telegram: <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">@official_Ilhamstore</a></li>
-        <li>Messenger: <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer">IlhamStore Messenger</a></li>
-      </ul>
-      <p>Please include your order ID, payment method, and reason for the refund request.</p>
-      <h2>4. Refund Processing Time</h2>
-      <ul>
-        <li><strong>bKash / Nagad / Rocket / Upay:</strong> 1–3 business days after approval.</li>
-        <li><strong>Store Credit:</strong> Instant after approval.</li>
-      </ul>
-      <p>Refunds will be processed using the same payment method used for the original purchase whenever possible.</p>
-      <h2>5. Partial Refunds</h2>
-      <p>In some cases, a partial refund may be offered if:</p>
-      <ul>
-        <li>Only part of the order was delivered.</li>
-        <li>The service was significantly delayed but eventually completed.</li>
-      </ul>
-      <h2>6. Delivery Issues</h2>
-      <p>If you experience delivery issues:</p>
-      <ul>
-        <li>Contact support within 48 hours of placing the order.</li>
-        <li>Provide a screenshot of your order confirmation and any error messages.</li>
-        <li>Our team will investigate and resolve the issue, or issue a refund if the order cannot be fulfilled.</li>
-      </ul>
-      <h2>7. Dispute Resolution</h2>
-      <p>If you disagree with a refund decision, you may escalate the matter by emailing <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a> with detailed information. We will review and respond within 5 business days.</p>
-    </div>
-  </div> 
-  
-  <div class="legal-modal" id="faqModal" role="dialog" aria-modal="true" aria-labelledby="faqTitle">
-    <div class="legal-modal-box">
-      <button class="legal-close" onclick="closeLegal('faqModal')" aria-label="Close">&times;</button>
-      <h1 id="faqTitle">Frequently Asked Questions</h1>
-      <h2>How does top-up work?</h2>
-      <p>Simply select the product you want, choose a package, enter your game/account ID, and complete payment. Your top-up will be delivered to your account automatically or manually within minutes.</p>
-      <h2>How long does delivery take?</h2>
-      <p>Most orders are delivered instantly or within 5–15 minutes. Some orders may take up to 24 hours depending on server status, game maintenance, or high demand periods. You will be notified if there are any delays.</p>
-      <h2>What payment methods do you accept?</h2>
-      <p>We accept bKash, Nagad, Rocket, and Upay. Simply complete the payment using your preferred method and submit the transaction ID for verification.</p>
-      <h2>Is my payment secure?</h2>
-      <p>Yes. Our website uses SSL encryption, and we process payments through trusted and secure gateways. Your financial information is never stored on our servers.</p>
-      <h2>What if I don't receive my top-up?</h2>
-      <p>If you don't receive your order within 24 hours, please contact our support team immediately via Telegram or Messenger with your order details. We will investigate and resolve the issue or provide a refund.</p>
-      <h2>Can I get a refund?</h2>
-      <p>Refunds are available for orders that could not be delivered. Please read our <a href="#" onclick="closeLegal('faqModal');setTimeout(()=>openLegal('refundModal'),200);return false;">Refund Policy</a> for full details on eligibility and the refund process.</p>
-      <h2>Do I need an account to order?</h2>
-      <p>No account registration is required. Simply select your product, enter the required details, make payment, and receive your top-up. However, providing accurate information is essential for successful delivery.</p>
-      <h2>I entered the wrong ID. What should I do?</h2>
-      <p>Please contact us immediately before the order is processed. If the order has already been delivered to the wrong account, we may not be able to reverse it. Always double-check your ID before confirming payment.</p>
-      <h2>How do I track my order?</h2>
-      <p>You can use the Track Order feature in the header of our website. Enter your order ID to check the current status of your order.</p>
-      <h2>How can I contact support?</h2>
-      <ul>
-        <li>Email: <a href="mailto:support.ilhamstore@gmail.com">support.ilhamstore@gmail.com</a></li>
-        <li>Telegram: <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer">@official_Ilhamstore</a></li>
-        <li>Messenger: <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer">IlhamStore Messenger</a></li>
-        <li>Facebook: <a href="https://www.facebook.com/Official.Ilhamstore/" target="_blank" rel="noopener noreferrer">Official Page</a></li>
-      </ul>
-      <h2>Do you offer discounts or promotions?</h2>
-      <p>Yes! Follow our Facebook page and Telegram channel for the latest deals, discounts, and promotional offers.</p>
-    </div>
-  </div>
+  </footer>
 
   <div class="chat-float">
-    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
     <div class="chat-options" id="chatOptions">
       <a href="https://m.me/Official.Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt"><div class="chat-opt-icon ms"><i class="fab fa-facebook-messenger"></i></div><span class="chat-opt-label">Messenger</span></a>
       <a href="https://t.me/official_Ilhamstore" target="_blank" rel="noopener noreferrer" class="chat-opt"><div class="chat-opt-icon tg"><i class="fab fa-telegram-plane"></i></div><span class="chat-opt-label">Telegram</span></a>
     </div>
-    <button class="chat-main-btn" id="chatToggle" onclick="toggleChat()" aria-label="Open chat options"><i class="fas fa-comments chat-icon"></i><i class="fas fa-times close-icon"></i></button>
+    <button class="chat-main-btn" id="chatToggle" aria-label="Open chat options"><i class="fas fa-comments chat-icon"></i><i class="fas fa-times close-icon"></i></button>
   </div>
+
+  <!-- ⚠️ আপনার আগের confirmation.html থেকে ৪টা legal modal (termsModal, privacyModal, refundModal, faqModal)
+       হুবহু এই জায়গায় কপি করুন — content একদম unchanged। -->
 
   <div class="toast-wrap" id="toastWrap"></div>
 
   <script>
-    'use strict';
-
-    /* =============================================
-       INIT
-       ============================================= */
     document.getElementById('footerYear').textContent = new Date().getFullYear();
 
-    const CONFIG = Object.freeze({
-      PAYMENT_METHODS: Object.freeze({
-        bkash: { name: 'bKash', accountNumber: '01558086520' },
-        nagad: { name: 'Nagad', accountNumber: '01558086420' },
-        rocket: { name: 'Rocket', accountNumber: '015580865206' },
-        upay: { name: 'Upay', accountNumber: '01709217102' },
-        tap: { name: 'Tap', accountNumber: '01558086520' }
-      }),
-      SESSION: Object.freeze({
-        CLEANUP_DELAY_MS: 180000,
-        MAX_AGE_MS: 1800000
-      }),
-      RECEIPT: Object.freeze({
-        WATERMARK_ROWS: 26,
-        WATERMARK_REPEATS: 12,
-        DOWNLOAD_SCALE: 2,
-        DOWNLOAD_FORMAT: 'image/png',
-        DOWNLOAD_PREFIX: 'IlhamStore_Receipt_'
-      }),
-      GOOGLE_CHECK_URL: atob('aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5cEp2ZGNmV2lxcjhUSHRoNDVyblRaNXJKVHZGVllkMjBzd3ROYnM5TmY1YnlMNlcwOXlCSGlXVnMxaGhCLTVIYTMvZXhlYw=='),
-      API_SECRET: 'ILHS_SECRET_2025_X9K2M'
-    });
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6Yi1KYXNrREZxMWt3THNqcWdoNTNZMlZmOS1qUWFoR3VzMTdjNDJwYlhMUE9ubVpUTjhSaERmX3ZfRUttNklUYkQvZXhlYw==';    const GAS = atob(_0x4f8a);
+    const SECRET = 'ILHS_SECRET_2025_X9K2M';
 
-    let orderData = null;
-
-    /* =============================================
-       PRODUCT DATA FOR SEARCH
-       ============================================= */
-    const allProducts = [
-      {name:"Telegram Premium",id:"telegram",img:"images/products/telegram.jpg",icon:"fa-telegram",it:"fab",color:"#26A5E4",bg:"#F0F9FF",cat:"Live Apps"},
-      {name:"Free Fire (BD)",id:"free-fire",img:"images/products/free-fire.jpg",icon:"fa-fire",color:"#DC2626",bg:"#FEF2F2",cat:"Games"},
-      {name:"Free Fire (ID)",id:"free-fire-id",img:"images/products/free-fire-id.jpg",icon:"fa-fire",color:"#DC2626",bg:"#FEF2F2",cat:"Games"},
-      {name:"PUBG Mobile (BD)",id:"pubg",img:"images/products/pubg.jpg",icon:"fa-crosshairs",color:"#D97706",bg:"#FFFBEB",cat:"Games"},
-      {name:"PUBG Lite",id:"pubg-lite",img:"images/products/pubg-lite.jpg",icon:"fa-crosshairs",color:"#92400E",bg:"#FFFBEB",cat:"Games"},
-      {name:"Blood Strike",id:"blood-strike",img:"images/products/blood-strike.jpg",icon:"fa-skull-crossbones",color:"#991B1B",bg:"#FEF2F2",cat:"Games"},
-      {name:"FC Mobile",id:"fc-mobile",img:"images/products/fc-mobile.jpg",icon:"fa-futbol",color:"#16A34A",bg:"#F0FDF4",cat:"Games"},
-      {name:"Modern Strike",id:"modern-strike",img:"images/products/modern-strike.jpg",icon:"fa-crosshairs",color:"#475569",bg:"#F8FAFC",cat:"Games"},
-      {name:"Mobile Legends",id:"mobile-legends",img:"images/products/mobile-legends.jpg",icon:"fa-shield-halved",color:"#2563EB",bg:"#EFF6FF",cat:"Games"},
-      {name:"Super Sus",id:"super-sus",img:"images/products/super-sus.jpg",icon:"fa-user-secret",color:"#7C3AED",bg:"#F5F3FF",cat:"Games"},
-      {name:"Farlight 84",id:"farlight-84",img:"images/products/farlight-84.jpg",icon:"fa-jet-fighter",color:"#0891B2",bg:"#ECFEFF",cat:"Games"},
-      {name:"PUBG New State",id:"new-state",img:"images/products/new-state.jpg",icon:"fa-car",color:"#4338CA",bg:"#EEF2FF",cat:"Games"},
-      {name:"Valorant VP (BD)",id:"valorant",img:"images/products/valorant.jpg",icon:"fa-crosshairs",color:"#DC2626",bg:"#FEF2F2",cat:"Games"},
-      {name:"Delta Force BD",id:"delta-force",img:"images/products/delta-force.jpg",icon:"fa-jet-fighter",color:"#1E3A8A",bg:"#EFF6FF",cat:"Games"},
-      {name:"Modern Warships",id:"modern-warships",img:"images/products/modern-warships.jpg",icon:"fa-ship",color:"#1E40AF",bg:"#EFF6FF",cat:"Games"},
-      {name:"FRAG Pro Shooter",id:"frag-pro-shooter",img:"images/products/frag.jpg",icon:"fa-crosshairs",color:"#7C3AED",bg:"#F5F3FF",cat:"Games"},
-      {name:"Discord Nitro",id:"discord-nitro",img:"images/products/discord.jpg",icon:"fa-discord",it:"fab",color:"#5865F2",bg:"#EEF2FF",cat:"Gift Cards"},
-      {name:"PUBG UC Card PIN",id:"pubg-uc-card",img:"images/products/pubg.jpg",icon:"fa-id-card",color:"#D97706",bg:"#FFFBEB",cat:"Gift Cards"},
-      {name:"NordVPN",id:"nordvpn",img:"images/products/nordvpn.jpg",icon:"fa-shield-halved",color:"#1E40AF",bg:"#EFF6FF",cat:"Gift Cards"},
-      {name:"UniPin Voucher",id:"unipin",img:"images/products/unipin.jpg",icon:"fa-ticket",color:"#6366F1",bg:"#EEF2FF",cat:"Gift Cards"},
-      {name:"Garena Shells (SG)",id:"garena-shells",img:"images/products/garena-shells.jpg",icon:"fa-coins",color:"#F59E0B",bg:"#FFFBEB",cat:"Gift Cards"},
-      {name:"Roblox Robux",id:"roblox-robux",img:"images/products/roblox.jpg",icon:"fa-cube",color:"#E2231A",bg:"#FFF1F2",cat:"Gift Cards"},
-      {name:"XBOX USA",id:"xbox-usa",img:"images/products/xbox.jpg",icon:"fa-xbox",it:"fab",color:"#107C10",bg:"#F0FDF4",cat:"Gift Cards"},
-      {name:"Nintendo eShop US",id:"nintendo-eshop",img:"images/products/nintendo.jpg",icon:"fa-gamepad",color:"#E60012",bg:"#FFF1F2",cat:"Gift Cards"},
-      {name:"Steam Global",id:"steam-global",img:"images/products/steam.jpg",icon:"fa-steam",it:"fab",color:"#1B2838",bg:"#F8FAFC",cat:"Gift Cards"},
-      {name:"Razer Gold",id:"razer-gold",img:"images/products/razer.jpg",icon:"fa-coins",color:"#00E000",bg:"#F0FDF4",cat:"Gift Cards"},
-      {name:"Garena Shells (USD)",id:"garena-shells-usd",img:"images/products/garena-usd.jpg",icon:"fa-coins",color:"#F59E0B",bg:"#FFFBEB",cat:"Gift Cards"}
-    ];
-
-    /* =============================================
-       DUPLICATE TRANSACTION CHECKER
-       ============================================= */
-    const DuplicateChecker = {
-      getUsedTransactions() {
-        try {
-          const data = localStorage.getItem('ilhamstore_used_txns');
-          return data ? JSON.parse(data) : [];
-        } catch { return []; }
-      },
-      markTransactionUsed(txnId) {
-        try {
-          const txns = this.getUsedTransactions();
-          if (!txns.includes(txnId)) {
-            txns.push(txnId);
-            if (txns.length > 100) txns.splice(0, txns.length - 100);
-            localStorage.setItem('ilhamstore_used_txns', JSON.stringify(txns));
-          }
-        } catch (e) { console.error('Failed to save transaction:', e); }
-      },
-      isDuplicateLocal(txnId) {
-        if (!txnId) return false;
-        return this.getUsedTransactions().includes(txnId);
-      },
-      async checkDuplicateServer(txnId) {
-        if (!txnId || !CONFIG.GOOGLE_CHECK_URL) return false;
-        try { return this.isDuplicateLocal(txnId); } 
-        catch (err) { console.error('Server duplicate check failed:', err); return this.isDuplicateLocal(txnId); }
-      }
-    };
-
-    /* =============================================
-       RECEIPT RENDERER
-       ============================================= */
-    const ReceiptRenderer = {
-      formatCurrency(amount) { return '৳' + (amount || 0).toLocaleString('en-BD'); },
-      formatDate(isoString) { return new Date(isoString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); },
-      formatTime(isoString) { return new Date(isoString).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); },
-      maskAccount(account) {
-        if (!account || account.length < 5) return '—';
-        return account.slice(0, 4) + '*'.repeat(account.length - 7) + account.slice(-3);
-      },
-
-      render(order) {
-        const timestamp = order.verifiedAt || order.timestamp || Date.now();
-        const payMethod = CONFIG.PAYMENT_METHODS[order.paymentMethod] || {};
-        const methodName = order.paymentMethodName || payMethod.name || order.paymentMethod || '—';
-        
-        this.setText('rcptOrderIdText', order.orderId || '—');
-        this.setText('rcptDate', this.formatDate(timestamp));
-        this.setText('rcptTime', this.formatTime(timestamp));
-        this.setText('rcptProduct', order.product || '—');
-        this.setText('rcptPackage', order.package || '—');
-        this.setText('rcptUserId', order.userId || '—');
-        this.setText('rcptQty', '×' + (order.quantity || 1));
-        this.setText('rcptUnitPrice', this.formatCurrency(order.unitPrice) + ' / unit');
-        this.setText('rcptLineTotal', this.formatCurrency(order.totalPrice));
-        this.setText('rcptSubtotal', this.formatCurrency(order.totalPrice));
-        this.setText('rcptTotal', this.formatCurrency(order.totalPrice));
-        this.setText('rcptPayMethod', methodName);
-        this.setText('rcptPayMethod2', methodName);
-        this.setText('rcptPayAccount', this.maskAccount(order.paymentAccount));
-        this.setText('rcptTxnId', order.transactionId || '—');
-        this.setText('rcptName', order.billingName || '—');
-        this.setText('rcptPhone', order.billingPhone || '—');
-        this.setText('rcptEmail', order.billingEmail || '—');
-
-        document.title = `Order #${order.orderId} – IlhamStore`;
-      },
-      setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
-    };
-
-    /* =============================================
-       WATERMARK BUILDER
-       ============================================= */
-    const WatermarkBuilder = {
-      build() {
-        const fullRow = 'ILHAMSTORE · '.repeat(CONFIG.RECEIPT.WATERMARK_REPEATS);
-        const container = document.getElementById('watermarkContainer');
-        if (!container) return;
-        let rows = '';
-        for (let i = 0; i < CONFIG.RECEIPT.WATERMARK_ROWS; i++) {
-          rows += `<div class="cf-watermark-row" style="margin-left:${i % 2 === 0 ? 0 : -80}px;">${fullRow}</div>`;
-        }
-        container.innerHTML = `<div class="cf-watermark-pattern">${rows}</div><div class="cf-watermark-center">ILHAMSTORE</div>`;
-      }
-    };
-
-    /* =============================================
-       SESSION MANAGER
-       ============================================= */
-    const SessionManager = {
-      cleanStale() {
-        if (!orderData) return false;
-        const verifiedAt = orderData.verifiedAt ? new Date(orderData.verifiedAt).getTime() : 0;
-        if (verifiedAt > 0 && (Date.now() - verifiedAt > CONFIG.SESSION.CLEANUP_DELAY_MS)) { sessionStorage.removeItem('cartStoreOrder'); return true; }
-        const ts = orderData.timestamp ? new Date(orderData.timestamp).getTime() : 0;
-        if (ts > 0 && (Date.now() - ts > CONFIG.SESSION.MAX_AGE_MS)) { sessionStorage.removeItem('cartStoreOrder'); return true; }
-        return false;
-      },
-      clear() { sessionStorage.removeItem('cartStoreOrder'); }
-    };
-
-    /* =============================================
-       UI STATE MANAGER
-       ============================================= */
-    const UIState = {
-      showLoading() { document.getElementById('cfChecking').style.display = 'flex'; document.getElementById('cfError').style.display = 'none'; document.getElementById('cfSuccess').style.display = 'none'; },
-      showError(txnId) { document.getElementById('cfChecking').style.display = 'none'; document.getElementById('cfError').style.display = 'block'; document.getElementById('cfSuccess').style.display = 'none'; document.getElementById('errorTxnId').textContent = txnId || '—'; },
-      showSuccess() { document.getElementById('cfChecking').style.display = 'none'; document.getElementById('cfError').style.display = 'none'; document.getElementById('cfSuccess').style.display = 'block'; }
-    };
-
-    /* =============================================
-       GLOBAL FUNCTIONS
-       ============================================= */
-    function copyOrderId() {
-      const oid = orderData?.orderId;
-      if (!oid) return;
-      const el = document.getElementById('rcptOrderId');
-      const icon = el.querySelector('.copy-icon');
-      try { navigator.clipboard.writeText(oid); } catch { const ta = document.createElement('textarea'); ta.value = oid; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
-      el.classList.add('copied'); icon.className = 'fas fa-check copy-icon';
-      setTimeout(() => { el.classList.remove('copied'); icon.className = 'fas fa-copy copy-icon'; }, 2000);
-      toast('Order ID copied!', 'success');
+    function esc(s){ return (s==null?'':s).toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function fmt(n){ return Number(n||0).toLocaleString('en-US'); }
+    function toast(msg,type=''){
+      const w=document.getElementById('toastWrap'),t=document.createElement('div');
+      t.className='toast '+type;
+      t.innerHTML=`<i class="fas ${type==='error'?'fa-exclamation-circle':type==='success'?'fa-check-circle':'fa-info-circle'}"></i> ${msg}`;
+      w.appendChild(t);
+      setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(100%)';t.style.transition='all .3s';setTimeout(()=>t.remove(),300);},3000);
     }
 
-    async function downloadReceipt() {
-      const btn = document.getElementById('downloadBtn');
-      const savingEl = document.getElementById('cfSaving');
-      btn.style.display = 'none'; savingEl.classList.add('show');
+    function show(id){ ['cfChecking','cfError','cfEmpty','cfSuccess'].forEach(x=>document.getElementById(x).style.display='none'); document.getElementById(id).style.display='block'; }
+
+    /* ===== Normalize order data (sob format support kore) ===== */
+    function normalize(o){
+      o = o || {};
+      const qty = Number(o.qty || o.quantity || 1) || 1;
+      const total = Number(o.total || o.totalPrice || o.price || 0) || 0;
+      return {
+        orderId: (o.orderId || o.id || o.order_id || '').toString(),
+        product: (o.product || o.name || o.productName || '').toString(),
+        pkg: (o.pkg || o.package || o.selectedPkg || '').toString(),
+        userId: (o.userId || o.user_id || o.gameId || '').toString(),
+        qty: qty,
+        unitPrice: Number(o.unitPrice || o.unit_price || (qty ? Math.round(total/qty) : 0)) || 0,
+        total: total,
+        method: (o.method || o.paymentMethod || '').toString(),
+        sender: (o.paymentAccount || o.sender || o.senderAccount || '').toString(),
+        txn: (o.transactionId || o.txnId || o.trxId || '').toString(),
+        name: (o.billingName || o.customerName || o.cname || '').toString(),
+        phone: (o.billingPhone || o.phone || '').toString(),
+        email: (o.billingEmail || o.email || '').toString(),
+        date: (o.date || o.timestamp || '').toString(),
+        status: (o.status || 'Verifying').toString(),
+        deliveryCode: (o.deliveryCode || o.code || '').toString()
+      };
+    }
+
+    /* ===== Boot ===== */
+    (async function init(){
+      const p = new URLSearchParams(location.search);
+
+      // Duplicate error flow
+      if ((p.get('error')||'').toLowerCase().includes('duplicate')) {
+        document.getElementById('errorTxnId').textContent = p.get('txn') || '—';
+        show('cfError');
+        return;
+      }
+
+      let order = null;
+
+      // 1) URL ?orderId= → live API theke data
+      const urlOrder = (p.get('orderId')||'').trim();
+      if (urlOrder) {
+        try {
+          const r = await (await fetch(GAS+'?secret='+encodeURIComponent(SECRET)+'&action=track_order&orderId='+encodeURIComponent(urlOrder))).json();
+          if (r.result==='success' && r.orders && r.orders[0]) order = normalize(r.orders[0]);
+        } catch(e){}
+      }
+
+      // 2) Stored data (purano + notun dutoi key)
+      if (!order) {
+        let raw = sessionStorage.getItem('cartStoreOrder') || sessionStorage.getItem('ilham_checkout') || localStorage.getItem('ilham_last_order');
+        if (raw) { try { order = normalize(JSON.parse(raw)); } catch(e){} }
+      }
+
+      if (!order || !order.orderId) { show('cfEmpty'); return; }
+
+      renderReceipt(order);
+      show('cfSuccess');
+
+      // Live status poll (Verifying hole 20s por por check)
+      if (order.status.toLowerCase().includes('verify') || order.status.toLowerCase().includes('pending')) {
+        pollStatus(order.orderId, 20);
+      }
+    })();
+
+    /* ===== Render ===== */
+    function renderReceipt(o){
+      // Date
+      let dt = o.date;
+      if (!dt) {
+        const d = new Date();
+        dt = d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) + ' · ' + d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+      }
+      document.getElementById('rcptDate').textContent = dt;
+      document.getElementById('rcptOrderIdText').textContent = o.orderId;
+      document.getElementById('rcptName').textContent = o.name || 'Customer';
+      document.getElementById('rcptPhone').textContent = o.phone || '—';
+      document.getElementById('rcptEmailRow').style.display = o.email ? 'flex' : 'none';
+      if (o.email) document.getElementById('rcptEmail').textContent = o.email;
+      document.getElementById('rcptProduct').textContent = o.product || '—';
+      document.getElementById('rcptUserId').textContent = o.userId || '—';
+      document.getElementById('rcptPackage').textContent = o.pkg || o.product || '—';
+      document.getElementById('rcptUnitLine').textContent = '৳' + fmt(o.unitPrice) + ' each · ×' + o.qty;
+      document.getElementById('rcptLineTotal').textContent = '৳' + fmt(o.total);
+      document.getElementById('rcptTotal').textContent = '৳' + fmt(o.total);
+      document.getElementById('rcptPayMethod').textContent = o.method || '—';
+      document.getElementById('rcptPayMethod2').textContent = o.method || '—';
+      document.getElementById('rcptTxnId').textContent = o.txn || '—';
+      document.getElementById('rcptPayAccount').textContent = o.sender || '—';
+      setStatus(o.status);
+      if (o.deliveryCode) showDeliveryCode(o.deliveryCode);
+    }
+
+    function setStatus(status){
+      const el = document.getElementById('rcptStatus');
+      const s = (status||'').toLowerCase();
+      let cls='verifying', icon='fa-clock', label=(status||'Verifying').toUpperCase();
+      if (s.includes('confirm')||s.includes('complet')||s.includes('deliver')) { cls='confirmed'; icon='fa-circle-check'; }
+      else if (s.includes('reject')||s.includes('cancel')||s.includes('fraud')) { cls='bad'; icon='fa-circle-xmark'; }
+      else if (s.includes('refund')) { cls='refunded'; icon='fa-rotate-left'; }
+      else if (s.includes('process')) { cls='verifying'; icon='fa-gears'; label='PROCESSING'; }
+      el.className = 'cf-status '+cls;
+      el.innerHTML = `<i class="fas ${icon}"></i> ${esc(label)}`;
+    }
+
+    function showDeliveryCode(code){
+      document.getElementById('rcptDelCode').textContent = code;
+      document.getElementById('cfDelCode').style.display = 'block';
+    }
+
+    /* ===== Live status polling ===== */
+    let pollCount = 0;
+    async function pollStatus(orderId, maxTries){
+      if (pollCount >= maxTries) return;
+      pollCount++;
       try {
-        const canvas = await html2canvas(document.getElementById('receiptCard'), { scale: CONFIG.RECEIPT.DOWNLOAD_SCALE, useCORS: true, backgroundColor: '#ffffff', logging: false });
+        const r = await (await fetch(GAS+'?secret='+encodeURIComponent(SECRET)+'&action=check_status&orderId='+encodeURIComponent(orderId))).json();
+        if (r.result==='success' && r.status) {
+          const cur = document.getElementById('rcptStatus').textContent.trim();
+          if (r.status.toUpperCase() !== cur) {
+            setStatus(r.status);
+            if (r.deliveryCode) showDeliveryCode(r.deliveryCode);
+            if ((r.status||'').toLowerCase().includes('confirm')) { toast('Payment confirmed! 🎉','success'); return; }
+          }
+        }
+      } catch(e){}
+      setTimeout(()=>pollStatus(orderId, maxTries), 20000);
+    }
+
+    /* ===== Copy / Download ===== */
+    function copyOrderId(){
+      const id = document.getElementById('rcptOrderIdText').textContent;
+      const el = document.getElementById('rcptOrderId');
+      const done = ()=>{ el.classList.add('copied'); toast('Order ID copied','success'); setTimeout(()=>el.classList.remove('copied'),1600); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(id).then(done).catch(()=>fallbackCopy(id,done));
+      else fallbackCopy(id,done);
+    }
+    function fallbackCopy(text,cb){
+      const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{document.execCommand('copy');}catch(e){}
+      ta.remove(); if(cb)cb();
+    }
+
+    async function downloadReceipt(){
+      const saving = document.getElementById('cfSaving');
+      saving.classList.add('show');
+      try {
+        const canvas = await html2canvas(document.getElementById('receiptCard'), { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
         const link = document.createElement('a');
-        link.download = `${CONFIG.RECEIPT.DOWNLOAD_PREFIX}${orderData?.orderId || 'order'}.png`;
+        const oid = document.getElementById('rcptOrderIdText').textContent || 'receipt';
+        link.download = 'IlhamStore-Receipt-' + oid + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
-        toast('Receipt saved!', 'success');
-      } catch (err) { console.error('Download error:', err); toast('Failed to generate image.', 'error'); }
-      finally { savingEl.classList.remove('show'); btn.style.display = 'flex'; }
+        toast('Receipt saved!','success');
+      } catch(e) {
+        toast('Could not save receipt. Try screenshot instead.','error');
+      }
+      saving.classList.remove('show');
     }
 
-    /* =============================================
-      INITIALIZATION
-       ============================================= */
-    async function loadOrder() {
-      const stored = sessionStorage.getItem('cartStoreOrder');
-      if (!stored) { window.location.href = 'index.html'; return; }
-      try { orderData = JSON.parse(stored); } catch (e) { SessionManager.clear(); window.location.href = 'index.html'; return; }
-      if (!orderData || !orderData.orderId) { SessionManager.clear(); window.location.href = 'index.html'; return; }
-      if (SessionManager.cleanStale()) { window.location.href = 'index.html'; return; }
-
-      UIState.showLoading();
-      const txnId = orderData.transactionId;
-      const duplicate = await DuplicateChecker.checkDuplicateServer(txnId);
-      
-      if (duplicate) { UIState.showError(txnId); toast('Duplicate transaction ID detected!', 'error'); return; }
-      DuplicateChecker.markTransactionUsed(txnId);
-      UIState.showSuccess();
-      ReceiptRenderer.render(orderData);
-      WatermarkBuilder.build();
-    }
-
-    /* =============================================
-      LEGAL MODALS
-       ============================================= */
-    function openLegal(id) { const m = document.getElementById(id); m.classList.add('active'); document.body.style.overflow = 'hidden'; m.querySelector('.legal-modal-box').scrollTop = 0; m.querySelector('.legal-close').focus(); }
-    function closeLegal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
-    document.querySelectorAll('.legal-modal').forEach(m => { m.addEventListener('click', function(e) { if (e.target === this) closeLegal(this.id); }); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { document.querySelectorAll('.legal-modal.active').forEach(m => closeLegal(m.id)); } });
-
-    /* =============================================
-      SEARCH
-       ============================================= */
-    const sInput = document.getElementById('searchInput');
-    const mInput = document.getElementById('mSearchInput');
-    const sDrop = document.getElementById('searchDropdown');
-
-    function debounce(fn, ms) { let t; return function(...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); }; }
-
-    function runSearch(query) {
-      const q = query.trim().toLowerCase();
-      if (q.length < 2) { sDrop.classList.remove('open'); return; }
-      const res = allProducts.filter(p => p.name.toLowerCase().includes(q) || p.id.includes(q) || (p.cat && p.cat.toLowerCase().includes(q)));
-      if (!res.length) { sDrop.innerHTML = '<div class="search-empty">No results found</div>'; } 
-      else { sDrop.innerHTML = res.slice(0, 8).map(p => { const it = p.it || 'fas'; return `<a href="product.html?id=${p.id}" class="search-item"><div class="search-item-img"><img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="search-item-fallback" style="display:none;background:${p.bg};color:${p.color};width:100%;height:100%;align-items:center;justify-content:center;border-radius:8px;"><i class="${it} ${p.icon}"></i></div></div><div class="search-item-info"><div class="search-item-name">${p.name}</div><div class="search-item-cat">${p.cat}</div></div></a>`; }).join(''); }
+    /* ===== Search ===== */
+const SEARCH_INDEX = [
+  {name:'Telegram Premium',id:'telegram',cat:'Live Apps'},
+  {name:'Free Fire (BD)',id:'free-fire',cat:'Games'},{name:'Free Fire (ID)',id:'free-fire-id',cat:'Games'},
+  {name:'PUBG Mobile (BD)',id:'pubg',cat:'Games'},{name:'PUBG Lite',id:'pubg-lite',cat:'Games'},
+  {name:'Blood Strike',id:'blood-strike',cat:'Games'},{name:'FC Mobile',id:'fc-mobile',cat:'Games'},
+  {name:'Modern Strike',id:'modern-strike',cat:'Games'},{name:'Mobile Legends',id:'mobile-legends',cat:'Games'},
+  {name:'Super Sus',id:'super-sus',cat:'Games'},{name:'Farlight 84',id:'farlight-84',cat:'Games'},
+  {name:'PUBG New State',id:'new-state',cat:'Games'},{name:'Valorant VP (BD)',id:'valorant',cat:'Games'},
+  {name:'Delta Force BD',id:'delta-force',cat:'Games'},{name:'Modern Warships',id:'modern-warships',cat:'Games'},
+  {name:'FRAG Pro Shooter',id:'frag-pro-shooter',cat:'Games'},{name:'Where Winds Meet',id:'where-winds-meet',cat:'Games'},
+  {name:'Lords Mobile Package',id:'lords-mobile',cat:'Games'},{name:'Dream League Soccer DLS26',id:'dls26',cat:'Games'},
+  {name:'Asphalt 9: Legends',id:'asphalt-9',cat:'Games'},
+  {name:'Discord Nitro',id:'discord-nitro',cat:'Gift Cards'},{name:'PUBG UC Card PIN',id:'pubg-uc-card',cat:'Gift Cards'},
+  {name:'NordVPN',id:'nordvpn',cat:'Gift Cards'},{name:'UniPin Voucher',id:'unipin',cat:'Gift Cards'},
+  {name:'Garena Shells (SG)',id:'garena-shells',cat:'Gift Cards'},{name:'Roblox Robux',id:'roblox-robux',cat:'Gift Cards'},
+  {name:'XBOX USA',id:'xbox-usa',cat:'Gift Cards'},{name:'Nintendo eShop US',id:'nintendo-eshop',cat:'Gift Cards'},
+  {name:'Steam Global',id:'steam-global',cat:'Gift Cards'},{name:'Razer Gold',id:'razer-gold',cat:'Gift Cards'},
+  {name:'Garena Shells (USD)',id:'garena-shells-usd',cat:'Gift Cards'},
+  {name:'500+ Graphic & MS Files',id:'graphic-files',cat:'Digital Products'},
+  {name:'4000+ AI Food Talking Reels Video',id:'ai-food-reels',cat:'Digital Products'}
+];
+    const hiddenIds={};
+fetch(GAS+'?'+new URLSearchParams({action:'get_products',secret:SECRET})).then(r=>r.json()).then(res=>{ if(res&&res.products) res.products.forEach(p=>{ if(p.hidden) hiddenIds[p.id]=true; }); }).catch(()=>{});
+    const sInput=document.getElementById('searchInput'), mInput=document.getElementById('mSearchInput'), sDrop=document.getElementById('searchDropdown');
+    function debounce(fn,ms){let t;return function(...a){clearTimeout(t);t=setTimeout(()=>fn.apply(this,a),ms);};}
+    function positionDrop(){const w=document.getElementById('searchWrapper');if(!w)return;const r=w.getBoundingClientRect();sDrop.style.position='fixed';sDrop.style.top=(r.bottom+6)+'px';sDrop.style.left=r.left+'px';sDrop.style.width=r.width+'px';sDrop.style.right='auto';}
+    function runSearch(q){
+      const query=q.trim().toLowerCase();
+      if(query.length<2){sDrop.classList.remove('open');return;}
       sDrop.classList.add('open');
-      if (window.innerWidth > 768) { const w = document.getElementById('searchWrapper'); if (w && window.getComputedStyle(w).display !== 'none') { const r = w.getBoundingClientRect(); sDrop.style.position = 'fixed'; sDrop.style.top = (r.bottom + 6) + 'px'; sDrop.style.left = r.left + 'px'; sDrop.style.width = r.width + 'px'; sDrop.style.right = 'auto'; } }
-      else { const r = mInput.getBoundingClientRect(); sDrop.style.position = 'fixed'; sDrop.style.top = (r.bottom + 6) + 'px'; sDrop.style.left = '12px'; sDrop.style.right = '12px'; sDrop.style.width = 'auto'; }
+      const res=SEARCH_INDEX.filter(p=>!hiddenIds[p.id]&&(p.name.toLowerCase().includes(query)||p.id.includes(query)));
+      sDrop.innerHTML=res.length?res.slice(0,8).map(p=>`<a href="product.html?id=${p.id}" class="search-item"><div class="search-item-img"><i class="fas fa-box"></i></div><div class="search-item-info"><div class="search-item-name">${p.name}</div><div class="search-item-cat">${p.cat}</div></div></a>`).join(''):'<div class="search-empty">No results found</div>';
+      if(window.innerWidth>768)positionDrop();
+      else{const r=mInput.getBoundingClientRect();sDrop.style.position='fixed';sDrop.style.top=(r.bottom+6)+'px';sDrop.style.left='12px';sDrop.style.right='12px';sDrop.style.width='auto';}
     }
+    sInput.addEventListener('input',debounce(function(){runSearch(this.value);},250));
+    mInput.addEventListener('input',debounce(function(){runSearch(this.value);},250));
+    sInput.addEventListener('keydown',function(e){if(e.key==='Enter'){const f=sDrop.querySelector('.search-item');if(f)f.click();}});
+    mInput.addEventListener('keydown',function(e){if(e.key==='Enter'){const f=sDrop.querySelector('.search-item');if(f)f.click();}});
+    document.addEventListener('click',function(e){if(!e.target.closest('.search-wrapper')&&!e.target.closest('.m-search')&&!e.target.closest('.search-dropdown'))sDrop.classList.remove('open');});
+    window.addEventListener('scroll',function(){if(sDrop.classList.contains('open')&&window.innerWidth>768)positionDrop();},{passive:true});
+    function doSearch(){runSearch(sInput.value);sInput.focus();}
 
-    sInput.addEventListener('input', debounce(function() { runSearch(this.value); }, 250));
-    sInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { const f = sDrop.querySelector('.search-item'); if (f) f.click(); } });
-    sInput.addEventListener('focus', function() { if (this.value.trim().length >= 2) runSearch(this.value); });
-    mInput.addEventListener('input', debounce(function() { runSearch(this.value); }, 250));
-    mInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { const f = sDrop.querySelector('.search-item'); if (f) f.click(); } });
-    document.addEventListener('click', function(e) { if (!e.target.closest('.search-wrapper') && !e.target.closest('.m-search') && !e.target.closest('.search-dropdown')) { sDrop.classList.remove('open'); } });
-    window.addEventListener('scroll', function() { if (sDrop.classList.contains('open') && window.innerWidth > 768) { const w = document.getElementById('searchWrapper'); if (w && window.getComputedStyle(w).display !== 'none') { const r = w.getBoundingClientRect(); sDrop.style.position = 'fixed'; sDrop.style.top = (r.bottom + 6) + 'px'; sDrop.style.left = r.left + 'px'; sDrop.style.width = r.width + 'px'; } } }, { passive: true });
-    function doSearch() { runSearch(sInput.value); sInput.focus(); }
+    /* ===== Nav / Chat / Legal / Anti-copy ===== */
+    const mobToggle=document.getElementById('mobToggle'), navBar=document.getElementById('navBar');
+    mobToggle.addEventListener('click',()=>{navBar.classList.toggle('open');const ic=mobToggle.querySelector('i');ic.className=navBar.classList.contains('open')?'fas fa-times':'fas fa-bars';});
+    document.addEventListener('click',function(e){if(navBar.classList.contains('open')&&!e.target.closest('.nav-bar')&&!e.target.closest('.mobile-toggle')){navBar.classList.remove('open');mobToggle.querySelector('i').className='fas fa-bars';}});
+    document.getElementById('chatToggle').addEventListener('click',function(){this.classList.toggle('open');document.getElementById('chatOptions').classList.toggle('show');});
+    document.getElementById('scrollTop').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+    window.addEventListener('scroll',()=>{document.getElementById('scrollTop').classList.toggle('show',window.scrollY>400);},{passive:true});
 
-    /* =============================================
-      MENU, CHAT, SCROLL, TOAST
-       ============================================= */
-    const mobToggle = document.getElementById('mobToggle');
-    const navBar = document.getElementById('navBar');
-    mobToggle.addEventListener('click', () => { navBar.classList.toggle('open'); mobToggle.querySelector('i').className = navBar.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars'; });
-    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => { navBar.classList.remove('open'); mobToggle.querySelector('i').className = 'fas fa-bars'; }));
-    document.addEventListener('click', function(e) { if (navBar.classList.contains('open') && !e.target.closest('.nav-bar') && !e.target.closest('.mobile-toggle')) { navBar.classList.remove('open'); mobToggle.querySelector('i').className = 'fas fa-bars'; } });
-    function toggleChat() { document.getElementById('chatToggle').classList.toggle('open'); document.getElementById('chatOptions').classList.toggle('show'); }
-    window.addEventListener('scroll', () => { document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400); });
-    function toast(msg, type = '') { const w = document.getElementById('toastWrap'); const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = `<i class="fas ${type==='error'?'fa-exclamation-circle':type==='success'?'fa-check-circle':'fa-info-circle'}"></i> ${msg}`; w.appendChild(t); setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(100%)'; t.style.transition = 'all 0.3s'; setTimeout(() => t.remove(), 300); }, 3000); }
+    const session = JSON.parse(localStorage.getItem('ilham_session')||'null');
+    if (session && session.token) document.getElementById('hdrAccount').href = 'profile.html';
 
-    document.addEventListener('DOMContentLoaded', loadOrder);
+    function openLegal(id){const m=document.getElementById(id);if(!m)return;m.classList.add('active');document.body.style.overflow='hidden';m.querySelector('.legal-modal-box').scrollTop=0;}
+    function closeLegal(id){const m=document.getElementById(id);if(m)m.classList.remove('active');document.body.style.overflow='';}
+    document.querySelectorAll('.legal-modal').forEach(m=>{m.addEventListener('click',function(e){if(e.target===this)closeLegal(this.id);});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')document.querySelectorAll('.legal-modal.active').forEach(m=>closeLegal(m.id));});
+    document.addEventListener('contextmenu',function(e){e.preventDefault();return false;});
+    document.addEventListener('copy',function(e){if(!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)){e.preventDefault();return false;}});
   </script>
 
-  <!-- ===== SAFE ANTI-COPY & PROTECTION ===== -->
+  <!-- ===== ACCOUNT ICON (login = name/avatar, logout = user icon) ===== -->
   <style>
-    body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-    input, textarea, select { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
-    img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; user-drag: none; -webkit-touch-callout: none; }
+  .acc-av{display:inline-flex;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#10B981,#059669);color:#fff;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;margin-right:6px;overflow:hidden;flex-shrink:0}
+  .acc-av img{width:100%;height:100%;object-fit:cover}
+  .hdr-btn .acc-nm{font-size:.78rem;font-weight:700}
+  @media(max-width:768px){
+    .hdr-btn{display:inline-flex!important}
+    .hdr-btn .acc-av{display:inline-flex!important;width:26px;height:26px;font-size:.68rem;margin-right:0}
+    .hdr-btn .acc-nm{display:none!important}
+  }
   </style>
   <script>
-    document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
-    document.addEventListener('copy', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
-    document.addEventListener('cut', function(e) { if (!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); return false; } });
-    document.addEventListener('keydown', function(e) {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
-      if (e.key === 'F12') { e.preventDefault(); return false; }
-      if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); return false; }
-      if (e.ctrlKey && (e.key === 's' || e.key === 'S')) { e.preventDefault(); return false; }
-    });
+  (function(){
+    function updAcc(){
+      var s=null;
+      try{ s=JSON.parse(localStorage.getItem('ilham_session')||'null'); }catch(e){}
+      var acc=document.getElementById('hdrAccount')||document.querySelector('.hdr-btn[aria-label="Account"]');
+      if(!acc) return;
+      function esc(x){ return (x||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      if(s && s.token){
+        acc.href='profile.html';
+        var first=esc((s.name||'Account').split(' ')[0]);
+        if(s.avatar){
+          acc.innerHTML='<span class="acc-av"><img src="'+s.avatar+'" alt=""></span><span class="acc-nm">'+first+'</span>';
+        }else{
+          acc.innerHTML='<span class="acc-av">'+esc((s.name||'U').charAt(0).toUpperCase())+'</span><span class="acc-nm">'+first+'</span>';
+        }
+      }else{
+        acc.href='login.html';
+        acc.innerHTML='<i class="fas fa-user"></i>';
+      }
+    }
+    updAcc();
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',updAcc); }
+  })();
   </script>
+  <!-- ===== /ACCOUNT ICON ===== -->
+
 </body>
 </html>
