@@ -1007,8 +1007,35 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5aU1WYlc
       btn.disabled = false; mBtn.disabled = false;
 
       if (!serverOk) {
-        toast(serverErrMsg || 'Order could not be submitted. Please try again.', 'error');
-        return; /* order save hoyni — confirmation page e jabe NA */
+        // Backup save na holeo confirmation page e userকে ফিরিয়ে দিতে হবে
+        // যাতে order local store-এ save থাকে, আর UI-তে confirmation দেখতে পায়।
+        try {
+          const fallback = {
+            orderId: orderData.orderId,
+            product: orderData.product,
+            pkg: orderData.package,
+            userId: orderData.userId,
+            qty: orderData.quantity,
+            total: orderData.totalPrice,
+            method: PAY_META[selectedPay].label,
+            sender: document.getElementById('ckPayAccount').value.trim(),
+            txn: txnId,
+            name: name,
+            phone: phone,
+            email: email,
+            date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ' · ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+            status: 'Pending'
+          };
+          sessionStorage.setItem('cartStoreOrder', JSON.stringify(fallback));
+          localStorage.setItem('ilham_last_order', JSON.stringify(fallback));
+          const lo = JSON.parse(localStorage.getItem('ilham_orders') || '[]');
+          lo.push({ id: fallback.orderId, name: fallback.product, pkg: fallback.pkg, price: fallback.total, status: 'Pending', date: fallback.date, email: fallback.email, phone: fallback.phone });
+          localStorage.setItem('ilham_orders', JSON.stringify(lo));
+        } catch (e) {}
+
+        toast(serverErrMsg || 'Order saved locally. Redirecting to confirmation...', 'error');
+        setTimeout(() => showSuccess(email), 700);
+        return;
       }
 
       showSuccess(email);
