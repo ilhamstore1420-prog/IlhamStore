@@ -501,7 +501,7 @@ const GOOGLE_SHEET_URL = atob(_0x4f8a);
 
     const hiddenProducts = {
       'telegram': false,
-      'free-fire': false, 'pubg': false, 'pubg-lite': false,
+      'free-fire': false, 'pubg': false,
       'blood-strike': false, 'fc-mobile': false, 'modern-strike': false,
       'mobile-legends': false, 'super-sus': false, 'farlight-84': false,
       'new-state': false, 'valorant': false, 'delta-force': false,
@@ -525,7 +525,6 @@ const GOOGLE_SHEET_URL = atob(_0x4f8a);
       { name:"Free Fire (BD)", id:"free-fire", img:"images/products/free-fire.jpg", icon:"fa-fire", color:"#DC2626", bg:"#FEF2F2", currency:"Diamonds", packages:[{l:"100 Diamonds",p:30},{l:"500 Diamonds",p:145},{l:"1000 Diamonds",p:280},{l:"5000 Diamonds",p:1380}] },
       { name:"Free Fire (ID)", id:"free-fire-id", img:"images/products/free-fire-id.jpg", icon:"fa-fire", color:"#DC2626", bg:"#FEF2F2", currency:"Diamonds", packages:[{l:"100 Diamonds",p:40},{l:"500 Diamonds",p:190},{l:"1000 Diamonds",p:370}] },
       { name:"PUBG Mobile (BD)", id:"pubg", img:"images/products/pubg.jpg", icon:"fa-crosshairs", color:"#D97706", bg:"#FFFBEB", currency:"UC", packages:[{l:"60 UC",p:120},{l:"325 UC",p:600},{l:"660 UC",p:1150},{l:"1800 UC",p:3000}] },
-      { name:"PUBG Lite", id:"pubg-lite", img:"images/products/pubg-lite.jpg", icon:"fa-crosshairs", color:"#92400E", bg:"#FFFBEB", currency:"Coins", packages:[{l:"60 Coins",p:80},{l:"325 Coins",p:400},{l:"660 Coins",p:780}] },
       { name:"Blood Strike", id:"blood-strike", img:"images/products/blood-strike.jpg", icon:"fa-skull-crossbones", color:"#991B1B", bg:"#FEF2F2", currency:"Credits", packages:[{l:"60 Credits",p:60},{l:"300 Credits",p:290},{l:"600 Credits",p:560}] },
       { name:"FC Mobile", id:"fc-mobile", img:"images/products/fc-mobile.jpg", icon:"fa-futbol", color:"#16A34A", bg:"#F0FDF4", currency:"Points", packages:[{l:"100 Points",p:80},{l:"500 Points",p:390},{l:"1000 Points",p:760}] },
       { name:"Modern Strike", id:"modern-strike", img:"images/products/modern-strike.jpg", icon:"fa-crosshairs", color:"#475569", bg:"#F8FAFC", currency:"Gold", packages:[{l:"100 Gold",p:50},{l:"500 Gold",p:230},{l:"1000 Gold",p:440}] },
@@ -547,8 +546,8 @@ const GOOGLE_SHEET_URL = atob(_0x4f8a);
       {name:"Discord Nitro", id:"discord-nitro", img:"images/products/discord.jpg", icon:"fa-discord", it:"fab", color:"#5865F2", bg:"#EEF2FF", currency:"Nitro", packages:[{l:"1 Month",p:500},{l:"1 Year",p:4800}]},
       { name:"PUBG UC Card PIN", id:"pubg-uc-card", img:"images/products/pubg-uc.jpg", icon:"fa-id-card", color:"#D97706", bg:"#FFFBEB", currency:"UC PIN", packages:[{l:"60 UC PIN",p:130},{l:"325 UC PIN",p:620},{l:"660 UC PIN",p:1180}] },
       { name:"Nord VPN", id:"nordvpn", img:"images/products/nordvpn.jpg", icon:"fa-shield-halved", color:"#1E40AF", bg:"#EFF6FF", currency:"Subscription", packages:[{l:"1 Month",p:400},{l:"1 Year",p:2800}] },
-      { name:"Unipin Voucher", id:"unipin", img:"images/products/unipin.jpg", icon:"fa-ticket", color:"#6366F1", bg:"#EEF2FF", currency:"Voucher", packages:[{l:"100 Points",p:100},{l:"300 Points",p:290},{l:"500 Points",p:480},{l:"1000 Points",p:950}] },
-      { name:"Garena Shells (SG)", id:"garena-shells", img:"images/products/garena-shells.jpg", icon:"fa-coins", color:"#F59E0B", bg:"#FFFBEB", currency:"Shells", packages:[{l:"100 Shells",p:180},{l:"200 Shells",p:350},{l:"500 Shells",p:860},{l:"1000 Shells",p:1700}] },
+      { name:"Unipin Voucher", id:"unipin", img:"images/products/unipin.jpg", icon:"fa-ticket", color:"#6366F1", bg:"#EEF2FF", currency:"Voucher", packages:[{l:"25 Diamond + 20 UC",p:25},{l:"50 Diamond + 36 UC",p:40},{l:"115 Diamond + 80 UC",p:85},{l:"240 Diamond + 160 UC",p:165},{l:"610 Diamond + 405 UC",p:420},{l:"1240 Diamond + 810 UC",p:830},{l:"2530 Diamond + 1625 UC",p:1650},{l:"UniPin 2000 UC",p:2020},{l:"Weekly UC",p:165},{l:"Monthly UC",p:830}] },
+      { name:"Garena Shells (SG)", id:"garena-shells", img:"images/products/garena-shells.jpg", icon:"fa-coins", color:"#F59E0B", bg:"#FFFBEB", currency:"Shells", packages:[{l:"50 Shells",p:135},{l:"100 Shells",p:270},{l:"250 Shells",p:669},{l:"500 Shells",p:1330},{l:"1000 Shells",p:2650}] },
       { name:"Roblox Robux", id:"roblox-robux", img:"images/products/roblox.jpg", icon:"fa-cube", color:"#E2231A", bg:"#FFF1F2", currency:"Robux", packages:[{l:"80 Robux",p:100},{l:"400 Robux",p:450},{l:"800 Robux",p:880}] },
       { name:"XBOX USA", id:"xbox-usa", img:"images/products/xbox.jpg", icon:"fa-xbox", it:"fab", color:"#107C10", bg:"#F0FDF4", currency:"USD", packages:[{l:"$5 Card",p:550},{l:"$10 Card",p:1050},{l:"$25 Card",p:2600}] },
       { name:"Nintendo eShop US", id:"nintendo-eshop", img:"images/products/nintendo.jpg", icon:"fa-gamepad", color:"#E60012", bg:"#FFF1F2", currency:"USD", packages:[{l:"$10 Card",p:1100},{l:"$20 Card",p:2150},{l:"$50 Card",p:5200}] },
@@ -598,6 +597,24 @@ const GOOGLE_SHEET_URL = atob(_0x4f8a);
        (Edit prices in the Google Sheet "Products" tab
         → website updates automatically on next visit)
        ============================================= */
+    const syncedUniPinLabels = new Map([
+      ["UniPin 20 UC","25 Diamond + 20 UC"],["20 UC","25 Diamond + 20 UC"],
+      ["UniPin 36 UC","50 Diamond + 36 UC"],["36 UC","50 Diamond + 36 UC"],
+      ["UniPin 80 UC","115 Diamond + 80 UC"],["80 UC","115 Diamond + 80 UC"],
+      ["UniPin 160 UC","240 Diamond + 160 UC"],["160 UC","240 Diamond + 160 UC"],
+      ["UniPin 405 UC","610 Diamond + 405 UC"],["405 UC","610 Diamond + 405 UC"],
+      ["UniPin 810 UC","1240 Diamond + 810 UC"],["810 UC","1240 Diamond + 810 UC"],
+      ["UniPin 1625 UC","2530 Diamond + 1625 UC"],["1625 UC","2530 Diamond + 1625 UC"]
+    ]);
+    function normalizeSyncedPackages(productId, packages) {
+      const seen = new Set();
+      const garenaPrices = { '100 Shells': 270, '250 Shells': 669 };
+      return packages.map(pk => ({
+        l: productId === 'unipin' ? syncedUniPinLabels.get(pk.l) || pk.l : pk.l,
+        p: productId === 'garena-shells' ? garenaPrices[pk.l] || Number(pk.p) || 0 : Number(pk.p) || 0
+      })).filter(pk => !seen.has(pk.l) && seen.add(pk.l));
+    }
+
     function syncPricesFromSheet() {
       fetch(GOOGLE_SHEET_URL + '?' + new URLSearchParams({ action: 'get_products', secret: API_SECRET }).toString())
         .then(r => r.json())
@@ -609,7 +626,7 @@ const GOOGLE_SHEET_URL = atob(_0x4f8a);
             [liveApps, games, giftCards, digitalProducts].forEach(arr => {
               const lp = arr.find(x => x.id === sp.id);
               if (lp && Array.isArray(sp.packages) && sp.packages.length) {
-                lp.packages = sp.packages.map(pk => ({ l: pk.l, p: Number(pk.p) || 0 }));
+                lp.packages = normalizeSyncedPackages(sp.id, sp.packages);
               }
             });
           });
