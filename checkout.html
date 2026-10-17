@@ -735,7 +735,7 @@
     document.getElementById('footerYear').textContent = new Date().getFullYear();
 
     /* ===== API (obfuscated) ===== */
-const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6Yi1KYXNrREZxMWt3THNqcWdoNTNZMlZmOS1qUWFoR3VzMTdjNDJwYlhMUE9ubVpUTjhSaERmX3ZfRUttNklUYkQvZXhlYw==';    const GOOGLE_SHEET_URL = atob(_0x4f8a);
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5aU1WYlc2d3lyYldQQ09KX05vLWtoQVlDRVBYalFqOUFiTG14SjNqd1RJZ2J3NVc1MzhCajAwWWp3bDJMb2FvaXYvZXhlYw==';    const GOOGLE_SHEET_URL = atob(_0x4f8a);
     const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 
     /* ⚠️ IMPORTANT: এই ৫টা নম্বরে আপনার আসল রিসিভিং নম্বর বসান (admin যেখানে টাকা রাখেন) */
@@ -957,6 +957,10 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6Yi1KYXN
         timestamp: new Date().toISOString()
       };
 
+      /* ===== FIXED (v9.9.1): server error hole ekhon proper error message dekhabe.
+         Age silently success dekhaito — order Sheet e na othleo confirmation ashto.
+         Network fail hole 1 bar auto-retry hobe. ===== */
+      let serverOk = false, serverErrMsg = '';
       try {
         const res = await fetch(GOOGLE_SHEET_URL, { method:'POST', body: JSON.stringify(payload) });
         const r = await res.json();
@@ -968,17 +972,46 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6Yi1KYXN
             lo.push({ id: orderData.orderId, name: orderData.product, pkg: orderData.package, price: orderData.totalPrice, status: 'Verifying', date: new Date().toLocaleString(), email: email, phone: phone });
             localStorage.setItem('ilham_orders', JSON.stringify(lo));
           } catch(e){}
-        } else if (r && (r.message || '').length) {
-          console.warn('Order submit warning:', r.message);
+        } else if (r && r.message && r.message.toLowerCase().indexOf('already being processed') !== -1) {
+          // Ager attempt e order already save hoye geche (response lost) — eta success
+          serverOk = true;
+          try {
+            const lo2 = JSON.parse(localStorage.getItem('ilham_orders') || '[]');
+            lo2.push({ id: orderData.orderId, name: orderData.product, pkg: orderData.package, price: orderData.totalPrice, status: 'Verifying', date: new Date().toLocaleString(), email: email, phone: phone });
+            localStorage.setItem('ilham_orders', JSON.stringify(lo2));
+          } catch(e2){}
+        } else {
+          serverErrMsg = (r && r.message) ? r.message : 'Server rejected the order.';
         }
       } catch(err) {
-        console.warn('Order submit fallback triggered due to network/server issue:', err);
+        /* network jhamela — ekbar auto-retry */
+        try {
+          const res2 = await fetch(GOOGLE_SHEET_URL, { method:'POST', body: JSON.stringify(payload) });
+          const r2 = await res2.json();
+          if (r2 && (r2.result === 'success' || (r2.message && r2.message.toLowerCase().indexOf('already being processed') !== -1))) {
+            serverOk = true;
+            try {
+              const lo2 = JSON.parse(localStorage.getItem('ilham_orders') || '[]');
+              lo2.push({ id: orderData.orderId, name: orderData.product, pkg: orderData.package, price: orderData.totalPrice, status: 'Verifying', date: new Date().toLocaleString(), email: email, phone: phone });
+              localStorage.setItem('ilham_orders', JSON.stringify(lo2));
+            } catch(e2){}
+          } else {
+            serverErrMsg = (r2 && r2.message) ? r2.message : 'Server rejected the order.';
+          }
+        } catch(err2) {
+          serverErrMsg = 'Network error. Check your internet connection and try again.';
+        }
       }
-
-      showSuccess(email);
 
       document.getElementById('ckSending').classList.remove('show');
       btn.disabled = false; mBtn.disabled = false;
+
+      if (!serverOk) {
+        toast(serverErrMsg || 'Order could not be submitted. Please try again.', 'error');
+        return; /* order save hoyni — confirmation page e jabe NA */
+      }
+
+      showSuccess(email);
     }
 
 function showSuccess(email){
