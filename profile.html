@@ -73,6 +73,15 @@
     .badge.rejected,.badge.cancelled,.badge.fraud{background:#FEE2E2;color:#B91C1C}
     .badge.refunded{background:#DBEAFE;color:#1E40AF}
     .oi-meta{font-size:.78rem;color:#64748B;line-height:1.6}
+    .oi-delivery-wrap{margin-top:10px}
+    .oi-delivery-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid #A7F3D0;border-radius:8px;background:#ECFDF5;color:#065F46;font-family:inherit;font-size:.74rem;font-weight:700;cursor:pointer}
+    .oi-delivery-btn:hover{background:#D1FAE5}
+    .oi-delivery{margin-top:8px;padding:10px 12px;border:1px solid #D1FAE5;border-radius:9px;background:#F8FAFC;color:#334155;font-size:.78rem;line-height:1.5;overflow-wrap:anywhere}
+    .oi-delivery[hidden]{display:none}
+    .oi-delivery a{color:#047857;font-weight:800;overflow-wrap:anywhere}
+    .oi-delivery-value{display:block;margin-bottom:8px;font-family:monospace;font-weight:800;user-select:text;overflow-wrap:anywhere}
+    .oi-copy-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid #CBD5E1;border-radius:7px;background:#fff;color:#334155;font:inherit;font-size:.7rem;font-weight:700;cursor:pointer}
+    .oi-copy-btn:hover{border-color:#059669;color:#047857}
     .oi-meta b{color:#1E293B}
     .rv{border:1px solid #E2E8F0;border-radius:14px;padding:13px 15px;margin-bottom:10px}
     .rv-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
@@ -191,6 +200,7 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4VHZ1Ti1
     var profileSaving = false;
     var emailUpdating = false;
     var passwordUpdating = false;
+    var orderDeliveryItems = [];
 
     function normalizePhone(value){
       var phone = (value || '').toString().trim().replace(/[\s\-]/g, '');
@@ -243,6 +253,81 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4VHZ1Ti1
       if(s.indexOf('reject') !== -1 || s.indexOf('cancel') !== -1 || s.indexOf('fraud') !== -1) return 'rejected';
       if(s.indexOf('refund') !== -1) return 'refunded';
       return 'pending';
+    }
+    function isGiftOrDigitalOrder(o){
+      var category = (o.category || o.productCategory || o.cat || '').toString().toLowerCase();
+      var product = (o.product || o.productName || '').toString().toLowerCase();
+      var deliveryProducts = ['discord nitro','pubg uc card pin','nordvpn','unipin voucher','garena shells','roblox robux','xbox usa','nintendo eshop','steam global','razer gold','graphic & ms files','ai food talking reels'];
+      return category.indexOf('gift') !== -1 || category.indexOf('digital') !== -1 || deliveryProducts.some(function(name){ return product.indexOf(name) !== -1; });
+    }
+    function getOrderDelivery(o){
+      return (o.deliveryLink || o.deliveryUrl || o.downloadLink || o.deliveryCode || o.code || o.link || '').toString().trim();
+    }
+    function copyOrderDelivery(index, button){
+      var value = orderDeliveryItems[index] || '';
+      if(!value) return;
+      function copied(){
+        button.innerHTML = '<i class="fas fa-check"></i> Copied';
+        setTimeout(function(){ button.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 1600);
+      }
+      function fallbackCopy(){
+        var field = document.createElement('textarea');
+        field.value = value;
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.appendChild(field);
+        field.select();
+        var ok = false;
+        try{ ok = document.execCommand('copy'); }catch(e){}
+        field.remove();
+        if(ok) copied();
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(value).then(copied).catch(fallbackCopy);
+      }else{
+        fallbackCopy();
+      }
+    }
+    function toggleOrderDelivery(index, button){
+      var panel = document.getElementById('orderDelivery' + index);
+      if(!panel) return;
+      if(!panel.hidden){
+        panel.hidden = true;
+        button.innerHTML = '<i class="fas fa-eye"></i> View';
+        return;
+      }
+      panel.replaceChildren();
+      var value = orderDeliveryItems[index];
+      if(!value){
+        panel.textContent = 'Delivery details are not available yet. Please check again after your order is confirmed.';
+      }else{
+        var deliveryUrl = '';
+        try{
+          var parsedUrl = new URL(value);
+          if(parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') deliveryUrl = parsedUrl.href;
+        }catch(e){}
+        if(deliveryUrl){
+          var link = document.createElement('a');
+          link.href = deliveryUrl;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.textContent = 'Open delivery link';
+          panel.appendChild(link);
+        }else{
+          var code = document.createElement('span');
+          code.className = 'oi-delivery-value';
+          code.textContent = value;
+          panel.appendChild(code);
+        }
+        var copyButton = document.createElement('button');
+        copyButton.type = 'button';
+        copyButton.className = 'oi-copy-btn';
+        copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        copyButton.onclick = function(){ copyOrderDelivery(index, copyButton); };
+        panel.appendChild(copyButton);
+      }
+      panel.hidden = false;
+      button.innerHTML = '<i class="fas fa-eye-slash"></i> Hide';
     }
     function stars(n){
       var h = '';
@@ -301,11 +386,17 @@ document.getElementById('inPhone').value = ph;
       updateSaveButton();
 
         var oc = (r.orders || []).length;
+        orderDeliveryItems = [];
         document.getElementById('ordCount').textContent = oc ? '(' + oc + ')' : '';
         document.getElementById('ordList').innerHTML = oc
-          ? r.orders.map(function(o){
+          ? r.orders.map(function(o, index){
+              orderDeliveryItems[index] = getOrderDelivery(o);
+              var deliveryView = isGiftOrDigitalOrder(o)
+                ? '<div class="oi-delivery-wrap"><button type="button" class="oi-delivery-btn" onclick="toggleOrderDelivery(' + index + ', this)"><i class="fas fa-eye"></i> View</button><div class="oi-delivery" id="orderDelivery' + index + '" hidden></div></div>'
+                : '';
+              var paymentMethod = o.paymentMethod || o.method || o.payment || o.payMethod || '—';
               return '<div class="oi"><div class="oi-top"><b>#' + esc(o.orderId) + '</b><span class="badge ' + bc(o.status) + '">' + esc(o.status) + '</span></div>' +
-                     '<div class="oi-meta"><b>' + esc(o.product) + '</b> — ' + esc(o.pkg) + ' · ৳' + esc(o.total) + ' · ' + esc(o.date) + '</div></div>';
+                '<div class="oi-meta"><b>' + esc(o.product) + '</b> — ' + esc(o.pkg) + ' · ৳' + esc(o.total) + ' · ' + esc(o.date) + ' · Paid via <b>' + esc(paymentMethod) + '</b></div>' + deliveryView + '</div>';
             }).join('')
           : '<div class="empty">No orders yet. <a href="index.html">Start shopping &rarr;</a></div>';
 

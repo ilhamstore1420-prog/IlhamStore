@@ -108,8 +108,11 @@
     /* Notes below receipt (receipt image থেকে বাদ — তাই ছোট দেখাবে) */
     .cf-note { display: flex; gap: 9px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 10px; padding: 10px 12px; margin-top: 12px; font-size: .68rem; color: #92400E; line-height: 1.55; }
     .cf-note i { color: #D97706; flex-shrink: 0; margin-top: 1px; }
+    .cf-note.cf-spam-highlight { animation: cfSpamGlow 1.2s ease-in-out 3; }
+    @keyframes cfSpamGlow { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); } 50% { box-shadow: 0 0 0 6px rgba(16,185,129,.3); } }
     .cf-note.green { background: #ECFDF5; border-color: #6EE7B7; color: #065F46; }
     .cf-note.green i { color: #059669; }
+    @media(prefers-reduced-motion:reduce){.cf-note.cf-spam-highlight{animation:none}}
 
     .cf-actions { display: flex; gap: 8px; margin-top: 14px; }
     .cf-btn { flex: 1; padding: 11px; border-radius: 10px; font-size: .8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-decoration: none; border: none; font-family: 'Inter', sans-serif; transition: .2s; }
@@ -346,7 +349,7 @@
       </div>
 
       <!-- notes এখন receipt এর বাইরে — receipt ছোট থাকবে -->
-      <div class="cf-note green">
+      <div class="cf-note green cf-spam-highlight" id="cfSpamNotice">
         <i class="fas fa-envelope-circle-check"></i>
         <div><strong>Check Spam/Junk folder!</strong> Confirmation emails sometimes land there. Add <strong>support.ilhamstore@gmail.com</strong> to your contacts.</div>
       </div>
@@ -505,6 +508,7 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4VHZ1Ti1
 
       renderReceipt(order);
       show('cfSuccess');
+      requestAnimationFrame(()=>document.getElementById('cfSpamNotice').scrollIntoView({behavior:'smooth',block:'center'}));
 
       // Live status poll (Verifying hole 20s por por check)
       if (order.status.toLowerCase().includes('verify') || order.status.toLowerCase().includes('pending')) {
