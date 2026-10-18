@@ -654,7 +654,7 @@ const DEMO_DRIVE_LINK = 'https://drive.google.com/drive/folders/1wtN0AyXQ94a-wXV
 
 async function apiGet(params){
   const q = new URLSearchParams(Object.assign({secret:API_SECRET}, params)).toString();
-  const res = await fetch(GOOGLE_SHEET_URL + '?' + q);
+  const res = await fetch(GOOGLE_SHEET_URL + '?' + q, {cache:'no-store'});
   return res.json();
 }
 async function apiPost(payload){
