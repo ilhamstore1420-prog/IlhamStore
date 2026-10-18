@@ -957,15 +957,24 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4UWZoTl9
         timestamp: new Date().toISOString()
       };
 
-      /* ===== FIXED (v9.9.1): server error hole ekhon proper error message dekhabe.
-         Age silently success dekhaito — order Sheet e na othleo confirmation ashto.
-         Network fail hole 1 bar auto-retry hobe. ===== */
+      /* ===== v9.11: server success/reject dutoi ekhon thikbhabe handle hoy.
+         (v9.9.1 te server error message add hoise, kintu success branch e
+          "serverOk = true" missing chilo + reject korleo fake success dekhato —
+          dutoi ekhon fix kora hoyeche. Network fail hole 1 bar auto-retry ache.) ===== */
       let serverOk = false, serverErrMsg = '';
       try {
         const res = await fetch(GOOGLE_SHEET_URL, { method:'POST', body: JSON.stringify(payload) });
-        const r = await res.json();
+        /* ✅ v9.11 FIX: JSON parse safe — Google login page HTML asle (deployment
+           access problem) ekhon crash korbe na, clear error dekhabe */
+        let r = null;
+        try { r = await res.json(); } catch(pe) {
+          console.error('GAS non-JSON response (Google login page?). Fix: Deploy > Manage deployments > Who has access = Anyone', pe);
+        }
 
         if (r && r.result === 'success') {
+          /* ✅ v9.11 MAIN FIX: "serverOk = true" TA AGE MISSING CHILO! Server
+             Sheet e order save korlew client bujhto na, fallback path e dhukto. */
+          serverOk = true;
           // Local backup (track page এও দেখাবে)
           try {
             const lo = JSON.parse(localStorage.getItem('ilham_orders') || '[]');
@@ -981,13 +990,17 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4UWZoTl9
             localStorage.setItem('ilham_orders', JSON.stringify(lo2));
           } catch(e2){}
         } else {
-          serverErrMsg = (r && r.message) ? r.message : 'Server rejected the order.';
+          serverErrMsg = (r && r.message) ? r.message : 'Server error. Please try again in a moment.';
         }
       } catch(err) {
         /* network jhamela — ekbar auto-retry */
+        console.error('Order submit network error (first attempt):', err);
         try {
           const res2 = await fetch(GOOGLE_SHEET_URL, { method:'POST', body: JSON.stringify(payload) });
-          const r2 = await res2.json();
+          let r2 = null;
+          try { r2 = await res2.json(); } catch(pe2) {
+            console.error('GAS retry returned non-JSON (deployment access problem?)', pe2);
+          }
           if (r2 && (r2.result === 'success' || (r2.message && r2.message.toLowerCase().indexOf('already being processed') !== -1))) {
             serverOk = true;
             try {
@@ -996,9 +1009,10 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4UWZoTl9
               localStorage.setItem('ilham_orders', JSON.stringify(lo2));
             } catch(e2){}
           } else {
-            serverErrMsg = (r2 && r2.message) ? r2.message : 'Server rejected the order.';
+            serverErrMsg = (r2 && r2.message) ? r2.message : 'Network error. Check your internet connection and try again.';
           }
         } catch(err2) {
+          console.error('Order retry also failed:', err2);
           serverErrMsg = 'Network error. Check your internet connection and try again.';
         }
       }
@@ -1007,34 +1021,17 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4UWZoTl9
       btn.disabled = false; mBtn.disabled = false;
 
       if (!serverOk) {
-        // Backup save na holeo confirmation page e userকে ফিরিয়ে দিতে হবে
-        // যাতে order local store-এ save থাকে, আর UI-তে confirmation দেখতে পায়।
-        try {
-          const fallback = {
-            orderId: orderData.orderId,
-            product: orderData.product,
-            pkg: orderData.package,
-            userId: orderData.userId,
-            qty: orderData.quantity,
-            total: orderData.totalPrice,
-            method: PAY_META[selectedPay].label,
-            sender: document.getElementById('ckPayAccount').value.trim(),
-            txn: txnId,
-            name: name,
-            phone: phone,
-            email: email,
-            date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ' · ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-            status: 'Pending'
-          };
-          sessionStorage.setItem('cartStoreOrder', JSON.stringify(fallback));
-          localStorage.setItem('ilham_last_order', JSON.stringify(fallback));
-          const lo = JSON.parse(localStorage.getItem('ilham_orders') || '[]');
-          lo.push({ id: fallback.orderId, name: fallback.product, pkg: fallback.pkg, price: fallback.total, status: 'Pending', date: fallback.date, email: fallback.email, phone: fallback.phone });
-          localStorage.setItem('ilham_orders', JSON.stringify(lo));
-        } catch (e) {}
-
-        toast(serverErrMsg || 'Order saved locally. Redirecting to confirmation...', 'error');
-        setTimeout(() => showSuccess(email), 700);
+        /* v9.11 FIX: FAKE SUCCESS BAD!
+           Age server reject / network fail holeo confirmation page e pathiye dito —
+           fole order Sheet e NA dhukleo customer "Order Placed Successfully" dekhto.
+           Eitai guest order hariye jawar main karon (keui kheyal-i korte parto na).
+           Ekhon: real error message dekhabe, user checkout page-ei thakbe —
+           form data rekhe dei, abar "Verify Payment" chaplei retry hobe. */
+        const errBox = document.getElementById('ckBlocked');
+        errBox.innerHTML = '<i class="fas fa-triangle-exclamation"></i><span>' + esc(serverErrMsg || 'Order submit failed. Please try again.') + '</span>';
+        errBox.classList.add('show');
+        try { errBox.scrollIntoView({ behavior:'smooth', block:'center' }); } catch(e){}
+        toast(serverErrMsg || 'Order submit failed. Please try again.', 'error');
         return;
       }
 
