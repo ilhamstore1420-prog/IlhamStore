@@ -831,7 +831,11 @@ function renderProduct(){
   if(product.videoId){ v.innerHTML=`<iframe src="https://www.youtube.com/embed/${product.videoId}" title="Video Guide" allowfullscreen></iframe>`; }
   else { v.innerHTML=`<div class="pd-video-placeholder"><i class="fas fa-video-slash"></i><span>Video guide coming soon</span></div>`; }
 
-    const rel=allProducts.filter(p=>p.cat===product.cat&&p.id!==product.id&&!hiddenIds[p.id]).slice(0,8);
+  renderRelatedProducts();
+}
+
+function renderRelatedProducts(){
+  const rel=allProducts.filter(p=>p.cat===product.cat&&p.id!==product.id&&!hiddenIds[p.id]).slice(0,8);
   document.getElementById('pdRelated').innerHTML=rel.map(p=>`<a href="product.html?id=${p.id}" class="product-card">${p.tag?`<span class="p-tag ${p.tag}">${p.tag}</span>`:''}<div class="p-img"><img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="p-img-fallback" style="display:none;background:${p.bg};color:${p.color};"><i class="${p.it||'fas'} ${p.icon}" style="font-size:2rem;"></i></div></div><div class="p-body"><div class="p-name">${p.name}</div></div></a>`).join('');
 }
 
@@ -916,6 +920,7 @@ async function syncSheetPrices(){
       window.location.href='index.html';
       return;
     }
+    renderRelatedProducts();
     [liveApps,games,giftCards,digitalProducts].forEach(arr=>arr.forEach(p=>{
       const sp=map[p.id];
       if(sp&&sp.packages&&sp.packages.length){
