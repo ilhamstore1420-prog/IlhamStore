@@ -79,6 +79,14 @@
       -webkit-touch-callout: none; /* Disable iOS image save popup */
     }
   </style>
+
+  <!-- ===== SKELETON LOADER CSS (fix: purano list / hidden product flash bad) ===== -->
+  <style>
+    .skel-card{background:var(--white);border:1px solid var(--gray-200);border-radius:12px;overflow:hidden}
+    .skel-img{aspect-ratio:1/1;background:linear-gradient(100deg,#F0F7F4 30%,#E2E8F0 50%,#F0F7F4 70%);background-size:200% 100%;animation:skelShimmer 1.1s linear infinite}
+    .skel-bar{height:46px;border-top:1px solid var(--gray-100);background:linear-gradient(100deg,#F0F7F4 30%,#E2E8F0 50%,#F0F7F4 70%);background-size:200% 100%;animation:skelShimmer 1.1s linear infinite}
+    @keyframes skelShimmer{0%{background-position:120% 0}100%{background-position:-120% 0}}
+  </style>
 </head>
 <body>
 
@@ -606,33 +614,60 @@ const GOOGLE_SHEET_URL = atob(_0x4f8a);
       ["UniPin 810 UC","1240 Diamond + 810 UC"],["810 UC","1240 Diamond + 810 UC"],
       ["UniPin 1625 UC","2530 Diamond + 1625 UC"],["1625 UC","2530 Diamond + 1625 UC"]
     ]);
+    /* UNLOCK FIX: Garena Shells er 100 Shells=270 / 250 Shells=669
+       code-lock remove kora holo. Ekhon Sheet-e je dam seta-i site-e
+       dekhabe (Sheet = BOSS) — Sheet-e edit korlei change hobe.
+       UniPin label mapping sudhei rakha holo. */
     function normalizeSyncedPackages(productId, packages) {
       const seen = new Set();
-      const garenaPrices = { '100 Shells': 270, '250 Shells': 669 };
       return packages.map(pk => ({
         l: productId === 'unipin' ? syncedUniPinLabels.get(pk.l) || pk.l : pk.l,
-        p: productId === 'garena-shells' ? garenaPrices[pk.l] || Number(pk.p) || 0 : Number(pk.p) || 0
+        p: Number(pk.p) || 0
       })).filter(pk => !seen.has(pk.l) && seen.add(pk.l));
     }
 
+    /* =============================================
+       FIX: Sheet sync complete na hole product
+       render hobe NA. Ager bug chilo — age local
+       list render hoto (2-3 sec), tarpor sheet data
+       ashle re-render hoto. Tai hide kora product /
+       purano dam 2-3 sec dekha jeto.
+       Ekhon: skeleton dekhabe → sheet data ashle →
+       tokhon-i render hobe (Sheet = BOSS).
+       ============================================= */
+    function renderSkeletons() {
+      const skel = Array.from({ length: 4 }, () => '<div class="skel-card"><div class="skel-img"></div><div class="skel-bar"></div></div>').join('');
+      ['liveAppsGrid', 'gamesGrid', 'digitalGrid', 'gcGrid'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = skel;
+      });
+    }
+
     function syncPricesFromSheet() {
-      fetch(GOOGLE_SHEET_URL + '?' + new URLSearchParams({ action: 'get_products', secret: API_SECRET }).toString())
-        .then(r => r.json())
-        .then(res => {
-          if (!res || res.result !== 'success' || !Array.isArray(res.products)) return;
-          res.products.forEach(sp => {
-            if (sp.hidden) { sheetHidden[sp.id] = true; return; }
-            delete sheetHidden[sp.id];
-            [liveApps, games, giftCards, digitalProducts].forEach(arr => {
-              const lp = arr.find(x => x.id === sp.id);
-              if (lp && Array.isArray(sp.packages) && sp.packages.length) {
-                lp.packages = normalizeSyncedPackages(sp.id, sp.packages);
-              }
-            });
-          });
-          renderAll();
-        })
-        .catch(() => { /* keep local prices silently if sheet not reachable */ });
+      return new Promise((resolve) => {
+        /* _bust = browser/proxy cache bypass — shob somoy fresh data */
+        const bust = '&_=' + Date.now();
+        fetch(GOOGLE_SHEET_URL + '?' + new URLSearchParams({ action: 'get_products', secret: API_SECRET }).toString() + bust)
+          .then(r => r.json())
+          .then(res => {
+            if (res && res.result === 'success' && Array.isArray(res.products)) {
+              res.products.forEach(sp => {
+                if (sp.hidden) { sheetHidden[sp.id] = true; return; }
+                delete sheetHidden[sp.id];
+                [liveApps, games, giftCards, digitalProducts].forEach(arr => {
+                  const lp = arr.find(x => x.id === sp.id);
+                  if (lp && Array.isArray(sp.packages) && sp.packages.length) {
+                    lp.packages = normalizeSyncedPackages(sp.id, sp.packages);
+                  }
+                });
+              });
+              resolve(true);
+            } else {
+              resolve(false); /* sheet data bad → local fallback */
+            }
+          })
+          .catch(() => { resolve(false); /* sheet not reachable → local fallback */ });
+      });
     }
 
     const sInput = document.getElementById('searchInput');
@@ -804,9 +839,19 @@ const GOOGLE_SHEET_URL = atob(_0x4f8a);
       }
     });
 
+    /* FIX: age local data render hoto (purano dam/hidden product flash),
+       ekhon skeleton → sheet sync → tarpor render. */
     document.addEventListener('DOMContentLoaded', () => {
-      renderAll();
-      syncPricesFromSheet();
+      renderSkeletons();
+      let sheetDone = false;
+      /* 8 sec er beshi deri hoile local data diye fallback render —
+         net khub slow holeo site khali thakbe na. */
+      const fallbackTimer = setTimeout(() => { if (!sheetDone) renderAll(); }, 8000);
+      syncPricesFromSheet().then(() => {
+        sheetDone = true;
+        clearTimeout(fallbackTimer);
+        renderAll();
+      });
     });
 
     /* ===== SAFE ANTI-COPY JAVASCRIPT ===== */
