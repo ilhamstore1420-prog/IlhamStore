@@ -670,7 +670,7 @@
 document.getElementById('footerYear').textContent = new Date().getFullYear();
 
 /* ===== API (obfuscated) ===== */
-const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5STZpcXhieFluTGswcG8wMVN0alpDZXAwc0VrbEE5X1lFRmJjSm1Wc0k5SFlvNWNubEJzRWVXWFdVbTV2aFlfQ2wvZXhlYw==';
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5dk13dFQyV1BfYXdDSlgtRTFjTWZwZHcyYzRFN3JnaG4xczM4S25RajM0Rm00TXV1RDR6NXRudzlSOGtLVm5SS1gvZXhlYw==';
 const GOOGLE_SHEET_URL = atob(_0x4f8a);
 const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 const DEMO_DRIVE_LINK = 'https://drive.google.com/drive/folders/1wtN0AyXQ94a-wXVo-py2Zly45BNC2JrV?usp=drive_link';
@@ -855,8 +855,11 @@ function renderProduct(){
   const nrN = document.getElementById('pdNonRefNotice');
   if (nrN) nrN.style.display = (product.cat === 'Gift Cards' || product.emailOnly) ? 'flex' : 'none';
 
-  const steps = product.emailOnly ? howToEmail : (howToRedeem[product.name] || (!product.idLabel ? defaultRedeemSteps : howToRecharge));
-  document.getElementById('pdHowTitle').innerHTML = product.emailOnly ? '<i class="fas fa-list-ol"></i> কিভাবে অর্ডার করবেন' : (product.cat==='Gift Cards' ? '<i class="fas fa-list-ol"></i> কিভাবে অর্ডার ও রিডিম করবেন' : '<i class="fas fa-list-ol"></i> কিভাবে রিচার্জ করবেন');
+  const isDigitalProduct = product.cat === 'Digital Products';
+  const steps = isDigitalProduct
+    ? howToEmail
+    : (howToRedeem[product.name] || (product.cat === 'Gift Cards' ? defaultRedeemSteps : (!product.idLabel ? defaultRedeemSteps : howToRecharge)));
+  document.getElementById('pdHowTitle').innerHTML = isDigitalProduct ? '<i class="fas fa-list-ol"></i> কিভাবে অর্ডার করবেন' : (product.cat==='Gift Cards' ? '<i class="fas fa-list-ol"></i> কিভাবে অর্ডার ও রিডিম করবেন' : '<i class="fas fa-list-ol"></i> কিভাবে রিচার্জ করবেন');
   document.getElementById('pdHowSteps').innerHTML = steps.map((s,i)=>`<div class="pd-step"><div class="pd-step-num">${i+1}</div><div class="pd-step-text"><strong>${s.t}</strong><span>${s.d}</span></div></div>`).join('');
 
   const v=document.getElementById('pdVideo');
