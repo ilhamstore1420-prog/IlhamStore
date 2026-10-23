@@ -435,7 +435,7 @@
     /* =============================================
        SECURITY: Obfuscated Google Script URL
        ============================================= */
-    const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4b1QxeTlPbW0tamZUSFNzbWMweGgtbWxCQ093aFA5c1JaSUtHdlJ3b3o0VWNObDJlZ296eW84Q2N0YVl1eGhyOVMvZXhlYw==';
+    const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5STZpcXhieFluTGswcG8wMVN0alpDZXAwc0VrbEE5X1lFRmJjSm1Wc0k5SFlvNWNubEJzRWVXWFdVbTV2aFlfQ2wvZXhlYw==';
     const GOOGLE_SHEET_URL = atob(_0x4f8a);
     const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 
@@ -454,6 +454,7 @@
       'unipin': false, 'garena-shells': false, 'roblox-robux': false,
       'xbox-usa': false, 'nintendo-eshop': false, 'steam-global': false,
       'razer-gold': false, 'garena-shells-usd': false,
+      'marvel-rivals': false, 'war-robots': false, 'fortnite': false, 'spotify': false,
       'graphic-files': false, 'ai-food-reels': false
     };
     const sheetHidden = {};
@@ -465,21 +466,23 @@
       { name:"Free Fire (BD)", id:"free-fire", img:"images/products/free-fire.jpg", icon:"fa-fire", color:"#DC2626", bg:"#FEF2F2", currency:"Diamonds" },
       { name:"Free Fire (ID)", id:"free-fire-id", img:"images/products/free-fire-id.jpg", icon:"fa-fire", color:"#DC2626", bg:"#FEF2F2", currency:"Diamonds" },
       { name:"PUBG Mobile (BD)", id:"pubg", img:"images/products/pubg.jpg", icon:"fa-crosshairs", color:"#D97706", bg:"#FFFBEB", currency:"UC" },
-      { name:"Blood Strike", id:"blood-strike", img:"images/products/blood-strike.jpg", icon:"fa-skull-crossbones", color:"#991B1B", bg:"#FEF2F2", currency:"Credits" },
+      { name:"Blood Strike (BD)", id:"blood-strike", img:"images/products/blood-strike.jpg", icon:"fa-skull-crossbones", color:"#991B1B", bg:"#FEF2F2", currency:"Credits" },
       { name:"FC Mobile", id:"fc-mobile", img:"images/products/fc-mobile.jpg", icon:"fa-futbol", color:"#16A34A", bg:"#F0FDF4", currency:"Points" },
       { name:"Modern Strike", id:"modern-strike", img:"images/products/modern-strike.jpg", icon:"fa-crosshairs", color:"#475569", bg:"#F8FAFC", currency:"Gold" },
-      { name:"Mobile Legends", id:"mobile-legends", img:"images/products/mobile-legends.jpg", icon:"fa-shield-halved", color:"#2563EB", bg:"#EFF6FF", currency:"Diamonds" },
+      { name:"Mobile Legends (BD)", id:"mobile-legends", img:"images/products/mobile-legends.jpg", icon:"fa-shield-halved", color:"#2563EB", bg:"#EFF6FF", currency:"Diamonds" },
       { name:"Super Sus", id:"super-sus", img:"images/products/super-sus.jpg", icon:"fa-user-secret", color:"#7C3AED", bg:"#F5F3FF", currency:"Gold" },
       { name:"Farlight 84", id:"farlight-84", img:"images/products/farlight-84.jpg", icon:"fa-jet-fighter", color:"#0891B2", bg:"#ECFEFF", currency:"Diamonds" },
       { name:"PUBG New State", id:"new-state", img:"images/products/new-state.jpg", icon:"fa-car", color:"#4338CA", bg:"#EEF2FF", currency:"NC" },
       { name:"Valorant VP (BD)", id:"valorant", img:"images/products/valorant.jpg", icon:"fa-crosshairs", color:"#DC2626", bg:"#FEF2F2", currency:"VP" },
-      { name:"Delta Force BD", id:"delta-force", img:"images/products/delta-force.jpg", icon:"fa-jet-fighter", color:"#1E3A8A", bg:"#EFF6FF", currency:"Tokens" },
-      { name:"Modern Warships", id:"modern-warships", img:"images/products/modern-warships.jpg", icon:"fa-ship", color:"#1E40AF", bg:"#EFF6FF", currency:"Platinum" },
+      { name:"Delta Force (BD)", id:"delta-force", img:"images/products/delta-force.jpg", icon:"fa-jet-fighter", color:"#1E3A8A", bg:"#EFF6FF", currency:"Tokens" },
+      { name:"Modern Warships Topup (BD)", id:"modern-warships", img:"images/products/modern-warships.jpg", icon:"fa-ship", color:"#1E40AF", bg:"#EFF6FF", currency:"Platinum" },
       { name:"FRAG Pro Shooter", id:"frag-pro-shooter", img:"images/products/frag.jpg", icon:"fa-crosshairs", color:"#7C3AED", bg:"#F5F3FF", currency:"Gems" },
       { name:"Where Winds Meet", id:"where-winds-meet", img:"images/products/where-winds-meet.jpg", icon:"fa-wind", color:"#0E7490", bg:"#ECFEFF", currency:"Packs" },
-      { name:"Lords Mobile Package", id:"lords-mobile", img:"images/products/lords-mobile.jpg", icon:"fa-chess-rook", color:"#7C2D12", bg:"#FFF7ED", currency:"Packages" },
+      { name:"Lords Mobile Topup (BD)", id:"lords-mobile", img:"images/products/lords-mobile.jpg", icon:"fa-chess-rook", color:"#7C2D12", bg:"#FFF7ED", currency:"Packages" },
       { name:"Dream League Soccer DLS26", id:"dls26", img:"images/products/dls26.jpg", icon:"fa-futbol", color:"#059669", bg:"#ECFDF5", currency:"Gems/Coins" },
-      { name:"Asphalt 9: Legends", id:"asphalt-9", img:"images/products/asphalt-9.jpg", icon:"fa-car-side", color:"#1D4ED8", bg:"#EFF6FF", currency:"Tokens" }
+      { name:"Asphalt 9: Legends", id:"asphalt-9", img:"images/products/asphalt-9.jpg", icon:"fa-car-side", color:"#1D4ED8", bg:"#EFF6FF", currency:"Tokens" },
+      { name:"Marvel Rivals (BD)", id:"marvel-rivals", img:"images/products/marvel-rivals.jpg", icon:"fa-mask", color:"#DC2626", bg:"#FEF2F2", currency:"Lattices" },
+      { name:"War Robots", id:"war-robots", img:"images/products/war-robots.jpg", icon:"fa-robot", color:"#EA580C", bg:"#FFF7ED", currency:"D-Gems" }
     ];
     const giftCards = [
       { name:"Discord Nitro", id:"discord-nitro", img:"images/products/discord.jpg", icon:"fa-discord", it:"fab", color:"#5865F2", bg:"#EEF2FF", currency:"Nitro" },
@@ -492,7 +495,9 @@
       { name:"Nintendo eShop US", id:"nintendo-eshop", img:"images/products/nintendo.jpg", icon:"fa-gamepad", color:"#E60012", bg:"#FFF1F2", currency:"USD" },
       { name:"Steam Global", id:"steam-global", img:"images/products/steam.jpg", icon:"fa-steam", it:"fab", color:"#1B2838", bg:"#F8FAFC", currency:"USD" },
       { name:"Razer Gold", id:"razer-gold", img:"images/products/razer.jpg", icon:"fa-coins", color:"#00E000", bg:"#F0FDF4", currency:"USD" },
-      { name:"Garena Shells (USD)", id:"garena-shells-usd", img:"images/products/garena-usd.jpg", icon:"fa-coins", color:"#F59E0B", bg:"#FFFBEB", currency:"Shells" }
+      { name:"Garena Shells (USD)", id:"garena-shells-usd", img:"images/products/garena-usd.jpg", icon:"fa-coins", color:"#F59E0B", bg:"#FFFBEB", currency:"Shells" },
+      { name:"Fortnite Gift Card (US)", id:"fortnite", img:"images/products/fortnite.jpg", icon:"fa-bolt", color:"#6366F1", bg:"#EEF2FF", currency:"USD" },
+      { name:"Spotify Gift Card (US)", id:"spotify", img:"images/products/spotify.jpg", icon:"fa-spotify", it:"fab", color:"#1DB954", bg:"#F0FDF4", currency:"USD" }
     ];
     const digitalProducts = [
       { name:"500+ Graphic & MS Files", id:"graphic-files", img:"images/products/graphic-files.jpg", icon:"fa-palette", color:"#9333EA", bg:"#FAF5FF", currency:"Files" },
@@ -702,6 +707,7 @@
           <div class="od-item"><small>Amount</small><b>৳${esc(o.total)}</b></div>
           <div class="od-item"><small>Payment</small><b>${esc(o.method)}</b></div>
           <div class="od-item"><small>Date</small><b>${esc(o.date)}</b></div>
+          ${o.deliveryCode?`<div class="od-item"><small>Delivery Code</small><b>${esc(o.deliveryCode)}</b></div>`:''}
         </div>
         ${bad?`<div class="warn-box"><i class="fas fa-triangle-exclamation"></i> This order was not completed. Contact support for help.</div>`
         :ref?`<div class="warn-box" style="background:#DBEAFE;border-color:#93C5FD;color:#1E40AF;"><i class="fas fa-rotate-left"></i> This order has been refunded.</div>`

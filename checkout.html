@@ -98,6 +98,14 @@
     .ck-sum-warning i { color: #D97706; font-size: 0.72rem; flex-shrink: 0; margin-top: 3px; }
     .ck-sum-warning span { font-size: 0.68rem; color: #92400E; line-height: 1.4; font-weight: 500; }
 
+    /* v9.12: Gift/Digital product — NON-REFUNDABLE highlight (summary box) */
+    .ck-nonref { display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; padding: 10px 12px; background: #FEF2F2; border-radius: 10px; border: 1.5px solid #FCA5A5; animation: ckNrGlow 1.2s ease-in-out 3; }
+    .ck-nonref i { color: #DC2626; font-size: 0.72rem; flex-shrink: 0; margin-top: 3px; }
+    .ck-nonref span { font-size: 0.68rem; color: #991B1B; line-height: 1.45; font-weight: 600; }
+    .ck-nonref b { font-weight: 800; letter-spacing: .02em; }
+    @keyframes ckNrGlow { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } 50% { box-shadow: 0 0 0 5px rgba(239,68,68,.22); } }
+    @media(prefers-reduced-motion:reduce){ .ck-nonref { animation:none; } }
+
     .ck-pay-instruction { display: none; animation: fadeSlideIn 0.35s ease; }
     .ck-pay-instruction.active { display: block; }
     @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -159,8 +167,8 @@
     .ck-blocked-overlay.show { display: flex; }
     .ck-blocked-overlay i { font-size: 1.2rem; flex-shrink: 0; }
 
-    .ck-mobile-bar { display: none !important; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--gray-200); padding: 12px 16px; z-index: 100; box-shadow: 0 -4px 16px rgba(0,0,0,0.1); }
-    .ck-mobile-bar.show { display: none !important; }
+    .ck-mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--gray-200); padding: 12px 16px; z-index: 100; box-shadow: 0 -4px 16px rgba(0,0,0,0.1); }
+    .ck-mobile-bar.show { display: block; }
     .ck-mobile-bar-inner { display: flex; align-items: center; gap: 12px; max-width: 480px; margin: 0 auto; }
     .ck-mb-total { flex-shrink: 0; }
     .ck-mb-label { font-size: 0.65rem; color: var(--gray-400); font-weight: 500; display: block; }
@@ -227,7 +235,7 @@
       .ck-pay-option { padding: 12px; }
     }
 
-    @media (min-width: 769px) { .ck-mobile-bar { display: none !important; } }
+    @media (min-width: 769px) { .ck-mobile-bar, .ck-mobile-bar.show { display: none !important; } }
 
     @media (max-width: 480px) {
       .ck-pay-grid { gap: 8px; }
@@ -447,7 +455,7 @@
 
               <div class="ck-gift-success" id="giftSuccessNote" style="display:none;">
                 <i class="fas fa-envelope-circle-check"></i>
-                <div>পেমেন্ট কনফার্ম হওয়ার পর আপনার <b id="giftSuccessEmail"></b> ইমেইলে Google Drive লিংক পাঠানো হবে। ইনবক্স/স্প্যাম ফোল্ডার চেক করুন।</div>
+                <div>পেমেন্ট কনফার্ম হওয়ার পর আপনার <b id="giftSuccessEmail"></b> ইমেইলে <span id="giftSuccessDelivery">ডেলিভারি তথ্য</span> পাঠানো হবে। ইনবক্স/স্প্যাম ফোল্ডার চেক করুন।</div>
               </div>
 
               <div class="ck-orderid-box">
@@ -529,7 +537,6 @@
         <div class="fp-item"><i class="fas fa-wallet"></i> Upay</div>
         <div class="fp-item"><i class="fas fa-shield-halved"></i> Tap</div>
       </div>
-      <footer-bottom>
       <div class="footer-bottom">&copy; <span id="footerYear"></span> IlhamStore.com — All rights reserved.</div>
     </div>
   </footer>
@@ -543,7 +550,7 @@
     <button class="chat-main-btn" id="chatToggle" aria-label="Open chat options"><i class="fas fa-comments chat-icon"></i><i class="fas fa-times close-icon"></i></button>
   </div>
 
-  <  <!-- LEGAL MODALS -->
+  <!-- LEGAL MODALS -->
  <div class="legal-modal" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
     <div class="legal-modal-box">
       <button class="legal-close" onclick="closeLegal('termsModal')" aria-label="Close">&times;</button>
@@ -736,17 +743,66 @@
     document.getElementById('footerYear').textContent = new Date().getFullYear();
 
     /* ===== API (obfuscated) ===== */
-const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4b1QxeTlPbW0tamZUSFNzbWMweGgtbWxCQ093aFA5c1JaSUtHdlJ3b3o0VWNObDJlZ296eW84Q2N0YVl1eGhyOVMvZXhlYw==';    const GOOGLE_SHEET_URL = atob(_0x4f8a);
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5STZpcXhieFluTGswcG8wMVN0alpDZXAwc0VrbEE5X1lFRmJjSm1Wc0k5SFlvNWNubEJzRWVXWFdVbTV2aFlfQ2wvZXhlYw==';    const GOOGLE_SHEET_URL = atob(_0x4f8a);
     const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 
-    /* ⚠️ IMPORTANT: এই ৫টা নম্বরে আপনার আসল রিসিভিং নম্বর বসান (admin যেখানে টাকা রাখেন) */
-    const PAYMENT_ACCOUNTS = {
+    /* ══════════════════════════════════════════════════════════════
+       v9.12: RECEIVER NUMBERS — এখন Google Sheet থেকে চেঞ্জ হয়!
+       ──────────────────────────────────────────────
+       Google Sheet-এ নতুন "Settings" tab আছে (Key | Value)।
+       bkash_number / nagad_number / rocket_number / upay_number /
+       tap_number — Value চেঞ্জ করলেই এই পেজে নম্বর বদলে যায়।
+       কোড ধরতে হয় না, কোনো glitch/লোড সমস্যা নেই:
+       ১) প্রথমে cached নম্বর দেখায় (instant paint)
+       ২) ব্যাকগ্রাউন্ডে Sheet থেকে fresh নম্বর এনে আপডেট করে
+       ৩) Sheet unavailable হলে নিচের fallback নম্বর কাজ করে
+       ⚠️ নিচের নম্বরগুলো শুধু FALLBACK — আসল নম্বর Sheet-এ চেঞ্জ করুন।
+       ══════════════════════════════════════════════════════════════ */
+    const DEFAULT_PAYMENT_ACCOUNTS = {
       bkash:  '01558086520',
       nagad:  '01558086520',
       rocket: '01558086520',
       upay:   '01709217102',
       tap:    '01558086520'
     };
+    const PAYMENT_ACCOUNTS = Object.assign({}, DEFAULT_PAYMENT_ACCOUNTS);
+
+    function normalizeAccNo(v){
+      const raw = (v == null ? '' : v).toString().trim().replace(/[\s\-]/g,'');
+      const s = raw.replace(/^\+?88/,'');
+      return /^01[3-9]\d{8}$/.test(s) ? s : '';
+    }
+
+    /* Sheet Settings থেকে নম্বর merge — instruction panel খোলা থাকলে live re-render */
+    function mergePayNumbers(st){
+      if (!st) return false;
+      let changed = false;
+      ['bkash','nagad','rocket','upay','tap'].forEach(k => {
+        const v = normalizeAccNo(st[k + '_number']);
+        if (v && PAYMENT_ACCOUNTS[k] !== v) { PAYMENT_ACCOUNTS[k] = v; changed = true; }
+      });
+      if (changed && selectedPay && document.getElementById('inlinePaymentInstructions').classList.contains('active')) {
+        renderPayInstruction(selectedPay);
+      }
+      return changed;
+    }
+
+    /* Sheet Settings tab থেকে নম্বর লোড (cache → instant, fetch → fresh) */
+    function loadPayNumbers(){
+      try {
+        const cached = JSON.parse(localStorage.getItem('ilham_pay_numbers') || 'null');
+        if (cached && cached.numbers) mergePayNumbers(cached.numbers);
+      } catch(e){}
+      fetch(GOOGLE_SHEET_URL + '?' + new URLSearchParams({ action:'get_settings', secret:API_SECRET }))
+        .then(r => r.json())
+        .then(res => {
+          if (res && res.result === 'success' && res.settings) {
+            mergePayNumbers(res.settings);
+            try { localStorage.setItem('ilham_pay_numbers', JSON.stringify({ numbers: res.settings, at: Date.now() })); } catch(e){}
+          }
+        })
+        .catch(()=>{ /* Sheet unreachable → fallback নম্বরই থাকবে, কোনো সমস্যা নেই */ });
+    }
 
     const PAY_META = {
       bkash:  { label:'bKash',  icon:'images/payments/bkash.png',  cls:'pay-bkash',
@@ -830,7 +886,8 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4b1QxeTl
         <div class="ck-sum-item"><span class="ck-sum-label">Quantity</span><span class="ck-sum-value">×${esc(orderData.quantity)}</span></div>
         <div class="ck-sum-item"><span class="ck-sum-label">Billing Email</span><span class="ck-sum-value">${emailVal ? esc(emailVal) : '<i style="color:#94A3B8;font-style:normal;">Not provided</i>'}</span></div>
         <div class="ck-sum-total"><span class="ck-sum-total-label">Total</span><span class="ck-sum-total-value">৳${fmt(orderData.totalPrice)}</span></div>
-        <div class="ck-sum-warning"><i class="fas fa-circle-info"></i><span>অর্ডার করার আগে সব তথ্য যাচাই করুন। ভুল তথ্যের জন্য কর্তৃপক্ষ দায়ী নয়।</span></div>`;
+        <div class="ck-sum-warning"><i class="fas fa-circle-info"></i><span>অর্ডার করার আগে সব তথ্য যাচাই করুন। ভুল তথ্যের জন্য কর্তৃপক্ষ দায়ী নয়।</span></div>
+        ${(isGift || orderData.category === 'Gift Cards') ? `<div class="ck-nonref"><i class="fas fa-circle-exclamation"></i><span><b>All purchases are NON-REFUNDABLE and NON-RETURNABLE</b> — গিফট কার্ড / ডিজিটাল প্রোডাক্ট ডেলিভারি বা রিডিমের পর কোনো রিফান্ড বা রিটার্ন সম্ভব নয়।</span></div>` : ''}`;
       document.getElementById('mobileTotalPrice').textContent = '৳' + fmt(orderData.totalPrice);
     }
     function updateSummaryDynamic(){ renderSummary(); }
@@ -873,9 +930,16 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4b1QxeTl
       document.querySelectorAll('.ck-pay-option').forEach(o => o.classList.remove('selected'));
       el.classList.add('selected');
       updateCheckoutSteps('payment');
+      renderPayInstruction(key);
+      document.getElementById('inlinePaymentInstructions').classList.add('active');
+      setTimeout(()=>{ document.getElementById('inlinePaymentInstructions').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
+    }
 
+    /* v9.12: instruction render আলাদা — Sheet থেকে নতুন নম্বর এলে এই function
+       আবার call করলেই panel-এর নম্বর সাথে সাথে আপডেট হয়ে যায় */
+    function renderPayInstruction(key){
       const meta = PAY_META[key];
-      const acc = PAYMENT_ACCOUNTS[key];
+      const acc = PAYMENT_ACCOUNTS[key] || DEFAULT_PAYMENT_ACCOUNTS[key];
 
       document.getElementById('piIcon').innerHTML = `<img src="${meta.icon}" alt="${meta.label}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="fallback ${meta.cls}" style="display:none;"><i class="fas fa-wallet"></i></div>`;
       document.getElementById('piTitle').textContent = meta.label + ' — Payment Instruction';
@@ -885,9 +949,6 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4b1QxeTl
       document.getElementById('piAccountNum').textContent = acc;
       document.getElementById('piMethodLabel').textContent = meta.label;
       document.getElementById('piSteps').innerHTML = meta.steps.map((s,i)=>`<div class="ck-pi-step"><div class="ck-pi-step-num">${i+1}</div><div class="ck-pi-step-text">${s.replace('[ACC]', acc).replace('[AMT]', fmt(orderData.totalPrice))}</div></div>`).join('');
-
-      document.getElementById('inlinePaymentInstructions').classList.add('active');
-      setTimeout(()=>{ document.getElementById('inlinePaymentInstructions').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
     }
 
     function copyAccount(){
@@ -923,7 +984,7 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4b1QxeTl
       if (!isValidPhone(phone)) { toast('সঠিক ১১ ডিজিটের ফোন নম্বর দিন (যেমন: 0187066xxxx)', 'error'); document.getElementById('ckPhone').focus(); return; }
 
       // Email: শুধু Gift product এর জন্য required, বাকিদের জন্য optional
-      if (isGift && !email) { toast('Delivery Email দেওয়া বাধ্যতামূলক — Drive লিংক এই ইমেইলে যাবে', 'error'); document.getElementById('ckEmail').focus(); return; }
+      if (isGift && !email) { toast('Delivery Email দেওয়া বাধ্যতামূলক — ডেলিভারি তথ্য এই ইমেইলে যাবে', 'error'); document.getElementById('ckEmail').focus(); return; }
       if (email && !isValidEmail(email)) { toast('সঠিক email address দিন', 'error'); document.getElementById('ckEmail').focus(); return; }
 
       if (!selectedPay) { toast('প্রথমে একটি পেমেন্ট মাধ্যম নির্বাচন করুন', 'error'); document.getElementById('inlinePaymentInstructions').scrollIntoView({behavior:'smooth'}); return; }
@@ -1067,6 +1128,11 @@ function showSuccess(email){
     localStorage.setItem('ilham_orders', JSON.stringify(lo));
   } catch(e){}
 
+  if (isGift) {
+    document.getElementById('giftSuccessEmail').textContent = email;
+    document.getElementById('giftSuccessDelivery').textContent = orderData.category === 'Digital Products' ? 'Google Drive লিংক' : 'Gift Card কোড/PIN';
+    document.getElementById('giftSuccessNote').style.display = 'flex';
+  }
   window.location.href = 'confirmation.html';
 }
     
@@ -1086,15 +1152,17 @@ function showSuccess(email){
   {name:'Telegram Premium',id:'telegram',cat:'Live Apps'},
   {name:'Free Fire (BD)',id:'free-fire',cat:'Games'},{name:'Free Fire (ID)',id:'free-fire-id',cat:'Games'},
   {name:'PUBG Mobile (BD)',id:'pubg',cat:'Games'},
-  {name:'Blood Strike',id:'blood-strike',cat:'Games'},{name:'FC Mobile',id:'fc-mobile',cat:'Games'},
-  {name:'Modern Strike',id:'modern-strike',cat:'Games'},{name:'Mobile Legends',id:'mobile-legends',cat:'Games'},
+  {name:'Blood Strike (BD)',id:'blood-strike',cat:'Games'},{name:'FC Mobile',id:'fc-mobile',cat:'Games'},
+  {name:'Marvel Rivals (BD)',id:'marvel-rivals',cat:'Games'},{name:'War Robots',id:'war-robots',cat:'Games'},
+  {name:'Modern Strike',id:'modern-strike',cat:'Games'},{name:'Mobile Legends (BD)',id:'mobile-legends',cat:'Games'},
   {name:'Super Sus',id:'super-sus',cat:'Games'},{name:'Farlight 84',id:'farlight-84',cat:'Games'},
   {name:'PUBG New State',id:'new-state',cat:'Games'},{name:'Valorant VP (BD)',id:'valorant',cat:'Games'},
-  {name:'Delta Force BD',id:'delta-force',cat:'Games'},{name:'Modern Warships',id:'modern-warships',cat:'Games'},
+  {name:'Delta Force (BD)',id:'delta-force',cat:'Games'},{name:'Modern Warships Topup (BD)',id:'modern-warships',cat:'Games'},
   {name:'FRAG Pro Shooter',id:'frag-pro-shooter',cat:'Games'},{name:'Where Winds Meet',id:'where-winds-meet',cat:'Games'},
-  {name:'Lords Mobile Package',id:'lords-mobile',cat:'Games'},{name:'Dream League Soccer DLS26',id:'dls26',cat:'Games'},
+  {name:'Lords Mobile Topup (BD)',id:'lords-mobile',cat:'Games'},{name:'Dream League Soccer DLS26',id:'dls26',cat:'Games'},
   {name:'Asphalt 9: Legends',id:'asphalt-9',cat:'Games'},
   {name:'Discord Nitro',id:'discord-nitro',cat:'Gift Cards'},{name:'PUBG UC Card PIN',id:'pubg-uc-card',cat:'Gift Cards'},
+  {name:'Fortnite Gift Card (US)',id:'fortnite',cat:'Gift Cards'},{name:'Spotify Gift Card (US)',id:'spotify',cat:'Gift Cards'},
   {name:'NordVPN',id:'nordvpn',cat:'Gift Cards'},{name:'UniPin Voucher',id:'unipin',cat:'Gift Cards'},
   {name:'Garena Shells (SG)',id:'garena-shells',cat:'Gift Cards'},{name:'Roblox Robux',id:'roblox-robux',cat:'Gift Cards'},
   {name:'XBOX USA',id:'xbox-usa',cat:'Gift Cards'},{name:'Nintendo eShop US',id:'nintendo-eshop',cat:'Gift Cards'},
@@ -1147,6 +1215,14 @@ fetch(GOOGLE_SHEET_URL+'?'+new URLSearchParams({action:'get_products',secret:API
       resetCheckoutSteps();
       initBilling();
       renderSummary();
+      const mobileBar = document.getElementById('mobileStickyBar');
+      const verifyButton = document.getElementById('verifyBtn');
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([entry]) => {
+          mobileBar.classList.toggle('show', !entry.isIntersecting);
+        }).observe(verifyButton);
+      }
+      loadPayNumbers(); /* v9.12: Sheet Settings থেকে receiver নম্বর লোড (instant, no glitch) */
     })();
   </script>
 
