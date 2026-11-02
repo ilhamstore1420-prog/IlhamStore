@@ -67,7 +67,6 @@
     .pay-nagad { background: #FFF7ED; color: #F26522; }
     .pay-rocket { background: #FDF2F8; color: #8B2F89; }
     .pay-upay { background: #EFF6FF; color: #2563EB; }
-    .pay-tap { background: #ECFDF5; color: #059669; }
     .ck-pay-name { font-size: 0.85rem; font-weight: 700; color: var(--gray-800); }
     .ck-pay-type { font-size: 0.65rem; color: var(--gray-400); font-weight: 500; margin-top:2px; }
 
@@ -368,13 +367,6 @@
                   </div>
                   <div><div class="ck-pay-name">Upay</div><div class="ck-pay-type">Mobile Banking</div></div>
                 </div>
-                <div class="ck-pay-option" onclick="selectPayment('tap', this)">
-                  <div class="ck-pay-icon pay-tap">
-                    <img src="images/payments/tap.png" alt="Tap" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                    <div class="fallback" style="display:none;"><i class="fas fa-wallet"></i></div>
-                  </div>
-                  <div><div class="ck-pay-name">Tap</div><div class="ck-pay-type">Trust &amp; Pay</div></div>
-                </div>
               </div>
 
               <div id="inlinePaymentInstructions" class="ck-pay-instruction">
@@ -535,7 +527,6 @@
         <div class="fp-item"><i class="fas fa-wallet"></i> Nagad</div>
         <div class="fp-item"><i class="fas fa-wallet"></i> Rocket</div>
         <div class="fp-item"><i class="fas fa-wallet"></i> Upay</div>
-        <div class="fp-item"><i class="fas fa-shield-halved"></i> Tap</div>
       </div>
       <footer-bottom>
       <div class="footer-bottom">&copy; <span id="footerYear"></span> IlhamStore.com — All rights reserved.</div>
@@ -744,15 +735,15 @@
     document.getElementById('footerYear').textContent = new Date().getFullYear();
 
     /* ===== API (obfuscated) ===== */
-const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5dk13dFQyV1BfYXdDSlgtRTFjTWZwZHcyYzRFN3JnaG4xczM4S25RajM0Rm00TXV1RDR6NXRudzlSOGtLVm5SS1gvZXhlYw==';    const GOOGLE_SHEET_URL = atob(_0x4f8a);
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5YXdscHRveWEzaXFVTW82ZUZzWVZ0ekFCSHd6ZVk3eVlOWk5fTmVzdi1TQ3luejFvMzA0UzZsVGJfRDhYRXVhUkgvZXhlYw==';    const GOOGLE_SHEET_URL = atob(_0x4f8a);
     const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 
     /* ══════════════════════════════════════════════════════════════
        v9.12: RECEIVER NUMBERS — এখন Google Sheet থেকে চেঞ্জ হয়!
        ──────────────────────────────────────────────
        Google Sheet-এ নতুন "Settings" tab আছে (Key | Value)।
-       bkash_number / nagad_number / rocket_number / upay_number /
-       tap_number — Value চেঞ্জ করলেই এই পেজে নম্বর বদলে যায়।
+       bkash_number / nagad_number / rocket_number / upay_number —
+       Value চেঞ্জ করলেই এই পেজে নম্বর বদলে যায়।
        কোড ধরতে হয় না, কোনো glitch/লোড সমস্যা নেই:
        ১) প্রথমে cached নম্বর দেখায় (instant paint)
        ২) ব্যাকগ্রাউন্ডে Sheet থেকে fresh নম্বর এনে আপডেট করে
@@ -763,8 +754,7 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5dk13dFQ
       bkash:  '01558086520',
       nagad:  '01558086520',
       rocket: '01558086520',
-      upay:   '01709217102',
-      tap:    '01558086520'
+      upay:   '01709217102'
     };
     const PAYMENT_ACCOUNTS = Object.assign({}, DEFAULT_PAYMENT_ACCOUNTS);
 
@@ -780,7 +770,7 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5dk13dFQ
     function mergePayNumbers(st){
       if (!st) return false;
       let changed = false;
-      ['bkash','nagad','rocket','upay','tap'].forEach(k => {
+      ['bkash','nagad','rocket','upay'].forEach(k => {
         const v = normalizeAccNo(st[k + '_number']);
         if (v && PAYMENT_ACCOUNTS[k] !== v) { PAYMENT_ACCOUNTS[k] = v; changed = true; }
       });
@@ -815,9 +805,7 @@ const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5dk13dFQ
       rocket: { label:'Rocket', icon:'images/payments/rocket.png', cls:'pay-rocket',
         steps:['ফোন থেকে <b>*322#</b> ডায়াল করুন অথবা Rocket অ্যাপ খুলুন।','<strong class="highlight">Send Money</strong> সিলেক্ট করুন।','প্রাপকের নম্বর দিন: <strong class="highlight">[ACC]</strong>','এমাউন্ট দিন: <strong class="highlight">৳[AMT]</strong>','পেমেন্ট কনফার্ম করে <strong>TrxID</strong> কপি করুন।'] },
       upay:   { label:'Upay',   icon:'images/payments/upay.png',   cls:'pay-upay',
-        steps:['Upay অ্যাপে লগইন করুন অথবা <b>*267#</b> ডায়াল করুন।','<strong class="highlight">Send Money</strong> সিলেক্ট করুন।','প্রাপকের নম্বর দিন: <strong class="highlight">[ACC]</strong>','এমাউন্ট দিন: <strong class="highlight">৳[AMT]</strong>','পেমেন্ট কনফার্ম করে <strong>TrxID</strong> কপি করুন।'] },
-      tap:    { label:'Tap',    icon:'images/payments/tap.png',    cls:'pay-tap',
-        steps:['Tap অ্যাপে লগইন করুন।','<strong class="highlight">Send Money</strong> অপশনে যান।','প্রাপকের নম্বর দিন: <strong class="highlight">[ACC]</strong>','এমাউন্ট দিন: <strong class="highlight">৳[AMT]</strong>','পেমেন্ট কনফার্ম করে <strong>TrxID</strong> কপি করুন।'] }
+        steps:['Upay অ্যাপে লগইন করুন অথবা <b>*267#</b> ডায়াল করুন।','<strong class="highlight">Send Money</strong> সিলেক্ট করুন।','প্রাপকের নম্বর দিন: <strong class="highlight">[ACC]</strong>','এমাউন্ট দিন: <strong class="highlight">৳[AMT]</strong>','পেমেন্ট কনফার্ম করে <strong>TrxID</strong> কপি করুন।'] }
     };
 
     /* ===== ORDER DATA (product.html থেকে) ===== */
