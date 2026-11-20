@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#065F46">
 
   <!-- Security: Content Security Policy -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://drive.google.com https://*.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
 
   <!-- Anti-Scraping: Robots -->
   <meta name="robots" content="index, follow, noarchive, max-snippet:-1">
@@ -502,7 +502,7 @@
     /* =============================================
        SECURITY: Obfuscated Google Script URL
        ============================================= */
-const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5NEhlRjhiRVRDYUpJQXhMblV4UkV4Q2wwWmJfUTUwbGdyRDhOdFpyV1F5UjB4ZGp3UW80bUhrV1BaREpMQy00dFEvZXhlYw==';    
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6a2pKWnB0dHI1QU5ZZjNLQVh6RFkyZVR6Ynh4UjlsejBFMzREQmhMd0ZSY250S25Gbi1nbW41WHJ2cVRXakNMa2ovZXhlYw==';
 const GOOGLE_SHEET_URL = atob(_0x4f8a);
     const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 
@@ -658,10 +658,29 @@ const GOOGLE_SHEET_URL = atob(_0x4f8a);
               res.products.forEach(sp => {
                 if (sp.hidden) { sheetHidden[sp.id] = true; return; }
                 delete sheetHidden[sp.id];
+                /* v9.13: Admin panel theke add kora NOTUN product (frontend
+                   list-e nei) — category onujayi dynamic vabe site-e dekhay.
+                   Image na thakle fallback icon dekhabe (images/products/<id>.jpg
+                   rakle sei image dekhabe). */
+                /* v9.14: Admin panel theke IMAGE URL set korlei sp.img ashe —
+                   Drive/https link hole oita-i dekhabe. Na thakle
+                   images/products/<id>.jpg file (fallback). */
+                const known = [liveApps, games, giftCards, digitalProducts].some(arr => arr.some(x => x.id === sp.id));
+                if (!known && Array.isArray(sp.packages) && sp.packages.length) {
+                  const catArrs = { 'Games': games, 'Gift Cards': giftCards, 'Live Apps': liveApps, 'Digital Products': digitalProducts };
+                  const catName = (sp.category || 'Games').toString().trim() || 'Games';
+                  const np = { name: (sp.name || sp.id).toString(), id: sp.id, img: sp.img || 'images/products/' + sp.id + '.jpg', icon: 'fa-box', color: '#059669', bg: '#ECFDF5', currency: '', packages: normalizeSyncedPackages(sp.id, sp.packages) };
+                  (catArrs[catName] || games).push(np);
+                  allProducts.push(Object.assign({}, np, { cat: catName }));
+                }
                 [liveApps, games, giftCards, digitalProducts].forEach(arr => {
                   const lp = arr.find(x => x.id === sp.id);
-                  if (lp && Array.isArray(sp.packages) && sp.packages.length) {
-                    lp.packages = normalizeSyncedPackages(sp.id, sp.packages);
+                  if (lp) {
+                    /* v9.14: Sheet-e Image URL set thakle local image er bodole oita dekhabe */
+                    if (sp.img) { lp.img = sp.img; const ap = allProducts.find(x => x.id === sp.id); if (ap) ap.img = sp.img; }
+                    if (Array.isArray(sp.packages) && sp.packages.length) {
+                      lp.packages = normalizeSyncedPackages(sp.id, sp.packages);
+                    }
                   }
                 });
               });

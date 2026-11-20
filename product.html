@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product – IlhamStore</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://script.google.com https://drive.google.com https://*.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
   <meta name="robots" content="noarchive, max-snippet:-1">
   <meta name="googlebot" content="noarchive, max-snippet:-1">
   <link rel="stylesheet" href="style.css">
@@ -669,7 +669,7 @@
 document.getElementById('footerYear').textContent = new Date().getFullYear();
 
 /* ===== API (obfuscated) ===== */
-const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5NEhlRjhiRVRDYUpJQXhMblV4UkV4Q2wwWmJfUTUwbGdyRDhOdFpyV1F5UjB4ZGp3UW80bUhrV1BaREpMQy00dFEvZXhlYw==';
+const _0x4f8a = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6a2pKWnB0dHI1QU5ZZjNLQVh6RFkyZVR6Ynh4UjlsejBFMzREQmhMd0ZSY250S25Gbi1nbW41WHJ2cVRXakNMa2ovZXhlYw==';
 const GOOGLE_SHEET_URL = atob(_0x4f8a);
 const API_SECRET = 'ILHS_SECRET_2025_X9K2M';
 const DEMO_DRIVE_LINK = 'https://drive.google.com/drive/folders/1wtN0AyXQ94a-wXVo-py2Zly45BNC2JrV?usp=drive_link';
@@ -689,11 +689,11 @@ const VALID_PRODUCT_IDS = ['telegram','free-fire','free-fire-id','pubg','blood-s
 
 const urlParams = new URLSearchParams(window.location.search);
 const productIdFromUrl = urlParams.get('id');
-if (!productIdFromUrl || !VALID_PRODUCT_IDS.includes(productIdFromUrl)) {
-  document.body.innerHTML = `<div style="text-align:center;padding:80px 20px;font-family:'Inter',sans-serif;"><div style="max-width:500px;margin:0 auto;"><div style="font-size:80px;margin-bottom:20px;">⚠️</div><h1 style="font-size:1.8rem;margin-bottom:16px;">Invalid Product</h1><p style="color:#6B7280;margin-bottom:24px;">The product you're looking for doesn't exist or has been removed.</p><a href="index.html" style="background:#10B981;color:white;padding:12px 28px;border-radius:50px;text-decoration:none;display:inline-block;">← Back to Home</a></div></div>`;
-  setTimeout(() => { window.location.href = 'index.html'; }, 3000);
-  throw new Error('Invalid product ID');
-}
+/* v9.13: Admin panel theke add kora product VALID_PRODUCT_IDS-e thake na.
+   Tai unknown ID ke ekhon redirect kora hoy NA — placeholder product
+   boshiye rekhe Sheet sync (get_products) jachhay. Sheet-e ei ID-r ekta
+   live product thakle dynamic vabe render hobe, na thakle index.html-e
+   redirect hobe. */
 
 /* ===== PRODUCT DATA ===== */
 const liveApps=[
@@ -810,8 +810,46 @@ const digitalProducts=[
 digitalProducts.forEach(p=>{ p.emailOnly = true; p.idLabel = 'Your Email Address'; p.idPlaceholder = 'আপনার ইমেইল ঠিকানা লিখুন'; p.idHint = 'Drive লিংক এই ইমেইলে পাঠানো হবে — সঠিক ইমেইল দিন।'; });
 giftCards.forEach(p=>{ p.emailOnly = true; p.idLabel = 'Your Email Address'; p.idPlaceholder = 'আপনার ইমেইল ঠিকানা লিখুন'; p.idHint = 'Gift Card কোড/PIN এই ইমেইলে পাঠানো হবে — সঠিক ইমেইল দিন।'; });
 const allProducts=[...liveApps.map(p=>({...p,cat:"Live Apps"})),...games.map(p=>({...p,cat:"Games"})),...digitalProducts.map(p=>({...p,cat:"Digital Products"})),...giftCards.map(p=>({...p,cat:"Gift Cards"}))];
-const product = allProducts.find(p=>p.id===productIdFromUrl);
+/* v9.13: let + placeholder — Admin theke add kora product Sheet sync-er
+   por dynamic vabe bosbe (applyDynamicProduct). */
+let product = allProducts.find(p=>p.id===productIdFromUrl);
+let isDynamicProduct = false;
+if(!product){
+  product = { id:productIdFromUrl, name:'Loading…', cat:'', img:'images/products/'+(productIdFromUrl||'')+'.jpg', icon:'fa-box', color:'#059669', bg:'#ECFDF5', currency:'', videoId:'', desc:'', whatIs:'', packages:[] };
+}
 const hiddenIds={};
+
+/* ===== v9.13: DYNAMIC PRODUCT HELPERS (Admin panel theke add kora) =====
+   Sheet-e thaka kintu frontend list-e NEI thaka product ekhane generic
+   vabe render hoy. Gift Cards / Digital Products hole email-only checkout
+   automatically on hoy. */
+function isDynamicCandidate(){
+  return !allProducts.some(p=>p.id===productIdFromUrl);
+}
+function applyDynamicProduct(sp){
+  const cat=(sp.category||'Games').toString().trim()||'Games';
+  const emailOnly=(cat==='Gift Cards'||cat==='Digital Products');
+  product.name=(sp.name||product.id).toString();
+  product.cat=cat;
+  product.icon='fa-box';
+  product.it='fas';
+  product.color='#059669';
+  product.bg='#ECFDF5';
+  product.currency='';
+  product.videoId='';
+  product.desc='';
+  product.whatIs='';
+  /* v9.14: Admin panel theke set kora Image URL + Demo Link */
+  if(sp.img) product.img=sp.img;
+  product.demo=sp.demo||'';
+  product.emailOnly=emailOnly;
+  product.idLabel=emailOnly?'Your Email Address':'Enter User ID';
+  product.idPlaceholder=emailOnly?'আপনার ইমেইল ঠিকানা লিখুন':'আপনার User ID লিখুন';
+  product.idHint=emailOnly?'ডেলিভারি কোড / Drive লিংক এই ইমেইলে পাঠানো হবে — সঠিক ইমেইল দিন।':'সঠিক করে আপনার ইউজার আইডি দিন। ভুল হলে কর্তৃপক্ষ দায়ী নয়।';
+  product.packages=(sp.packages||[]).map(x=>({l:x.l,p:Number(x.p)||0,stock:x.stock||'In Stock'}));
+  isDynamicProduct=true;
+  renderProduct();
+}
 
 /* ===== STATE ===== */
 let selectedPkg=null, qty=1;
@@ -840,7 +878,7 @@ function renderProduct(){
 
   if(product.supportNote){ const sn=document.getElementById('pdSupportNote'); sn.style.display='flex'; document.getElementById('pdSupportNoteText').textContent=product.supportNote; }
 
-  if(product.demoLink){ const db=document.getElementById('pdDemoBox'); db.style.display='flex'; document.getElementById('pdDemoLink').href=DEMO_DRIVE_LINK; }
+  updateDemoBox();
 
   const idLbl=document.getElementById('pdIdLabelText'); idLbl.textContent=product.idLabel||'Enter User ID';
   const inp=document.getElementById('pdUserId'); inp.placeholder=product.idPlaceholder||'Enter your ID';
@@ -868,6 +906,18 @@ function renderProduct(){
 function renderRelatedProducts(){
   const rel=allProducts.filter(p=>p.cat===product.cat&&p.id!==product.id&&!hiddenIds[p.id]).slice(0,8);
   document.getElementById('pdRelated').innerHTML=rel.map(p=>`<a href="product.html?id=${p.id}" class="product-card">${p.tag?`<span class="p-tag ${p.tag}">${p.tag}</span>`:''}<div class="p-img"><img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="p-img-fallback" style="display:none;background:${p.bg};color:${p.color};"><i class="${p.it||'fas'} ${p.icon}" style="font-size:2rem;"></i></div></div><div class="p-body"><div class="p-name">${p.name}</div></div></a>`).join('');
+}
+
+/* ===== v9.14: DEMO BOX — Sheet er Demo Link dekhabe (je kono product e) =====
+   Admin panel theke Demo Link set korle product page e lal
+   "Demo See Here" button ashbe. Purano graphic-files er hardcoded
+   DEMO_DRIVE_LINK fallback hishebe thakbe. */
+function updateDemoBox(){
+  const db=document.getElementById('pdDemoBox');
+  if(!db) return;
+  const demoUrl=product.demo||((product.demoLink&&typeof DEMO_DRIVE_LINK!=='undefined')?DEMO_DRIVE_LINK:'');
+  if(demoUrl){ db.style.display='flex'; document.getElementById('pdDemoLink').href=demoUrl; }
+  else { db.style.display='none'; }
 }
 
 function renderPackages(){
@@ -966,8 +1016,24 @@ async function syncSheetPrices(){
       window.location.href='index.html';
       return true;
     }
+    /* v9.13: dynamic (admin-added) product — Sheet-e ache kina validate +
+       thakle generic render. Na thakle (ba hidden/empty) index.html-e jao. */
+    if(isDynamicCandidate()){
+      const sp=map[productIdFromUrl];
+      if(!sp || sp.hidden || !(sp.packages||[]).length){
+        window.location.href='index.html';
+        return true;
+      }
+      applyDynamicProduct(sp);
+    }
     [liveApps,games,giftCards,digitalProducts].forEach(arr=>arr.forEach(p=>{
       const sp=map[p.id];
+      if(sp){
+        /* v9.14: Sheet theke Image URL + Demo Link sync (admin panel theke change korle site-e dekhabe) */
+        if(sp.img){ p.img=sp.img; if(p.id===product.id){ product.img=sp.img; const im=document.querySelector('#pdImage img'); if(im&&im.src!==sp.img){ im.src=sp.img; im.style.display=''; } } }
+        p.demo=sp.demo||'';
+        if(p.id===product.id){ product.demo=sp.demo||''; updateDemoBox(); }
+      }
       if(sp&&sp.packages&&sp.packages.length){
         const newPkgs=sp.packages.map(x=>({l:x.l,p:Number(x.p)||0,stock:x.stock||'In Stock'}));
         const syncedPackages=p.id==='free-fire'?normalizeFreeFireBdPackages(newPkgs):p.id==='pubg'?normalizePubgPackages(newPkgs):p.id==='blood-strike'?normalizeBloodStrikePackages(newPkgs):p.id==='unipin'?normalizeUniPinPackages(newPkgs):p.id==='garena-shells'?normalizeGarenaShellPackages(newPkgs):newPkgs;
@@ -1106,8 +1172,13 @@ document.addEventListener('copy',function(e){if(!['INPUT','TEXTAREA','SELECT'].i
   (async()=>{
     let ok=false;
     try{ ok=await syncSheetPrices(); }catch(e){ ok=false; }
-    /* Sheet reachable na hole local fallback data diye render — site khali thakbe na */
-    if(!ok){ renderPackages(); renderRelatedProducts(); }
+    /* Sheet reachable na hole local fallback data diye render — site khali thakbe na.
+       v9.13: dynamic (admin-added) product Sheet chara validate kora jay na
+       — tai fallback-o possible na, index.html-e redirect. */
+    if(!ok){
+      if(isDynamicCandidate()){ window.location.href='index.html'; return; }
+      renderPackages(); renderRelatedProducts();
+    }
   })();
 })();
 </script>
